@@ -18,13 +18,43 @@ class ProfileViewModel(
 
     override val mutableUiState = MutableStateFlow(ProfileUiState())
 
+    override fun retryMangaStats() {
+        mutableUiState.value.user?.name?.takeIf(String::isNotBlank)?.let(::loadMangaStats)
+    }
+
+    private fun loadMangaStats(username: String) {
+        viewModelScope.launch {
+            mutableUiState.update { it.copy(isLoadingManga = true, mangaStatsError = null) }
+            val result = userRepository.getUserStats(username)
+            val manga = result.data?.manga
+            mutableUiState.update {
+                if (manga != null) {
+                    it.copy(
+                        userMangaStats = manga,
+                        isLoadingManga = false,
+                        mangaStatsError = null,
+                    )
+                } else {
+                    it.copy(
+                        isLoadingManga = false,
+                        mangaStatsError = result.message ?: result.error
+                            ?: "MAL manga statistics are temporarily unavailable.",
+                    )
+                }
+            }
+        }
+    }
+
     init {
         viewModelScope.launch {
             setLoading(true)
             val user = userRepository.getMyUser()
 
-            if (user == null || user.message != null) {
-                showMessage(user?.message)
+            if (user == null || user.message != null || user.error != null) {
+                showMessage(user?.message ?: user?.error ?: "Unable to load MAL profile.")
+                mutableUiState.update {
+                    it.copy(isLoading = false, isLoadingManga = false)
+                }
             } else {
                 val tempAnimeStatList = mutableListOf<Stat<ListStatus>>()
                 user.animeStatistics?.let { stats ->
@@ -70,9 +100,16 @@ class ProfileViewModel(
                         profilePictureUrl = user.picture,
                         animeStats = tempAnimeStatList.toImmutableList(),
                         isLoading = false,
-                        isLoadingManga = user.name != null,
+                        isLoadingManga = !user.name.isNullOrBlank(),
                     )
                 }
+                user.name?.takeIf(String::isNotBlank)?.let(::loadMangaStats)
+                    ?: mutableUiState.update {
+                        it.copy(
+                            isLoadingManga = false,
+                            mangaStatsError = "MAL username is missing."
+                        )
+                    }
             }
         }
     }

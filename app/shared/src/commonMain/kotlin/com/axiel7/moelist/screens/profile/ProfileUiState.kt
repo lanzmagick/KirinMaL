@@ -16,7 +16,8 @@ data class ProfileUiState(
     val animeStats: ImmutableList<Stat<ListStatus>> = persistentListOf(),
     val mangaStats: ImmutableList<Stat<ListStatus>> = persistentListOf(),
     val userMangaStats: UserStats.MangaStats? = null,
-    val isLoadingManga: Boolean = true,
+    val isLoadingManga: Boolean = false,
+    val mangaStatsError: String? = null,
     override val isLoading: Boolean = true,
     override val message: String? = null
 ) : UiState() {

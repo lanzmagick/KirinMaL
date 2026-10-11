@@ -272,6 +272,9 @@
     <string name="notifications">Notifications</string>
     <string name="delete_all">Delete all</string>
     <string name="manga_stats">Manga Stats</string>
+    <string name="manga_stats_unavailable">MAL manga statistics are currently unavailable.</string>
+    <string name="retry">Retry</string>
+    <string name="total_entries_label">Total Entries</string>
     <string name="last_used">Last used</string>
     <string name="indonesian_native" translatable="false">Indonesia</string>
     <string name="romaji">Romaji</string>
