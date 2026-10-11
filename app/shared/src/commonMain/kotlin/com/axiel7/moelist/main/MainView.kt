@@ -1,6 +1,5 @@
 package com.axiel7.moelist.main
 
-import androidx.compose.animation.core.Animatable
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
@@ -14,15 +13,7 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.dp
 import com.axiel7.moelist.ui.base.navigation.Navigator
@@ -30,7 +21,6 @@ import com.axiel7.moelist.main.composables.MainBottomNavBar
 import com.axiel7.moelist.main.composables.MainNavigationRail
 import com.axiel7.moelist.main.composables.MainTopAppBar
 import com.axiel7.moelist.ui.base.navigation.NavActionManager
-import kotlinx.coroutines.launch
 
 @Composable
 fun MainView(
@@ -44,12 +34,7 @@ fun MainView(
     pinnedNavBar: Boolean,
     profilePicture: String?,
 ) {
-    val scope = rememberCoroutineScope()
-    val density = LocalDensity.current
-
-    var topBarHeightPx by remember { mutableFloatStateOf(0f) }
-    val topBarOffsetY = remember { Animatable(0f) }
-
+    // axiel7's search bar remains in Scaffold.topBar; no scroll translation.
     Scaffold(
         topBar = {
             if (isCompactScreen) {
@@ -57,10 +42,6 @@ fun MainView(
                     profilePicture = profilePicture,
                     isVisible = isBottomDestination,
                     navActionManager = navActionManager,
-                    modifier = Modifier
-                        .graphicsLayer {
-                            translationY = topBarOffsetY.value
-                        }
                 )
             }
         },
@@ -71,11 +52,7 @@ fun MainView(
                     navActionManager = navActionManager,
                     isVisible = isBottomDestination || pinnedNavBar,
                     onItemSelected = saveLastTab,
-                    showTopBar = {
-                        scope.launch {
-                            topBarOffsetY.animateTo(0f)
-                        }
-                    }
+                    showTopBar = { },
                 )
             }
         },
@@ -101,16 +78,13 @@ fun MainView(
                     useListTabs = useListTabs,
                     modifier = Modifier,
                     padding = PaddingValues(),
-                    topBarHeightPx = topBarHeightPx,
-                    topBarOffsetY = topBarOffsetY.value,
-                    topBarAnimateTo = topBarOffsetY::animateTo,
-                    topBarSnapTo = topBarOffsetY::snapTo,
+                    topBarHeightPx = 0f,
+                    topBarOffsetY = 0f,
+                    topBarAnimateTo = {},
+                    topBarSnapTo = {},
                 )
             }
         } else {
-            LaunchedEffect(padding) {
-                topBarHeightPx = density.run { padding.calculateTopPadding().toPx() }
-            }
             MainNavigation(
                 navigator = navigator,
                 navActionManager = navActionManager,
@@ -128,10 +102,10 @@ fun MainView(
                     end = padding.calculateEndPadding(LocalLayoutDirection.current),
                     bottom = if (pinnedNavBar) 0.dp else padding.calculateBottomPadding(),
                 ),
-                topBarHeightPx = topBarHeightPx,
-                topBarOffsetY = topBarOffsetY.value,
-                topBarAnimateTo = topBarOffsetY::animateTo,
-                topBarSnapTo = topBarOffsetY::snapTo,
+                topBarHeightPx = 0f,
+                topBarOffsetY = 0f,
+                topBarAnimateTo = {},
+                topBarSnapTo = {},
             )
         }
     }
