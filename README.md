@@ -19,11 +19,18 @@ Updated **12 October 2026**:
 - [x] Generate and commit Android, iOS and desktop launcher images with GitHub Actions.
 - [ ] Verify the Android APK build and login after applying the new icons.
 - [x] Pin the Home search bar while the Home feed scrolls (keep collapsing behavior on other tabs).
+- [x] Add four functional Home quick-access cards: Search Anime, Search Manga, Recommendations and Profile (two columns on phone, four on desktop).
 - [ ] Verify anime/manga list editing, paging, search and navigation on device.
 
 The internal Kotlin packages and Android application ID are still inherited from MoeList for compatibility. Do not change only one part of the MAL OAuth configuration.
 
 The original internal source directories and package identifiers remain unchanged to protect compatibility with upstream components and MAL authentication.
+
+## Home quick access
+
+The original Anime Ranking, Manga Ranking, Seasonal Chart and Calendar cards remain. A second Quick Access group adds working shortcuts for anime search, manga search, recommendations and the MAL profile. On compact screens the four new cards occupy two rows; on large screens they occupy one row. The shared Home search bar stays pinned during feed scrolling.
+
+Planned next (not yet implemented): Continue Watching/Reading, Recently Viewed, optional NSFW-genre discovery shortcuts and customization of Home card order.
 
 ## Adult-content visibility
 
