@@ -27,6 +27,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -62,6 +63,8 @@ fun GenreCatalogListView(
     var loading by remember(mediaType, genre.malId, showAdult) { mutableStateOf(true) }
     var error by remember(mediaType, genre.malId, showAdult) { mutableStateOf<String?>(null) }
     var retryVersion by remember(mediaType, genre.malId, showAdult) { mutableIntStateOf(0) }
+    // OnBottomReached holds a long-lived callback: read the latest flags.
+    val mayLoadMore by rememberUpdatedState(!loading && hasMore && error == null)
 
     LaunchedEffect(mediaType, genre.malId, showAdult, page, retryVersion) {
         loading = true
@@ -103,7 +106,7 @@ fun GenreCatalogListView(
     if (isCompactScreen) {
         val listState = rememberLazyListState()
         listState.OnBottomReached(buffer = 4) {
-            if (!loading && hasMore && error == null) page++
+            if (mayLoadMore) page++
         }
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
@@ -137,7 +140,7 @@ fun GenreCatalogListView(
     } else {
         val gridState = rememberLazyGridState()
         gridState.OnBottomReached(buffer = 4) {
-            if (!loading && hasMore && error == null) page++
+            if (mayLoadMore) page++
         }
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),

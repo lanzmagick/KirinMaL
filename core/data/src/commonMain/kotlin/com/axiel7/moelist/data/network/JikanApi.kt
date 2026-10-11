@@ -50,5 +50,6 @@ class JikanApi(private val client: HttpClient) {
             parameter("limit", 25)
             parameter("sfw", !showAdult)
             parameter("order_by", "popularity")
+            parameter("sort", "asc")
         }.body()
 }
