@@ -5,7 +5,8 @@
 ## Features
 
 - Track anime and manga with your MyAnimeList account.
-- Home ranking shortcuts, seasonal anime, calendar and recommendations, with a pinned search bar.
+- Anime Menu and Manga Menu with MAL ranking and genre tabs (including adult genres when NSFW is enabled).
+- Seasonal anime, calendar and recommendations, with a pinned Home search bar.
 - Anime & Manga Stats inspired by KirinNime, including progress and reading/watching totals.
 - Optional NSFW visibility (enabled by default for new installs; switch it off in Settings).
 - KirinMaL icons and branding across platforms.

@@ -19,6 +19,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -51,18 +52,24 @@ fun MainTopAppBar(
         }
     ) { isVisible ->
         if (isVisible) {
-            Card(
-                onClick = dropUnlessResumed { navActionManager.toSearch(MediaType.ANIME) },
-                modifier = modifier
-                    .statusBarsPadding()
-                    .fillMaxWidth()
-                    .height(56.dp)
-                    .padding(start = 16.dp, end = 16.dp, bottom = 4.dp),
-                shape = RoundedCornerShape(50),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceContainerHigh
-                )
+            // An opaque surface covers the edge-to-edge status bar region. Previously
+            // the feed posters could be seen behind the search bar when scrolling.
+            Surface(
+                modifier = modifier.fillMaxWidth(),
+                color = MaterialTheme.colorScheme.surface,
             ) {
+                Card(
+                    onClick = dropUnlessResumed { navActionManager.toSearch(MediaType.ANIME) },
+                    modifier = Modifier
+                        .statusBarsPadding()
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 6.dp)
+                        .height(56.dp),
+                    shape = RoundedCornerShape(50),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceContainerHigh
+                    )
+                ) {
                 Row(
                     modifier = Modifier
                         .padding(horizontal = 16.dp)
@@ -91,7 +98,8 @@ fun MainTopAppBar(
                             .clickable { navActionManager.toProfile() }
                     )
                 }
-            }//:Card
+                }//:Card
+            }//:Surface
         } else {
             Box(modifier = Modifier.fillMaxWidth())
         }

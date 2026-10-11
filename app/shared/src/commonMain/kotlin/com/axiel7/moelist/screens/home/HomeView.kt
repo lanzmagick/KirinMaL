@@ -51,14 +51,14 @@ import com.axiel7.moelist.ui.composables.media.MediaItemVertical
 import com.axiel7.moelist.ui.composables.media.MediaItemVerticalPlaceholder
 import com.axiel7.moelist.ui.composables.score.SmallScoreIndicator
 import com.axiel7.moelist.ui.generated.resources.UiRes
-import com.axiel7.moelist.ui.generated.resources.anime_ranking
+import com.axiel7.moelist.ui.generated.resources.anime_menu
 import com.axiel7.moelist.ui.generated.resources.calendar
 import com.axiel7.moelist.ui.generated.resources.error_server
 import com.axiel7.moelist.ui.generated.resources.ic_round_casino_24
 import com.axiel7.moelist.ui.generated.resources.ic_round_event_24
 import com.axiel7.moelist.ui.generated.resources.ic_round_menu_book_24
 import com.axiel7.moelist.ui.generated.resources.ic_round_movie_24
-import com.axiel7.moelist.ui.generated.resources.manga_ranking
+import com.axiel7.moelist.ui.generated.resources.manga_menu
 import com.axiel7.moelist.ui.generated.resources.no_recommendations
 import com.axiel7.moelist.ui.generated.resources.nothing_today
 import com.axiel7.moelist.ui.generated.resources.please_login_to_use_this_feature
@@ -131,7 +131,7 @@ private fun HomeViewContent(
     @Composable
     fun RowScope.ChipRow1() {
         HomeCard(
-            text = stringResource(UiRes.string.anime_ranking),
+            text = stringResource(UiRes.string.anime_menu),
             icon = UiRes.drawable.ic_round_movie_24,
             modifier = Modifier.weight(1f),
             onClick = dropUnlessResumed {
@@ -140,7 +140,7 @@ private fun HomeViewContent(
         )
 
         HomeCard(
-            text = stringResource(UiRes.string.manga_ranking),
+            text = stringResource(UiRes.string.manga_menu),
             icon = UiRes.drawable.ic_round_menu_book_24,
             modifier = Modifier.weight(1f),
             onClick = dropUnlessResumed {
@@ -173,8 +173,10 @@ private fun HomeViewContent(
     Column(
         modifier = Modifier
             // Scroll the Home content only; the search bar stays in Scaffold.topBar.
-            .verticalScroll(scrollState)
+            // Put Scaffold padding OUTSIDE the scrolling viewport: the Home feed
+            // must not scroll behind the pinned search bar/status bar.
             .padding(padding)
+            .verticalScroll(scrollState)
     ) {
         // Chips
         if (isCompactScreen) {
