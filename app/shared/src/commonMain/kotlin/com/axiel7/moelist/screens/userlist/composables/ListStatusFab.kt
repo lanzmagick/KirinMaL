@@ -10,8 +10,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -39,7 +40,7 @@ import com.axiel7.moelist.ui.generated.resources.UiRes
 import com.axiel7.moelist.ui.generated.resources.round_close_24
 import org.jetbrains.compose.resources.painterResource
 
-/** Compact bento menu: five equal-size status tiles in a two-column grid. */
+/** Floating bento: no enclosing card; the fifth status spans both columns. */
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun ListStatusFab(
@@ -62,34 +63,56 @@ fun ListStatusFab(
             enter = fadeIn() + expandVertically(expandFrom = Alignment.Bottom),
             exit = fadeOut() + shrinkVertically(shrinkTowards = Alignment.Bottom),
         ) {
-            Surface(
+            // Restore free-floating pill tiles without the old large background.
+            Column(
                 modifier = Modifier.width(302.dp),
-                shape = RoundedCornerShape(24.dp),
-                color = MaterialTheme.colorScheme.surfaceContainerHigh,
-                shadowElevation = 8.dp,
+                verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                Column(
-                    modifier = Modifier.padding(10.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                ) {
-                    options.chunked(2).forEach { rowOptions ->
-                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                            rowOptions.forEach { item ->
-                                val selected = item == status
-                                Surface(
-                                    onClick = {
-                                        onStatusChanged(item)
-                                        expanded = false
-                                    },
-                                    modifier = Modifier.weight(1f).height(72.dp),
-                                    shape = RoundedCornerShape(16.dp),
-                                    color = if (selected) MaterialTheme.colorScheme.primaryContainer
-                                        else MaterialTheme.colorScheme.surfaceContainer,
-                                    border = if (selected) BorderStroke(
-                                        width = 1.dp,
-                                        color = MaterialTheme.colorScheme.primary,
-                                    ) else null,
-                                ) {
+                options.chunked(2).forEach { rowOptions ->
+                    val isLastWideRow = rowOptions.size == 1
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    ) {
+                        rowOptions.forEach { item ->
+                            val selected = item == status
+                            val contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                            Surface(
+                                onClick = {
+                                    onStatusChanged(item)
+                                    expanded = false
+                                },
+                                // A single last tile fills both columns; no empty spacer.
+                                modifier = Modifier.weight(1f).height(72.dp),
+                                shape = RoundedCornerShape(28.dp),
+                                color = MaterialTheme.colorScheme.primaryContainer,
+                                shadowElevation = 2.dp,
+                                border = if (selected) BorderStroke(
+                                    width = 1.5.dp,
+                                    color = MaterialTheme.colorScheme.primary,
+                                ) else null,
+                            ) {
+                                if (isLastWideRow) {
+                                    Row(
+                                        modifier = Modifier.fillMaxSize(),
+                                        horizontalArrangement = Arrangement.Center,
+                                        verticalAlignment = Alignment.CenterVertically,
+                                    ) {
+                                        Icon(
+                                            painter = painterResource(item.icon),
+                                            contentDescription = null,
+                                            modifier = Modifier.size(22.dp),
+                                            tint = contentColor,
+                                        )
+                                        Spacer(modifier = Modifier.width(10.dp))
+                                        Text(
+                                            text = item.localized(),
+                                            style = MaterialTheme.typography.labelMedium,
+                                            color = contentColor,
+                                            maxLines = 1,
+                                        )
+                                    }
+                                } else {
                                     Column(
                                         horizontalAlignment = Alignment.CenterHorizontally,
                                         verticalArrangement = Arrangement.Center,
@@ -98,9 +121,7 @@ fun ListStatusFab(
                                             painter = painterResource(item.icon),
                                             contentDescription = null,
                                             modifier = Modifier.size(22.dp),
-                                            tint = if (selected)
-                                                MaterialTheme.colorScheme.onPrimaryContainer
-                                            else MaterialTheme.colorScheme.onSurface,
+                                            tint = contentColor,
                                         )
                                         Text(
                                             text = item.localized(),
@@ -108,15 +129,10 @@ fun ListStatusFab(
                                             textAlign = TextAlign.Center,
                                             maxLines = 2,
                                             overflow = TextOverflow.Ellipsis,
-                                            color = if (selected)
-                                                MaterialTheme.colorScheme.onPrimaryContainer
-                                            else MaterialTheme.colorScheme.onSurface,
+                                            color = contentColor,
                                         )
                                     }
                                 }
-                            }
-                            if (rowOptions.size == 1) {
-                                Spacer(modifier = Modifier.weight(1f))
                             }
                         }
                     }
