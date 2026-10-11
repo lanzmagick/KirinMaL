@@ -18,6 +18,7 @@ Updated **12 October 2026**:
 - [x] Add original KirinMaL kirin icon artwork and automated generation for Android, iOS and desktop launchers.
 - [x] Generate and commit Android, iOS and desktop launcher images with GitHub Actions.
 - [ ] Verify the Android APK build and login after applying the new icons.
+- [x] Pin the Home search bar while the Home feed scrolls (keep collapsing behavior on other tabs).
 - [ ] Verify anime/manga list editing, paging, search and navigation on device.
 
 The internal Kotlin packages and Android application ID are still inherited from MoeList for compatibility. Do not change only one part of the MAL OAuth configuration.

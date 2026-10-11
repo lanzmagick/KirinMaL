@@ -44,7 +44,6 @@ import com.axiel7.moelist.ui.base.model.ListStatus.Companion.toBo
 import com.axiel7.moelist.ui.base.navigation.NavActionManager
 import com.axiel7.moelist.ui.composables.HeaderHorizontalList
 import com.axiel7.moelist.ui.composables.PlatformHorizontalScrollbar
-import com.axiel7.moelist.ui.composables.collapsable
 import com.axiel7.moelist.ui.composables.media.MEDIA_ITEM_VERTICAL_HEIGHT
 import com.axiel7.moelist.ui.composables.media.MEDIA_POSTER_SMALL_HEIGHT
 import com.axiel7.moelist.ui.composables.media.MediaItemDetailedPlaceholder
@@ -78,9 +77,6 @@ fun HomeView(
     isLoggedIn: Boolean,
     isCompactScreen: Boolean,
     navActionManager: NavActionManager,
-    topBarHeightPx: Float,
-    topBarOffsetY: Float,
-    topBarAnimateTo: suspend (Float) -> Unit,
     topBarSnapTo: suspend (Float) -> Unit,
     padding: PaddingValues,
 ) {
@@ -93,9 +89,6 @@ fun HomeView(
         isLoggedIn = isLoggedIn,
         isCompactScreen = isCompactScreen,
         navActionManager = navActionManager,
-        topBarHeightPx = topBarHeightPx,
-        topBarOffsetY = topBarOffsetY,
-        topBarAnimateTo = topBarAnimateTo,
         topBarSnapTo = topBarSnapTo,
         padding = padding,
     )
@@ -109,9 +102,6 @@ private fun HomeViewContent(
     isLoggedIn: Boolean,
     isCompactScreen: Boolean,
     navActionManager: NavActionManager,
-    topBarHeightPx: Float = 0f,
-    topBarOffsetY: Float = 0f,
-    topBarAnimateTo: suspend (Float) -> Unit = {},
     topBarSnapTo: suspend (Float) -> Unit = {},
     padding: PaddingValues = PaddingValues(),
 ) {
@@ -126,6 +116,12 @@ private fun HomeViewContent(
             //context.showToast(uiState.message)
             event?.onMessageDisplayed()
         }
+    }
+
+    // Home search bar is pinned: restore visibility when returning from a tab
+    // that supports collapsing the shared top app bar.
+    LaunchedEffect(isCompactScreen) {
+        if (isCompactScreen) topBarSnapTo(0f)
     }
 
     LaunchedEffect(isLoggedIn) {
@@ -176,13 +172,7 @@ private fun HomeViewContent(
 
     Column(
         modifier = Modifier
-            .collapsable(
-                state = scrollState,
-                topBarHeightPx = topBarHeightPx,
-                topBarOffsetY = topBarOffsetY,
-                animateTo = topBarAnimateTo,
-                snapTo = topBarSnapTo,
-            )
+            // Scroll the Home content only; the search bar stays in Scaffold.topBar.
             .verticalScroll(scrollState)
             .padding(padding)
     ) {

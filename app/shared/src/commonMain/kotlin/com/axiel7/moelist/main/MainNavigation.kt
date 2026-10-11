@@ -91,9 +91,6 @@ fun MainNavigation(
                 isCompactScreen = isCompactScreen,
                 navActionManager = navActionManager,
                 padding = padding,
-                topBarHeightPx = topBarHeightPx,
-                topBarOffsetY = topBarOffsetY,
-                topBarAnimateTo = topBarAnimateTo,
                 topBarSnapTo = topBarSnapTo,
             )
         }
