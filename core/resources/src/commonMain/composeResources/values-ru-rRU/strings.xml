@@ -119,7 +119,7 @@
     <string name="default_section">Раздел по умолчанию</string>
     <string name="display">Отображение</string>
     <string name="logout">Выйти</string>
-    <string name="logout_summary">Выйти из MoeList, но не из MAL.</string>
+    <string name="logout_summary">Выйти из KirinMaL, но не из MAL.</string>
     <string name="version">Версия</string>
     <string name="credits">Признательность</string>
     <string name="discord_summary">Присоединяйтесь к официальному серверу!</string>

@@ -106,7 +106,7 @@
     <string name="default_section">Secção por defeito</string>
     <string name="display">Visualização</string>
     <string name="logout">Terminar sessão</string>
-    <string name="logout_summary">Sair apenas do MoeList, não do MAL.</string>
+    <string name="logout_summary">Sair apenas do KirinMaL, não do MAL.</string>
     <string name="version">Versão</string>
     <string name="credits">Créditos</string>
     <string name="discord_summary">Junte-se ao Discord oficial!</string>

@@ -115,7 +115,7 @@
     <string name="default_section">Varsayılan bölüm</string>
     <string name="display">Görüntüle</string>
     <string name="logout">Çıkış Yap</string>
-    <string name="logout_summary">MAL \'den değil, MoeList \'den çıkış yap.</string>
+    <string name="logout_summary">MAL \'den değil, KirinMaL \'den çıkış yap.</string>
     <string name="version">Sürüm</string>
     <string name="credits">Ekip</string>
     <string name="discord_summary">Resmi sunucuya katıl!</string>

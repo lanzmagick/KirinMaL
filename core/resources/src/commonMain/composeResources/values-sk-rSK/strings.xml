@@ -106,7 +106,7 @@
     <string name="default_section">Predvolený oddiel</string>
     <string name="display">Displej</string>
     <string name="logout">Odhlásiť Sa</string>
-    <string name="logout_summary">Odhlásiť sa môžeš len z MoeListu, nie z MAL.</string>
+    <string name="logout_summary">Odhlásiť sa môžeš len z KirinMaLu, nie z MAL.</string>
     <string name="version">Verzia</string>
     <string name="credits">Poďakovanie</string>
     <string name="discord_summary">Pripoj sa k oficiálnemu serveru!</string>

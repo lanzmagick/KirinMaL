@@ -112,7 +112,7 @@
     <string name="default_section">默认设置</string>
     <string name="display">显示</string>
     <string name="logout">登出</string>
-    <string name="logout_summary">登出 MoeList，但不登出 MAL</string>
+    <string name="logout_summary">登出 KirinMaL，但不登出 MAL</string>
     <string name="version">版本</string>
     <string name="credits">謝辞</string>
     <string name="discord_summary">加入 Discord 群组</string>

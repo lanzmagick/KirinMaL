@@ -115,7 +115,7 @@
     <string name="default_section">Aba padrão</string>
     <string name="display">Tela</string>
     <string name="logout">Sair</string>
-    <string name="logout_summary">Sair somente do MoeList, não do MAL.</string>
+    <string name="logout_summary">Sair somente do KirinMaL, não do MAL.</string>
     <string name="version">Versão</string>
     <string name="credits">Créditos</string>
     <string name="discord_summary">Entre no servidor oficial!</string>

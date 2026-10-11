@@ -117,7 +117,7 @@
     <string name="default_section">Sekcja domyślna</string>
     <string name="display">Widok</string>
     <string name="logout">Wyloguj</string>
-    <string name="logout_summary">Wyloguj się tylko z MoeList, nie z MAL.</string>
+    <string name="logout_summary">Wyloguj się tylko z KirinMaL, nie z MAL.</string>
     <string name="version">Wersja</string>
     <string name="credits">Autorzy</string>
     <string name="discord_summary">Dołącz do oficjalnego serwera!</string>
