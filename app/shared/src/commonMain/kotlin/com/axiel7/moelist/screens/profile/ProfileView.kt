@@ -46,6 +46,7 @@ import com.axiel7.moelist.ui.generated.resources.ic_round_access_time_24
 import com.axiel7.moelist.ui.generated.resources.ic_round_account_circle_24
 import com.axiel7.moelist.ui.generated.resources.ic_round_cake_24
 import com.axiel7.moelist.ui.generated.resources.ic_round_location_on_24
+import com.axiel7.moelist.ui.generated.resources.anime_stats_unavailable
 import com.axiel7.moelist.ui.generated.resources.manga_stats_unavailable
 import com.axiel7.moelist.ui.generated.resources.retry
 import com.axiel7.moelist.ui.generated.resources.title_profile
@@ -190,7 +191,7 @@ private fun ProfileViewContent(
                 else -> {
                     Text(
                         text = uiState.mangaStatsError
-                            ?: stringResource(UiRes.string.manga_stats_unavailable),
+                            ?: stringResource(UiRes.string.anime_stats_unavailable),
                         modifier = Modifier.padding(horizontal = 16.dp),
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )

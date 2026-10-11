@@ -40,7 +40,7 @@ class ProfileViewModel(
                     it.copy(
                         isLoadingManga = false,
                         mangaStatsError = result.message ?: result.error
-                            ?: "MAL manga statistics are temporarily unavailable.",
+                            ?: "MAL statistics are temporarily unavailable.",
                     )
                 }
             }
