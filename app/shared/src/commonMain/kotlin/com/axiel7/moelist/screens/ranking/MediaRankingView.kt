@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
@@ -17,7 +16,6 @@ import androidx.compose.material3.PrimaryScrollableTabRow
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -29,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.axiel7.moelist.data.model.genre.JikanGenre
+import com.axiel7.moelist.data.model.genre.MalGenreDefaults
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.model.media.RankingType
 import com.axiel7.moelist.data.model.media.RankingType.Companion.rankingAnimeValues
@@ -65,25 +64,24 @@ fun MediaRankingView(
     val api: JikanApi = koinInject()
     val preferences: DefaultPreferencesRepository = koinInject()
     val showAdult by preferences.nsfw.collectAsStateWithLifecycle(initialValue = true)
-    var genres by remember(mediaType) { mutableStateOf<List<JikanGenre>>(emptyList()) }
-    var genresLoading by remember(mediaType) { mutableStateOf(true) }
-    var genresError by remember(mediaType) { mutableStateOf<String?>(null) }
-    var retryGenres by remember(mediaType) { mutableStateOf(0) }
+    // Show every MAL genre immediately after the ranking tabs, even offline.
+    val defaults = remember(mediaType) { MalGenreDefaults.forType(mediaType) }
+    var genres by remember(mediaType) { mutableStateOf(defaults) }
 
-    LaunchedEffect(mediaType, retryGenres) {
-        genresLoading = true
-        genresError = null
+    LaunchedEffect(mediaType) {
         try {
-            genres = api.getGenres(mediaType).data
+            val live = api.getGenres(mediaType).data
                 .filter { it.malId > 0 && it.name.isNotBlank() }
-                .distinctBy { it.malId }
-                .sortedWith(compareBy<JikanGenre> { it.isAdult }.thenBy { it.name })
+            if (live.isNotEmpty()) {
+                genres = (defaults + live)
+                    .associateBy { it.malId }
+                    .values
+                    .sortedWith(compareBy<JikanGenre> { it.isAdult }.thenBy { it.name })
+            }
         } catch (e: CancellationException) {
             throw e
-        } catch (e: Exception) {
-            genresError = e.message ?: "Could not load MAL genres."
-        } finally {
-            genresLoading = false
+        } catch (_: Exception) {
+            // KirinNime-style catalog fallback: keep tabs visible on Jikan failure.
         }
     }
 
@@ -127,17 +125,6 @@ fun MediaRankingView(
                 }
             }
             HorizontalDivider()
-            if (genresLoading || genresError != null) {
-                androidx.compose.foundation.layout.Row(Modifier.padding(horizontal = 16.dp, vertical = 3.dp)) {
-                    if (genresLoading) {
-                        CircularProgressIndicator(modifier = Modifier.padding(end = 12.dp))
-                        Text("Loading MAL genres…")
-                    } else {
-                        Text("MAL genres unavailable", color = MaterialTheme.colorScheme.error)
-                        TextButton(onClick = { retryGenres++ }) { Text("Retry") }
-                    }
-                }
-            }
             HorizontalPager(
                 state = pagerState,
                 modifier = Modifier.fillMaxSize(),
