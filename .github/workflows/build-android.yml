@@ -1,4 +1,4 @@
-name: Android Build APK
+name: KirinMaL Android APK Release
 
 on:
   push:
@@ -55,5 +55,5 @@ jobs:
       - name: Upload build artifacts
         uses: actions/upload-artifact@v6
         with:
-          name: moelist-android
+          name: KirinMaL-android-release
           path: ${{github.workspace}}/app/androidApp/build/outputs/apk/release/*.apk

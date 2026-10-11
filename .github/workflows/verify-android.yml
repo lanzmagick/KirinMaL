@@ -1,4 +1,4 @@
-name: Verify Android Debug
+name: Verify KirinMaL Android Debug
 
 on:
   push:
@@ -34,8 +34,8 @@ jobs:
           distribution: temurin
           java-version: '21'
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
+      # Ubuntu GitHub-hosted runners already provide the Android SDK.
+      # Avoid setup-android's obsolete 'tools' package installation.
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4

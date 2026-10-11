@@ -98,5 +98,5 @@ android {
 }
 
 base {
-    archivesName = "moelist-${versionProps.getProperty("name")}"
+    archivesName = "KirinMaL-${versionProps.getProperty("name")}"
 }
