@@ -32,10 +32,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.compose.dropUnlessResumed
-import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.utils.DateUtils.parseDateAndLocalize
 import com.axiel7.moelist.data.utils.MAL_PROFILE_URL
-import com.axiel7.moelist.screens.profile.composables.UserStatsView
+import com.axiel7.moelist.screens.profile.composables.MalAnimeStatsView
 import com.axiel7.moelist.screens.profile.composables.MalMangaStatsView
 import com.axiel7.moelist.ui.base.navigation.NavActionManager
 import com.axiel7.moelist.ui.composables.DefaultScaffoldWithTopAppBar
@@ -177,11 +176,29 @@ private fun ProfileViewContent(
 
             HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
 
-            //Stats
-            UserStatsView(
-                uiState = uiState,
-                mediaType = MediaType.ANIME,
-            )
+            // KirinNime-style Anime Stats, with MAL official statistics fallback.
+            when {
+                uiState.userAnimeStats != null || uiState.user?.animeStatistics != null -> {
+                    MalAnimeStatsView(
+                        jikan = uiState.userAnimeStats,
+                        official = uiState.user?.animeStatistics,
+                    )
+                }
+                uiState.isLoadingManga -> {
+                    CircularProgressIndicator(modifier = Modifier.padding(16.dp))
+                }
+                else -> {
+                    Text(
+                        text = uiState.mangaStatsError
+                            ?: stringResource(UiRes.string.manga_stats_unavailable),
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                    TextButton(onClick = { event?.retryMangaStats() }) {
+                        Text(stringResource(UiRes.string.retry))
+                    }
+                }
+            }
 
             HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
 

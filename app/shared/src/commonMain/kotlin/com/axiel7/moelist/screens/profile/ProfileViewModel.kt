@@ -27,10 +27,12 @@ class ProfileViewModel(
             mutableUiState.update { it.copy(isLoadingManga = true, mangaStatsError = null) }
             val result = userRepository.getUserStats(username)
             val manga = result.data?.manga
+            val anime = result.data?.anime
             mutableUiState.update {
                 if (manga != null) {
                     it.copy(
                         userMangaStats = manga,
+                        userAnimeStats = anime,
                         isLoadingManga = false,
                         mangaStatsError = null,
                     )

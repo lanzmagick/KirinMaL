@@ -21,11 +21,16 @@ Updated **12 October 2026**:
 - [x] Pin the Home search bar while the Home feed scrolls (keep collapsing behavior on other tabs).
 - [x] Add four functional Home quick-access cards: Search Anime, Search Manga, Recommendations and Profile (two columns on phone, four on desktop).
 - [x] Restore live MAL manga statistics on Profile using KirinNime's Jikan approach, with a website-style status bar, reading counts and retry for API errors.
+- [x] Display Anime Stats in the same KirinNime MAL website style, using Jikan statistics or official MAL profile values as fallback.
 - [ ] Verify anime/manga list editing, paging, search and navigation on device.
 
 The internal Kotlin packages and Android application ID are still inherited from MoeList for compatibility. Do not change only one part of the MAL OAuth configuration.
 
 The original internal source directories and package identifiers remain unchanged to protect compatibility with upstream components and MAL authentication.
+
+## MAL Anime and Manga Stats
+
+Anime Stats and Manga Stats now use matching KirinNime-inspired panels with five status colors. Anime Stats displays Watching, Completed, On Hold, Dropped, Plan to Watch, Days Watched, Mean Score, Total Entries, Rewatched and Episodes. The existing Jikan response returns both anime and manga statistics in one request. If Jikan is unavailable, Anime Stats falls back to the official MAL user profile statistics. Fields not available from either response show a dash rather than a fabricated total.
 
 ## MAL Manga Stats
 
