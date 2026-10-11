@@ -43,7 +43,8 @@ class DefaultPreferencesRepository(
         }
     }
 
-    val nsfw = dataStore.getValue(NSFW_KEY, false)
+    // Adult results are shown by default; an explicitly saved opt-out remains respected.
+    val nsfw = dataStore.getValue(NSFW_KEY, true)
     suspend fun nsfwInt() = nsfw.first().let { if (it) 1 else 0 }
     suspend fun setNsfw(value: Boolean) {
         dataStore.setValue(NSFW_KEY, value)

@@ -114,6 +114,7 @@
     <string name="theme">Theme</string>
     <string name="show_nsfw">Show NSFW content</string>
     <string name="nsfw_summary">I confirm that I\'m over 18.</string>
+    <string name="nsfw_genres_hint">Include Hentai, Erotica, Ecchi and other 18+ titles from MyAnimeList.</string>
     <string name="default_section">Default section</string>
     <string name="display">Display</string>
     <string name="logout">Log Out</string>

@@ -69,7 +69,7 @@ import com.axiel7.moelist.ui.generated.resources.items_per_row
 import com.axiel7.moelist.ui.generated.resources.language
 import com.axiel7.moelist.ui.generated.resources.list_style
 import com.axiel7.moelist.ui.generated.resources.no_adult_content_24
-import com.axiel7.moelist.ui.generated.resources.nsfw_summary
+import com.axiel7.moelist.ui.generated.resources.nsfw_genres_hint
 import com.axiel7.moelist.ui.generated.resources.ok
 import com.axiel7.moelist.ui.generated.resources.pinned_navigation_bar
 import com.axiel7.moelist.ui.generated.resources.random_button_on_list
@@ -248,7 +248,7 @@ private fun SettingsViewContent(
 
             SwitchPreferenceView(
                 title = stringResource(UiRes.string.show_nsfw),
-                subtitle = stringResource(UiRes.string.nsfw_summary),
+                subtitle = stringResource(UiRes.string.nsfw_genres_hint),
                 value = uiState.showNsfw,
                 icon = UiRes.drawable.no_adult_content_24,
                 onValueChange = { event?.setShowNsfw(it) }

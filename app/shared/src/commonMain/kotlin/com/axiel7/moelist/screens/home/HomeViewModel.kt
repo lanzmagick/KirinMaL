@@ -10,6 +10,8 @@ import com.axiel7.moelist.data.repository.DefaultPreferencesRepository
 import com.axiel7.moelist.data.utils.SeasonCalendar
 import com.axiel7.moelist.ui.base.viewmodel.BaseViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
@@ -22,7 +24,10 @@ class HomeViewModel(
 
     override val mutableUiState = MutableStateFlow(HomeUiState())
 
+    private var lastIsLoggedIn: Boolean? = null
+
     override fun initRequestChain(isLoggedIn: Boolean) {
+        lastIsLoggedIn = isLoggedIn
         viewModelScope.launch {
             mutableUiState.update { it.copy(isLoading = true) }
             mutableUiState.value.run {
@@ -79,6 +84,17 @@ class HomeViewModel(
     }
 
     init {
+        defaultPreferencesRepository.nsfw
+            .distinctUntilChanged()
+            .drop(1)
+            .onEach {
+                mutableUiState.update { state ->
+                    state.copy(todayAnimes = emptyList(), seasonAnimes = emptyList(), recommendedAnimes = emptyList())
+                }
+                lastIsLoggedIn?.let(::initRequestChain)
+            }
+            .launchIn(viewModelScope)
+
         defaultPreferencesRepository.titleLang
             .onEach { value ->
                 mutableUiState.update { it.copy(preferredTitle = value) }

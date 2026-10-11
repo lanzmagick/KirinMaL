@@ -24,6 +24,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
@@ -349,6 +350,13 @@ class UserMediaListViewModel(
             .onEach { value ->
                 mutableUiState.update { it.copy(showRandomButton = value) }
             }
+            .launchIn(viewModelScope)
+
+        // Reload the list when the NSFW filter changes; preserve the selected tab.
+        defaultPreferencesRepository.nsfw
+            .distinctUntilChanged()
+            .drop(1)
+            .onEach { refreshList() }
             .launchIn(viewModelScope)
 
         // list loading and pagination

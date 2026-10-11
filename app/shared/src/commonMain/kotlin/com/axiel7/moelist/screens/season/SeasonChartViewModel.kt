@@ -11,6 +11,7 @@ import com.axiel7.moelist.ui.base.viewmodel.BaseViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -110,6 +111,12 @@ class SeasonChartViewModel(
                     }
                 }
         }
+
+        defaultPreferencesRepository.nsfw
+            .distinctUntilChanged()
+            .drop(1)
+            .onEach { onApplyFilters() }
+            .launchIn(viewModelScope)
 
         defaultPreferencesRepository.titleLang
             .onEach { value ->

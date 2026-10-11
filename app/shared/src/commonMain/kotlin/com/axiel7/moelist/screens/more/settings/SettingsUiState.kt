@@ -20,7 +20,7 @@ data class SettingsUiState(
     val customAppColor: Color? = null,
     val useBlackColors: Boolean = false,
     val paletteStyle: PaletteStyle = PaletteStyle.Expressive,
-    val showNsfw: Boolean = false,
+    val showNsfw: Boolean = true,
     val hideScores: Boolean = false,
     val useGeneralListStyle: Boolean = true,
     val generalListStyle: ListStyle = ListStyle.STANDARD,

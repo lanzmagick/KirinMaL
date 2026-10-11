@@ -13,6 +13,7 @@ import com.axiel7.moelist.ui.base.viewmodel.BaseViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -157,6 +158,21 @@ class SearchViewModel(
         defaultPreferencesRepository.titleLang
             .onEach { value ->
                 mutableUiState.update { it.copy(preferredTitle = value) }
+            }
+            .launchIn(viewModelScope)
+
+        // Re-run the current query after adult-content visibility changes.
+        defaultPreferencesRepository.nsfw
+            .distinctUntilChanged()
+            .drop(1)
+            .onEach {
+                mutableUiState.update { state ->
+                    state.copy(
+                        performSearch = state.query.isNotBlank(),
+                        nextPage = null,
+                        loadMore = false
+                    )
+                }
             }
             .launchIn(viewModelScope)
 

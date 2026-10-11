@@ -22,6 +22,10 @@ The internal Kotlin packages and Android application ID are still inherited from
 
 The original internal source directories and package identifiers remain unchanged to protect compatibility with upstream components and MAL authentication.
 
+## Adult-content visibility
+
+The existing **Show NSFW content** setting (Settings → Content) is **enabled by default** for new installs. MyAnimeList's `nsfw=1` API option is applied to anime and manga searches, lists and rankings, as well as anime seasons and recommendations. This permits titles labelled Hentai, Erotica, Ecchi and other adult categories when MyAnimeList makes them available. The user can still switch it off; a previously saved choice to hide NSFW content is preserved. Changing the setting refreshes list/search/ranking feeds without needing to reinstall the app.
+
 ## Build Android
 
 Use JDK 21 and a configured Android SDK. Create `private.properties` in the repository root:
