@@ -45,6 +45,11 @@ jobs:
           printf 'CLIENT_SECRET=""\n' > private.properties
           chmod +x ./gradlew
 
+      - name: Ensure KirinMaL icons are generated
+        run: |
+          python3 -m pip install --disable-pip-version-check pillow
+          python3 tools/generate_brand_assets.py
+
       - name: Assemble debug APK
         run: ./gradlew :app:androidApp:assembleDebug --stacktrace --no-daemon
 
