@@ -15,7 +15,7 @@ Updated **11 October 2026**:
 - [ ] Verify an Android debug/release build and login (Android SDK setup failure addressed; compilation still needs verification).
 - [ ] Review independent Android package ID and MAL OAuth redirect **together** before changing either one.
 - [x] Update Android, desktop and iOS display names, downloadable artifact names, and GitHub links.
-- [x] Add original KirinMaL kirin icon artwork and automated generation for Android, iOS and desktop launchers.\n- [ ] Confirm generated launcher assets and platform builds in CI.
+- [x] Add original KirinMaL kirin icon artwork and automated generation for Android, iOS and desktop launchers.\n- [x] Generate and commit Android, iOS and desktop launcher images with GitHub Actions.\n- [ ] Verify the Android APK build and login after applying the new icons.
 - [ ] Verify anime/manga list editing, paging, search and navigation on device.
 
 The internal Kotlin packages and Android application ID are still inherited from MoeList for compatibility. Do not change only one part of the MAL OAuth configuration.
