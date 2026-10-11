@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">MoeList</string>
+    <string name="app_name" translatable="false">KirinMaL</string>
     <string name="title_home">Home</string>
     <string name="title_anime_list">Anime</string>
     <string name="title_manga_list">Manga</string>

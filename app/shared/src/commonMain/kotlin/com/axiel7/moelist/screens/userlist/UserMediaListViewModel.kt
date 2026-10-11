@@ -184,7 +184,14 @@ class UserMediaListViewModel(
                         volumesRead = newProgress.takeIf { isVolumeProgress },
                         status = newStatus?.toDto(),
                         startDate = nowDate.takeIf {
-                            isPlanning || item.listStatus?.progress.isGreaterThanZero()
+                            // Only initialize the start date on the first update.
+                            // Manga can use either chapter or volume progress.
+                            val previousProgress = if (isVolumeProgress) {
+                                item.listStatus?.numVolumesRead
+                            } else {
+                                item.listStatus?.progress
+                            }
+                            isPlanning || !previousProgress.isGreaterThanZero()
                         },
                         endDate = nowDate.takeIf { isCompleted }
                     )

@@ -45,7 +45,7 @@ fun UserMediaListWithTabsView(
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     val haptic = LocalHapticFeedback.current
-    val tabRowItems = remember {
+    val tabRowItems = remember(mediaType) {
         listStatusValues(mediaType)
             .map {
                 TabRowItem(value = it, title = it.stringRes)
@@ -74,7 +74,7 @@ fun UserMediaListWithTabsView(
         ) {
             val listStatus = tabRowItems[it].value
             val viewModel: UserMediaListViewModel = koinViewModel(
-                key = listStatus.name,
+                key = "${mediaType.name}-${listStatus.name}",
                 parameters = { parametersOf(mediaType, listStatus) }
             )
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
