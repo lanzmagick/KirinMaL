@@ -42,9 +42,9 @@ compose.desktop {
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.AppImage)
-            packageName = "moelist"
+            packageName = "kirinmal"
             packageVersion = versionProps.getProperty("name")
-            description = "A Multiplatform MyAnimeList client"
+            description = "KirinMaL - an unofficial multiplatform MyAnimeList client"
             copyright = "© 2026 axiel7"
 
             windows {

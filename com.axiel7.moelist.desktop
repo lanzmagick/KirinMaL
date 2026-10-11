@@ -1,9 +1,9 @@
 [Desktop Entry]
 Version=1.0
 Type=Application
-Name=MoeList
-Icon=moelist
-Exec=usr/bin/moelist
+Name=KirinMaL
+Icon=kirinmal
+Exec=usr/bin/kirinmal
 Comment=Anime & Manga tracker
 Categories=Network
 Terminal=false

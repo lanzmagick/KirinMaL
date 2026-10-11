@@ -12,12 +12,15 @@ Updated **11 October 2026**:
 - [x] Correct the manga progress start-date condition (chapter and volume modes).
 - [x] Scope anime/manga tab models by media type, avoiding accidental state reuse.
 - [x] Display **KirinMaL** as the Android app name.
-- [ ] Verify an Android debug/release build and login.
+- [ ] Verify an Android debug/release build and login (Android SDK setup failure addressed; compilation still needs verification).
 - [ ] Review independent Android package ID and MAL OAuth redirect **together** before changing either one.
-- [ ] Update remaining platform branding and app icons.
+- [x] Update Android, desktop and iOS display names, downloadable artifact names, and GitHub links.
+- [ ] Replace inherited MoeList app artwork/icons with KirinMaL artwork.
 - [ ] Verify anime/manga list editing, paging, search and navigation on device.
 
 The internal Kotlin packages and Android application ID are still inherited from MoeList for compatibility. Do not change only one part of the MAL OAuth configuration.
+
+The original internal source directories and package identifiers remain unchanged to protect compatibility with upstream components and MAL authentication.
 
 ## Build Android
 
