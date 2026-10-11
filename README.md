@@ -1,4 +1,4 @@
-# <img src="assets/branding/kirinmal-icon.webp" width="56" alt="KirinMaL icon" /> KirinMaL
+# <img src="assets/branding/kirinmal-wordmark.svg" width="540" alt="KirinMaL" />
 
 KirinMaL is a customized fork of [MoeList Multiplatform](https://github.com/axiel7/MoeListKMP), an unofficial [MyAnimeList](https://myanimelist.net/) client. The project contains Android, iOS and desktop code; Android is the current focus of this fork.
 
@@ -49,4 +49,4 @@ KirinMaL is based on [axiel7/MoeListKMP](https://github.com/axiel7/MoeListKMP). 
 The original repository contains additional project documentation, installation information and links to support its developer. See [the upstream README](https://github.com/axiel7/MoeListKMP#readme).
 
 Distributed under the terms of the [GNU General Public License v3.0](LICENSE).
-\n## KirinMaL artwork\n\n![KirinMaL icon](assets/branding/kirinmal-icon.webp)\n\nLauncher icons are regenerated from this artwork by `tools/generate_brand_assets.py` and the `Apply KirinMaL App Icons` workflow. The artwork is a small, optimized source suitable for icons; the original high-resolution generated image is available in the development conversation.\n
+\n## KirinMaL artwork\n\n![KirinMaL icon](assets/branding/kirinmal-icon.webp)\n\nThe scalable `kirinmal-wordmark.svg` is used in this README.\n\nLauncher icons are regenerated from this artwork by `tools/generate_brand_assets.py` and the `Apply KirinMaL App Icons` workflow. The artwork is a small, optimized source suitable for icons; the original high-resolution generated image is available in the development conversation.\n
