@@ -200,6 +200,14 @@ class Api(private val client: HttpClient) {
     suspend fun getUserMangaList(url: String): Response<List<UserMangaList>> =
         client.get(url).body()
 
+    /** Includes every status and NSFW entry for profile totals. */
+    suspend fun getAllUserMangaEntries(): Response<List<UserMangaList>> =
+        client.get("${MAL_API_URL}users/@me/mangalist") {
+            parameter("limit", 1000)
+            parameter("nsfw", 1)
+            parameter("fields", "list_status{num_times_reread,num_chapters_read,num_volumes_read}")
+        }.body()
+
     suspend fun getMangaRanking(
         rankingType: String,
         limit: Int,

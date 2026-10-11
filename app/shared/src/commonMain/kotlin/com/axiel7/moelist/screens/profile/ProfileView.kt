@@ -208,7 +208,10 @@ private fun ProfileViewContent(
                     CircularProgressIndicator(modifier = Modifier.padding(16.dp))
                 }
                 uiState.userMangaStats != null -> {
-                    MalMangaStatsView(stats = uiState.userMangaStats)
+                    MalMangaStatsView(
+                        stats = uiState.userMangaStats,
+                        isFromList = uiState.isMangaStatsFromList,
+                    )
                 }
                 else -> {
                     Text(

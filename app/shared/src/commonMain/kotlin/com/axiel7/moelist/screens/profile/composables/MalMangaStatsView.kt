@@ -25,6 +25,7 @@ import com.axiel7.moelist.ui.generated.resources.completed
 import com.axiel7.moelist.ui.generated.resources.days
 import com.axiel7.moelist.ui.generated.resources.dropped
 import com.axiel7.moelist.ui.generated.resources.manga_stats
+import com.axiel7.moelist.ui.generated.resources.manga_stats_from_list
 import com.axiel7.moelist.ui.generated.resources.mean_score
 import com.axiel7.moelist.ui.generated.resources.on_hold
 import com.axiel7.moelist.ui.generated.resources.ptr
@@ -42,6 +43,7 @@ import kotlin.math.roundToInt
 @Composable
 fun MalMangaStatsView(
     stats: UserStats.MangaStats,
+    isFromList: Boolean = false,
     modifier: Modifier = Modifier,
 ) {
     val statuses = listOf(
@@ -63,17 +65,24 @@ fun MalMangaStatsView(
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
         )
+        if (isFromList) {
+            Text(
+                text = stringResource(UiRes.string.manga_stats_from_list),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
 
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Text(
-                text = "${stringResource(UiRes.string.days)}: ${stats.days.toFixed(1)}",
+                text = "${stringResource(UiRes.string.days)}: ${stats.days?.toFixed(1) ?: "—"}",
                 style = MaterialTheme.typography.bodyMedium,
             )
             Text(
-                text = "${stringResource(UiRes.string.mean_score)}: ${stats.meanScore.toFixed(2)}",
+                text = "${stringResource(UiRes.string.mean_score)}: ${stats.meanScore?.takeIf { it > 0f }?.toFixed(2) ?: "—"}",
                 style = MaterialTheme.typography.bodyMedium,
             )
         }

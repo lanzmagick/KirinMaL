@@ -270,6 +270,7 @@
     <string name="delete_all">Delete all</string>
     <string name="manga_stats">Manga Stats</string>
     <string name="manga_stats_unavailable">MAL manga statistics are currently unavailable.</string>
+    <string name="manga_stats_from_list">From your MAL manga list. Days Read is not available from this source.</string>
     <string name="anime_stats_unavailable">MAL anime statistics are currently unavailable.</string>
     <string name="retry">Retry</string>
     <string name="total_entries_label">Total Entries</string>

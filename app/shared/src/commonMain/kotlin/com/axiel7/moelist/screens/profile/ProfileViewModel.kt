@@ -28,19 +28,27 @@ class ProfileViewModel(
             val result = userRepository.getUserStats(username)
             val manga = result.data?.manga
             val anime = result.data?.anime
-            mutableUiState.update {
-                if (manga != null) {
+            if (manga != null) {
+                mutableUiState.update {
                     it.copy(
                         userMangaStats = manga,
                         userAnimeStats = anime,
                         isLoadingManga = false,
+                        isMangaStatsFromList = false,
                         mangaStatsError = null,
                     )
-                } else {
+                }
+            } else {
+                val fallback = userRepository.getMangaStatisticsFromList()
+                mutableUiState.update {
                     it.copy(
+                        userMangaStats = fallback.data,
+                        userAnimeStats = anime ?: it.userAnimeStats,
                         isLoadingManga = false,
-                        mangaStatsError = result.message ?: result.error
-                            ?: "MAL statistics are temporarily unavailable.",
+                        isMangaStatsFromList = fallback.data != null,
+                        mangaStatsError = if (fallback.data != null) null
+                            else fallback.message ?: fallback.error ?: result.message
+                                ?: result.error ?: "MAL manga statistics are unavailable.",
                     )
                 }
             }
