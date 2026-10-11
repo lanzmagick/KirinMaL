@@ -13,10 +13,11 @@ on:
       - 'settings.gradle.kts'
       - 'gradle.properties'
       - 'version.properties'
+      - 'tools/publish_release.sh'
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   android-debug:
@@ -27,6 +28,8 @@ jobs:
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up JDK 21
         uses: actions/setup-java@v4
@@ -53,11 +56,7 @@ jobs:
       - name: Assemble debug APK
         run: ./gradlew :app:androidApp:assembleDebug --stacktrace --no-daemon
 
-      - name: Upload debug APK
-        if: success()
-        uses: actions/upload-artifact@v4
-        with:
-          name: KirinMaL-debug-apk
-          path: app/androidApp/build/outputs/apk/debug/*.apk
-          if-no-files-found: error
-          retention-days: 7
+      - name: Publish debug APK to rolling GitHub Release
+        env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bash tools/publish_release.sh development android-debug app/androidApp/build/outputs/apk/debug/*.apk

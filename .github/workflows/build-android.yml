@@ -13,11 +13,16 @@ on:
 env:
   BRANCH_NAME: ${{ github.base_ref || github.ref_name }}
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
       - name: Decode Keystore File
         uses: timheuer/base64-to-file@v2
@@ -52,8 +57,10 @@ jobs:
           KEY_ALIAS: ${{secrets.KEY_ALIAS}}
           KEY_PASSWORD: ${{secrets.KEY_PASSWORD}}
 
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v6
-        with:
-          name: KirinMaL-android-release
-          path: ${{github.workspace}}/app/androidApp/build/outputs/apk/release/*.apk
+      - name: Publish signed APK to versioned GitHub Release
+        env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          version="$(awk -F= '/^name[[:space:]]*=/ {gsub(/[[:space:]]/, "", $2); print $2; exit}' version.properties)"
+          test -n "$version" || { echo "Missing version in version.properties"; exit 1; }
+          bash tools/publish_release.sh "v$version" android-release app/androidApp/build/outputs/apk/release/*.apk

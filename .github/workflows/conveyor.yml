@@ -19,6 +19,8 @@ jobs:
     
     steps:
     - uses: actions/checkout@v6
+      with:
+        fetch-depth: 0
     - name: Set up JDK 21
       uses: actions/setup-java@v5
       with:
@@ -58,11 +60,11 @@ jobs:
         chmod +x ./appimagetool-x86_64.AppImage AppDir
         ./appimagetool-x86_64.AppImage AppDir
 
-    - name: Upload linux AppImage artifacts
-      uses: actions/upload-artifact@v6
-      with:
-        name: KirinMaL-AppImage-x86_64
-        path: ${{github.workspace}}/*.AppImage
+    - name: Publish AppImage to GitHub Releases
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      shell: bash
+      run: bash tools/publish_release.sh development appimage ./*.AppImage
 
     - name: Make and publish conveyor release
       uses: hydraulic-software/conveyor/actions/build@v22.0

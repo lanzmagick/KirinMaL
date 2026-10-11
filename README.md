@@ -6,16 +6,18 @@ KirinMaL is a customized fork of [MoeList Multiplatform](https://github.com/axie
 
 ## Current progress
 
-Updated **11 October 2026**:
+Updated **12 October 2026**:
 
 - [x] Preserve the existing MoeList-based multiplatform project and MAL integration.
 - [x] Correct the manga progress start-date condition (chapter and volume modes).
 - [x] Scope anime/manga tab models by media type, avoiding accidental state reuse.
 - [x] Display **KirinMaL** as the Android app name.
-- [ ] Verify an Android debug/release build and login (Android SDK setup failure addressed; compilation still needs verification).
+- [x] Verify Android debug compilation with GitHub Actions; app login still requires device testing.
 - [ ] Review independent Android package ID and MAL OAuth redirect **together** before changing either one.
 - [x] Update Android, desktop and iOS display names, downloadable artifact names, and GitHub links.
-- [x] Add original KirinMaL kirin icon artwork and automated generation for Android, iOS and desktop launchers.\n- [x] Generate and commit Android, iOS and desktop launcher images with GitHub Actions.\n- [ ] Verify the Android APK build and login after applying the new icons.
+- [x] Add original KirinMaL kirin icon artwork and automated generation for Android, iOS and desktop launchers.
+- [x] Generate and commit Android, iOS and desktop launcher images with GitHub Actions.
+- [ ] Verify the Android APK build and login after applying the new icons.
 - [ ] Verify anime/manga list editing, paging, search and navigation on device.
 
 The internal Kotlin packages and Android application ID are still inherited from MoeList for compatibility. Do not change only one part of the MAL OAuth configuration.
@@ -40,7 +42,16 @@ The client secret is required for the desktop variant, not the Android variant (
 ./gradlew :app:androidApp:assembleDebug
 ```
 
-See [GitHub Actions](https://github.com/lanzmagick/KirinMaL/actions) for repository workflows. A successful build is not yet verified for the current fork.
+See [GitHub Actions](https://github.com/lanzmagick/KirinMaL/actions) for repository workflows. An Android debug build has passed CI; installation and MAL login on a device have not yet been verified.
+
+## Download builds from GitHub Releases
+
+KirinMaL does **not** store downloadable APKs and desktop packages in GitHub Actions artifacts. Download builds from [GitHub Releases](https://github.com/lanzmagick/KirinMaL/releases) instead.
+
+- **Development** (rolling pre-release at tag `development`): updated Android debug APK and manually built desktop packages replace previous files of the same type. It includes build commit, UTC date and the last 30 days of commit notes. Debug APKs are for testing.
+- **Versioned releases** (tags like `v4.1.1`): signed Android release APKs are published when the Android release workflow completes with the required signing secrets.
+
+For CI logs, use [GitHub Actions](https://github.com/lanzmagick/KirinMaL/actions), but binaries belong in Releases.
 
 ## Upstream credits and license
 
@@ -49,4 +60,11 @@ KirinMaL is based on [axiel7/MoeListKMP](https://github.com/axiel7/MoeListKMP). 
 The original repository contains additional project documentation, installation information and links to support its developer. See [the upstream README](https://github.com/axiel7/MoeListKMP#readme).
 
 Distributed under the terms of the [GNU General Public License v3.0](LICENSE).
-\n## KirinMaL artwork\n\n![KirinMaL icon](assets/branding/kirinmal-icon.webp)\n\nThe scalable `kirinmal-wordmark.svg` is used in this README.\n\nLauncher icons are regenerated from this artwork by `tools/generate_brand_assets.py` and the `Apply KirinMaL App Icons` workflow. The artwork is a small, optimized source suitable for icons; the original high-resolution generated image is available in the development conversation.\n
+
+## KirinMaL artwork
+
+![KirinMaL icon](assets/branding/kirinmal-icon.webp)
+
+The scalable `kirinmal-wordmark.svg` is used in this README.
+
+Launcher icons are regenerated from this artwork by `tools/generate_brand_assets.py` and the `Apply KirinMaL App Icons` workflow. The artwork is a small, optimized source suitable for icons; the original high-resolution generated image is available in the development conversation.
