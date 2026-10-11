@@ -56,9 +56,6 @@ import com.axiel7.moelist.ui.generated.resources.calendar
 import com.axiel7.moelist.ui.generated.resources.error_server
 import com.axiel7.moelist.ui.generated.resources.ic_round_casino_24
 import com.axiel7.moelist.ui.generated.resources.ic_round_event_24
-import com.axiel7.moelist.ui.generated.resources.ic_round_search_24
-import com.axiel7.moelist.ui.generated.resources.ic_round_account_circle_24
-import com.axiel7.moelist.ui.generated.resources.ic_round_details_star_24
 import com.axiel7.moelist.ui.generated.resources.ic_round_menu_book_24
 import com.axiel7.moelist.ui.generated.resources.ic_round_movie_24
 import com.axiel7.moelist.ui.generated.resources.manga_ranking
@@ -66,10 +63,6 @@ import com.axiel7.moelist.ui.generated.resources.no_recommendations
 import com.axiel7.moelist.ui.generated.resources.nothing_today
 import com.axiel7.moelist.ui.generated.resources.please_login_to_use_this_feature
 import com.axiel7.moelist.ui.generated.resources.random
-import com.axiel7.moelist.ui.generated.resources.quick_access
-import com.axiel7.moelist.ui.generated.resources.search_anime
-import com.axiel7.moelist.ui.generated.resources.search_manga
-import com.axiel7.moelist.ui.generated.resources.title_profile
 import com.axiel7.moelist.ui.generated.resources.recommendations
 import com.axiel7.moelist.ui.generated.resources.seasonal_chart
 import com.axiel7.moelist.ui.generated.resources.today
@@ -177,49 +170,6 @@ private fun HomeViewContent(
         )
     }
  
-    @Composable
-    fun RowScope.QuickAccessRow1() {
-        HomeCard(
-            text = stringResource(UiRes.string.search_anime),
-            icon = UiRes.drawable.ic_round_search_24,
-            modifier = Modifier.weight(1f),
-            onClick = dropUnlessResumed {
-                navActionManager.toSearch(MediaType.ANIME)
-            },
-        )
-
-        HomeCard(
-            text = stringResource(UiRes.string.search_manga),
-            icon = UiRes.drawable.ic_round_search_24,
-            modifier = Modifier.weight(1f),
-            onClick = dropUnlessResumed {
-                navActionManager.toSearch(MediaType.MANGA)
-            },
-        )
-    }
-
-    @Composable
-    fun RowScope.QuickAccessRow2() {
-        HomeCard(
-            text = stringResource(UiRes.string.recommendations),
-            icon = UiRes.drawable.ic_round_details_star_24,
-            modifier = Modifier.weight(1f),
-            onClick = dropUnlessResumed {
-                navActionManager.toRecommendations()
-            },
-        )
-
-        HomeCard(
-            text = stringResource(UiRes.string.title_profile),
-            icon = UiRes.drawable.ic_round_account_circle_24,
-            modifier = Modifier.weight(1f),
-            onClick = dropUnlessResumed {
-                navActionManager.toProfile()
-            },
-        )
-    }
-
-
     Column(
         modifier = Modifier
             // Scroll the Home content only; the search bar stays in Scaffold.topBar.
@@ -245,27 +195,6 @@ private fun HomeViewContent(
             ) {
                 ChipRow1()
                 ChipRow2()
-            }
-        }
-
-        // Extra Home shortcuts. Keep the original four navigation cards above,
-        // and avoid moving the pinned search bar from Scaffold.topBar.
-        Text(
-            text = stringResource(UiRes.string.quick_access),
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.padding(start = 16.dp, top = 16.dp, bottom = 4.dp)
-        )
-        if (isCompactScreen) {
-            Row(modifier = Modifier.padding(top = 6.dp, start = 8.dp, end = 16.dp)) {
-                QuickAccessRow1()
-            }
-            Row(modifier = Modifier.padding(top = 10.dp, start = 8.dp, end = 16.dp)) {
-                QuickAccessRow2()
-            }
-        } else {
-            Row(modifier = Modifier.padding(top = 6.dp, start = 8.dp, end = 16.dp)) {
-                QuickAccessRow1()
-                QuickAccessRow2()
             }
         }
 
