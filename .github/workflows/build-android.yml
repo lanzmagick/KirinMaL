@@ -59,7 +59,7 @@ jobs:
 
       - name: Publish signed APK to versioned GitHub Release
         env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           version="$(awk -F= '/^name[[:space:]]*=/ {gsub(/[[:space:]]/, "", $2); print $2; exit}' version.properties)"
           test -n "$version" || { echo "Missing version in version.properties"; exit 1; }
