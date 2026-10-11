@@ -70,9 +70,10 @@ notes="$tmp/release-notes.md"
     echo "Versioned release built from the KirinMaL source. Android release APKs use the repository's signing configuration."
   fi
   echo
-  echo "## Changes in the last 30 days"
+  echo "## Latest 5 changes"
   echo
-  git log --since='30 days ago' -n 100 --format='- %h %s (%cs)' || true
+  # Show a maximum of five recent changes so release notes stay concise.
+  git log -n 5 --format='- %h %s (%cs)' || true
 } > "$notes"
 
 set -- "$tmp"/*
