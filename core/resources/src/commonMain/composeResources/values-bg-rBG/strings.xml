@@ -106,7 +106,7 @@
     <string name="default_section">Секция по подразбиране</string>
     <string name="display">Дисплей</string>
     <string name="logout">Изход</string>
-    <string name="logout_summary">Изход от MoeList не MAL.</string>
+    <string name="logout_summary">Изход от KirinMaL не MAL.</string>
     <string name="version">Версия</string>
     <string name="credits">Заслуги</string>
     <string name="discord_summary">Присъединете се към официалния сървър!</string>

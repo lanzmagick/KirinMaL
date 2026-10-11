@@ -113,7 +113,7 @@
     <string name="default_section">デフォルトセクション</string>
     <string name="display">ディスプレー</string>
     <string name="logout">ログアウト</string>
-    <string name="logout_summary">MALではなく、MoeListからのみログアウトします。</string>
+    <string name="logout_summary">MALではなく、KirinMaLからのみログアウトします。</string>
     <string name="version">バージョン</string>
     <string name="credits">謝辞</string>
     <string name="discord_summary">Discordサーバーに入る！</string>

@@ -106,7 +106,7 @@
     <string name="default_section">القسم الإفتراضي</string>
     <string name="display">العرض</string>
     <string name="logout">تسجيل الخروج</string>
-    <string name="logout_summary">تسجيل الخروج فقط من MoeList وليس MAL.</string>
+    <string name="logout_summary">تسجيل الخروج فقط من KirinMaL وليس MAL.</string>
     <string name="version">الإصدار</string>
     <string name="credits">شكر وتقدير</string>
     <string name="discord_summary">انضم إلى الخادم الرسمي!</string>

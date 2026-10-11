@@ -106,7 +106,7 @@
     <string name="default_section">Výchozí sekce</string>
     <string name="display">Zobrazení</string>
     <string name="logout">Odhlásit se</string>
-    <string name="logout_summary">Odhlásíš se pouze z MoeList, ne z MAL.</string>
+    <string name="logout_summary">Odhlásíš se pouze z KirinMaL, ne z MAL.</string>
     <string name="version">Verze</string>
     <string name="credits">Zásluhy</string>
     <string name="discord_summary">Připoj se k oficiálnímu serveru!</string>

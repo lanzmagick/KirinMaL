@@ -115,7 +115,7 @@
     <string name="default_section">Sección por defecto</string>
     <string name="display">Pantalla</string>
     <string name="logout">Cerrar Sesión</string>
-    <string name="logout_summary">Cierra sesión solamente de MoeList, no de MAL.</string>
+    <string name="logout_summary">Cierra sesión solamente de KirinMaL, no de MAL.</string>
     <string name="version">Versión</string>
     <string name="credits">Créditos</string>
     <string name="discord_summary">¡Únete al servidor oficial!</string>

@@ -113,7 +113,7 @@
     <string name="default_section">Tampilan Utama</string>
     <string name="display">Tampilan</string>
     <string name="logout">Keluar</string>
-    <string name="logout_summary">Keluar hanya dari MoeList, bukan MAL.</string>
+    <string name="logout_summary">Keluar hanya dari KirinMaL, bukan MAL.</string>
     <string name="version">Versi</string>
     <string name="credits">Credits</string>
     <string name="discord_summary">Bergabunglah ke server resmi kami!</string>

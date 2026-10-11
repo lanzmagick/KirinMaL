@@ -106,7 +106,7 @@
     <string name="default_section">Standard-Abschnitt</string>
     <string name="display">Anzeigen</string>
     <string name="logout">Abmelden</string>
-    <string name="logout_summary">Nur von MoeList abmelden, nicht von MAL.</string>
+    <string name="logout_summary">Nur von KirinMaL abmelden, nicht von MAL.</string>
     <string name="version">Version</string>
     <string name="credits">Mitwirkende</string>
     <string name="discord_summary">Betrete unseren Offiziellen Discord!</string>

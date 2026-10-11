@@ -115,7 +115,7 @@
     <string name="default_section">Sezione predefinita</string>
     <string name="display">Schermo</string>
     <string name="logout">Disconnetti</string>
-    <string name="logout_summary">Esci solo da MoeList, non da MAL.</string>
+    <string name="logout_summary">Esci solo da KirinMaL, non da MAL.</string>
     <string name="version">Versione</string>
     <string name="credits">Riconoscimenti</string>
     <string name="discord_summary">Entra nel server ufficiale!</string>

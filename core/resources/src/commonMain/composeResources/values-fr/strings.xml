@@ -106,7 +106,7 @@
     <string name="default_section">Section par défaut</string>
     <string name="display">Affichage</string>
     <string name="logout">Se Déconnecter</string>
-    <string name="logout_summary">Se déconnecter seulement de MoeList, pas de MAL.</string>
+    <string name="logout_summary">Se déconnecter seulement de KirinMaL, pas de MAL.</string>
     <string name="version">Version</string>
     <string name="credits">Crédits</string>
     <string name="discord_summary">Rejoignez le Discord officiel!</string>
