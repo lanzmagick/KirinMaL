@@ -14,6 +14,15 @@ channel="$2"
 shift 2
 repo="$GITHUB_REPOSITORY"
 revision="$GITHUB_SHA"
+
+# A superseded workflow must never overwrite the latest rolling APK.
+if [ "$tag" = "development" ]; then
+  latest="$(gh api "repos/$repo/git/ref/heads/main" --jq '.object.sha')"
+  if [ "$latest" != "$revision" ]; then
+    echo "Skipping obsolete build $revision (current main: $latest)"
+    exit 0
+  fi
+fi
 tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
 index=0

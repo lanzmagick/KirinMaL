@@ -19,6 +19,11 @@ on:
 permissions:
   contents: write
 
+# Avoid older debug builds replacing a newer APK in the rolling Release.
+concurrency:
+  group: kirinmal-debug-release
+  cancel-in-progress: true
+
 jobs:
   android-debug:
     name: Build Android debug APK
