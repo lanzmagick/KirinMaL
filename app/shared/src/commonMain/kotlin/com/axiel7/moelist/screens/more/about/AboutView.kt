@@ -30,7 +30,7 @@ import com.axiel7.moelist.ui.generated.resources.github
 import com.axiel7.moelist.ui.generated.resources.github_summary
 import com.axiel7.moelist.ui.generated.resources.ic_discord
 import com.axiel7.moelist.ui.generated.resources.ic_github
-import com.axiel7.moelist.ui.generated.resources.ic_moelist_logo
+import com.axiel7.moelist.ui.generated.resources.kirinmal_logo
 import com.axiel7.moelist.ui.generated.resources.ic_round_group_24
 import com.axiel7.moelist.ui.generated.resources.version
 import com.axiel7.moelist.ui.theme.MoeListTheme
@@ -57,7 +57,7 @@ fun AboutView(
             MoreItem(
                 title = stringResource(UiRes.string.version),
                 subtitle = stringResource(UiRes.string.app_version),
-                icon = UiRes.drawable.ic_moelist_logo,
+                icon = UiRes.drawable.kirinmal_logo,
                 onClick = {
                     if (versionClicks >= 7) {
                         scope.launch {
