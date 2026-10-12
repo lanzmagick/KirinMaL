@@ -28,6 +28,34 @@ class AnimeRepository(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) {
 
+    /**
+     * Read all pages of the signed-in MAL anime list. Do not return a
+     * partially fetched catalog as complete; unknown badges must not become "+".
+     */
+    suspend fun loadAllUserAnimeStatuses(): Map<Int, MyAnimeListStatus>? = withContext(dispatcher) {
+        try {
+            val statuses = mutableMapOf<Int, MyAnimeListStatus>()
+            var next: String? = null
+            var pages = 0
+            do {
+                val response = if (pages == 0) api.getAllUserAnimeStatusEntries()
+                    else api.getUserAnimeList(next ?: break)
+                val entries = response.data ?: return@withContext null
+                if (response.error != null) return@withContext null
+                entries.forEach { entry ->
+                    entry.listStatus?.let { statuses[entry.node.id] = it }
+                }
+                next = response.paging?.next?.takeIf { it.isNotBlank() }
+                pages++
+            } while (next != null && pages < 100)
+            if (next != null) null else statuses
+        } catch (e: kotlinx.coroutines.CancellationException) {
+            throw e
+        } catch (_: Exception) {
+            null
+        }
+    }
+
     companion object {
         const val TODAY_FIELDS =
             "alternative_titles{en,ja},broadcast,mean,start_season,status,my_list_status{status}"
