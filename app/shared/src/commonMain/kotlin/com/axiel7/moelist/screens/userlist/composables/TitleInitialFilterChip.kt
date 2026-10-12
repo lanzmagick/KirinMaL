@@ -31,6 +31,8 @@ import com.axiel7.moelist.ui.generated.resources.all_titles
 import com.axiel7.moelist.ui.generated.resources.cancel
 import com.axiel7.moelist.ui.generated.resources.filter_title_initial
 import com.axiel7.moelist.ui.generated.resources.ic_round_filter_list_24
+import com.axiel7.moelist.ui.generated.resources.sort_title_initial_all
+import com.axiel7.moelist.ui.generated.resources.sort_title_initial_selected
 import com.axiel7.moelist.ui.generated.resources.symbol_initials
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -42,7 +44,15 @@ fun TitleInitialFilterChip(uiState: UserMediaListUiState, event: UserMediaListEv
     FilterChip(
         selected = selected.isActive,
         onClick = { open = true },
-        label = { Text(if (selected.isActive) selected.label else "A–Z · 1–0 · #") },
+        label = {
+            Text(
+                if (selected.isActive) {
+                    stringResource(UiRes.string.sort_title_initial_selected, selected.label)
+                } else {
+                    stringResource(UiRes.string.sort_title_initial_all)
+                }
+            )
+        },
         leadingIcon = {
             Icon(
                 painter = painterResource(UiRes.drawable.ic_round_filter_list_24),

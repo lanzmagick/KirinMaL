@@ -22,6 +22,8 @@
     <string name="login">Login</string>
     <string name="no_results">No results</string>
     <string name="filter_title_initial">Filter by title initial</string>
+    <string name="sort_title_initial_all">Sort : All</string>
+    <string name="sort_title_initial_selected">Sort : %1$s</string>
     <string name="all_titles">All titles</string>
     <string name="symbol_initials">Symbols / other initials</string>
     <string name="title_initial_empty">No titles start with this initial</string>
