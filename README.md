@@ -13,7 +13,7 @@
 
 ## Website
 
-**[KirinMaL Website](https://lanzmagick.github.io/KirinMaL/)** — responsive landing page with app previews, features and download links.
+**[KirinMaL Website](https://lanzmagick.github.io/KirinMaL/)** — responsive, screenshot-free landing page with KirinMaL branding, features and direct APK download links.
 
 ## Download
 
