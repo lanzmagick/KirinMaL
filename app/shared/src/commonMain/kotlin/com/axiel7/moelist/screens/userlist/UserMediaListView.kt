@@ -2,8 +2,8 @@ package com.axiel7.moelist.screens.userlist
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -22,11 +22,18 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.LoadingIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -45,15 +52,19 @@ import com.axiel7.moelist.screens.userlist.composables.GridUserMediaListItem
 import com.axiel7.moelist.screens.userlist.composables.GridUserMediaListItemPlaceholder
 import com.axiel7.moelist.screens.userlist.composables.MinimalUserMediaListItem
 import com.axiel7.moelist.screens.userlist.composables.MinimalUserMediaListItemPlaceholder
-import com.axiel7.moelist.screens.userlist.composables.RandomChip
-import com.axiel7.moelist.screens.userlist.composables.SortChip
 import com.axiel7.moelist.screens.userlist.composables.StandardUserMediaListItem
 import com.axiel7.moelist.screens.userlist.composables.StandardUserMediaListItemPlaceholder
+import com.axiel7.moelist.screens.userlist.composables.UserListToolbar
 import com.axiel7.moelist.ui.base.navigation.NavActionManager
 import com.axiel7.moelist.ui.composables.OnBottomReached
 import com.axiel7.moelist.ui.composables.PlatformVerticalScrollbar
 import com.axiel7.moelist.ui.composables.collapsable
 import com.axiel7.moelist.ui.composables.media.MEDIA_POSTER_MEDIUM_WIDTH
+import com.axiel7.moelist.ui.generated.resources.UiRes
+import com.axiel7.moelist.ui.generated.resources.retry
+import com.axiel7.moelist.ui.generated.resources.title_initial_empty
+import com.axiel7.moelist.ui.generated.resources.title_initial_load_failed
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -74,6 +85,29 @@ fun UserMediaListView(
     val layoutDirection = LocalLayoutDirection.current
     val haptic = LocalHapticFeedback.current
     val pullRefreshState = rememberPullToRefreshState()
+    val visibleMediaList = uiState.visibleMediaList
+    val showInitialMessage = uiState.titleInitial.isActive &&
+            (visibleMediaList.isEmpty() || uiState.listLoadFailed) &&
+            !uiState.isLoading && !uiState.isLoadingMore
+
+    @Composable
+    fun InitialFilterMessage() {
+        Column(
+            modifier = Modifier.fillMaxWidth().padding(24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Text(
+                stringResource(if (uiState.listLoadFailed) UiRes.string.title_initial_load_failed
+                    else UiRes.string.title_initial_empty),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            if (uiState.listLoadFailed) {
+                TextButton(onClick = {
+                    if (uiState.nextPage == null) event?.refreshList() else event?.loadMore()
+                }) { Text(stringResource(UiRes.string.retry)) }
+            }
+        }
+    }
 
     @Composable
     fun StandardItemView(item: BaseUserMediaList<out BaseMediaNode>) {
@@ -172,6 +206,13 @@ fun UserMediaListView(
 
         if (uiState.listStyle == ListStyle.GRID) {
             val listState = rememberLazyGridState()
+            var lastInitial by remember { mutableStateOf(uiState.titleInitial) }
+            LaunchedEffect(uiState.titleInitial) {
+                if (lastInitial != uiState.titleInitial) {
+                    listState.scrollToItem(0)
+                    lastInitial = uiState.titleInitial
+                }
+            }
             LazyVerticalGrid(
                 columns = if (uiState.itemsPerRow.value > 0) GridCells.Fixed(uiState.itemsPerRow.value)
                 else GridCells.Adaptive(minSize = (MEDIA_POSTER_MEDIUM_WIDTH + 8).dp),
@@ -196,20 +237,18 @@ fun UserMediaListView(
                 item(
                     span = { GridItemSpan(maxCurrentLineSpan) }
                 ) {
-                    Row(
+                    UserListToolbar(
+                        uiState = uiState,
+                        event = event,
                         modifier = Modifier.padding(horizontal = 8.dp),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        SortChip(uiState, event)
-                        if (uiState.showRandomButton) {
-                            RandomChip(
-                                onClick = { event?.getRandomIdOfList() }
-                            )
-                        }
-                    }
+                    )
+                }
+                if (showInitialMessage) item(span = { GridItemSpan(maxLineSpan) }) {
+                    InitialFilterMessage()
                 }
                 items(
-                    items = uiState.mediaList,
+                    items = visibleMediaList,
+                    key = { it.node.id },
                     contentType = { it.node }
                 ) { item ->
                     GridItemView(item = item)
@@ -220,7 +259,7 @@ fun UserMediaListView(
                     }
                 }
                 item(contentType = { 0 }) {
-                    if (uiState.canLoadMore) {
+                    if (uiState.canLoadMore && !uiState.titleInitial.isActive) {
                         Box(modifier = Modifier.align(Alignment.Center)) {
                             LoadingIndicator(
                                 modifier = Modifier.align(Alignment.Center)
@@ -238,8 +277,15 @@ fun UserMediaListView(
             )
         } else if (isCompactScreen) {
             val listState = rememberLazyListState()
+            var lastInitial by remember { mutableStateOf(uiState.titleInitial) }
+            LaunchedEffect(uiState.titleInitial) {
+                if (lastInitial != uiState.titleInitial) {
+                    listState.scrollToItem(0)
+                    lastInitial = uiState.titleInitial
+                }
+            }
             listState.OnBottomReached(buffer = 3) {
-                event?.loadMore()
+                if (!uiState.titleInitial.isActive) event?.loadMore()
             }
             LazyColumn(
                 modifier = listModifier
@@ -259,22 +305,18 @@ fun UserMediaListView(
                 ),
             ) {
                 item {
-                    Row(
+                    UserListToolbar(
+                        uiState = uiState,
+                        event = event,
                         modifier = Modifier.padding(horizontal = 16.dp),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        SortChip(uiState, event)
-                        if (uiState.showRandomButton) {
-                            RandomChip(
-                                onClick = { event?.getRandomIdOfList() }
-                            )
-                        }
-                    }
+                    )
                 }
+                if (showInitialMessage) item { InitialFilterMessage() }
                 when (uiState.listStyle) {
                     ListStyle.STANDARD -> {
                         items(
-                            items = uiState.mediaList,
+                            items = visibleMediaList,
+                            key = { it.node.id },
                             contentType = { it.node }
                         ) { item ->
                             StandardItemView(item = item)
@@ -288,7 +330,8 @@ fun UserMediaListView(
 
                     ListStyle.COMPACT -> {
                         items(
-                            items = uiState.mediaList,
+                            items = visibleMediaList,
+                            key = { it.node.id },
                             contentType = { it.node }
                         ) { item ->
                             CompactItemView(item = item)
@@ -302,7 +345,8 @@ fun UserMediaListView(
 
                     ListStyle.MINIMAL -> {
                         items(
-                            items = uiState.mediaList,
+                            items = visibleMediaList,
+                            key = { it.node.id },
                             contentType = { it.node }
                         ) { item ->
                             MinimalItemView(item = item)
@@ -321,6 +365,13 @@ fun UserMediaListView(
             )
         } else { // tablet ui
             val listState = rememberLazyGridState()
+            var lastInitial by remember { mutableStateOf(uiState.titleInitial) }
+            LaunchedEffect(uiState.titleInitial) {
+                if (lastInitial != uiState.titleInitial) {
+                    listState.scrollToItem(0)
+                    lastInitial = uiState.titleInitial
+                }
+            }
             val padding = PaddingValues(
                 start = contentPadding.calculateStartPadding(layoutDirection),
                 top = contentPadding.calculateTopPadding() + 8.dp,
@@ -335,22 +386,20 @@ fun UserMediaListView(
                 item(
                     span = { GridItemSpan(maxLineSpan) }
                 ) {
-                    Row(
+                    UserListToolbar(
+                        uiState = uiState,
+                        event = event,
                         modifier = Modifier.padding(horizontal = 8.dp),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        SortChip(uiState, event)
-                        if (uiState.showRandomButton) {
-                            RandomChip(
-                                onClick = { event?.getRandomIdOfList() }
-                            )
-                        }
-                    }
+                    )
+                }
+                if (showInitialMessage) item(span = { GridItemSpan(maxLineSpan) }) {
+                    InitialFilterMessage()
                 }
                 when (uiState.listStyle) {
                     ListStyle.STANDARD -> {
                         items(
-                            items = uiState.mediaList,
+                            items = visibleMediaList,
+                            key = { it.node.id },
                             contentType = { it.node }
                         ) { item ->
                             StandardItemView(item = item)
@@ -364,7 +413,8 @@ fun UserMediaListView(
 
                     ListStyle.COMPACT -> {
                         items(
-                            items = uiState.mediaList,
+                            items = visibleMediaList,
+                            key = { it.node.id },
                             contentType = { it.node }
                         ) { item ->
                             CompactItemView(item = item)
@@ -378,7 +428,8 @@ fun UserMediaListView(
 
                     ListStyle.MINIMAL -> {
                         items(
-                            items = uiState.mediaList,
+                            items = visibleMediaList,
+                            key = { it.node.id },
                             contentType = { it.node }
                         ) { item ->
                             MinimalItemView(item = item)
@@ -391,7 +442,7 @@ fun UserMediaListView(
                     }
                 }
                 item(contentType = { 0 }) {
-                    if (uiState.canLoadMore) {
+                    if (uiState.canLoadMore && !uiState.titleInitial.isActive) {
                         Box(modifier = Modifier.align(Alignment.Center)) {
                             LoadingIndicator(
                                 modifier = Modifier.align(Alignment.Center)

@@ -19,7 +19,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.animateFloatingActionButton
@@ -76,7 +75,7 @@ fun ListStatusFab(
                     ) {
                         rowOptions.forEach { item ->
                             val selected = item == status
-                            val contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                            val contentColor = item.onBadgeColor
                             Surface(
                                 onClick = {
                                     onStatusChanged(item)
@@ -85,11 +84,11 @@ fun ListStatusFab(
                                 // A single last tile fills both columns; no empty spacer.
                                 modifier = Modifier.weight(1f).height(72.dp),
                                 shape = RoundedCornerShape(28.dp),
-                                color = MaterialTheme.colorScheme.primaryContainer,
+                                color = item.badgeColor,
                                 shadowElevation = 2.dp,
                                 border = if (selected) BorderStroke(
                                     width = 1.5.dp,
-                                    color = MaterialTheme.colorScheme.primary,
+                                    color = contentColor,
                                 ) else null,
                             ) {
                                 if (isLastWideRow) {
@@ -145,8 +144,8 @@ fun ListStatusFab(
                 visible = isVisible || expanded,
                 alignment = Alignment.BottomEnd,
             ),
-            containerColor = MaterialTheme.colorScheme.primaryContainer,
-            contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            containerColor = status.badgeColor,
+            contentColor = status.onBadgeColor,
         ) {
             Icon(
                 painter = painterResource(

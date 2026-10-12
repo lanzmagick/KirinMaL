@@ -12,6 +12,7 @@ import com.axiel7.moelist.ui.base.model.ListStatus
 interface UserMediaListEvent : PagedUiEvent {
     fun onChangeStatus(value: ListStatus)
     fun onChangeSort(value: MediaSort)
+    fun onChangeTitleInitial(value: TitleInitialFilter)
     fun onUpdateProgress(item: BaseUserMediaList<out BaseMediaNode>)
     fun onItemSelected(item: BaseUserMediaList<*>)
     fun onChangeItemMyListStatus(value: BaseMyListStatus?, removed: Boolean = false)

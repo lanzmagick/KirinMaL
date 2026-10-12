@@ -20,6 +20,8 @@ import com.axiel7.moelist.ui.base.model.ListStatus.Companion.toBo
 import com.axiel7.moelist.ui.base.model.ListStatus.Companion.toDto
 import com.axiel7.moelist.ui.base.viewmodel.BaseViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
@@ -91,6 +93,17 @@ class UserMediaListViewModel(
         }
     }
 
+    override fun onChangeTitleInitial(value: TitleInitialFilter) {
+        mutableUiState.update {
+            it.copy(
+                titleInitial = value,
+                // Reuse the loaded pages; scan the remaining pages for any initial.
+                loadMore = it.loadMore || (value.isActive &&
+                        (it.nextPage != null || it.listLoadFailed)),
+            )
+        }
+    }
+
     override fun onChangeItemMyListStatus(value: BaseMyListStatus?, removed: Boolean) {
         viewModelScope.launch {
             mutableUiState.value.run {
@@ -123,7 +136,9 @@ class UserMediaListViewModel(
     }
 
     override fun refreshList() {
-        mutableUiState.update { it.copy(nextPage = null, loadMore = true) }
+        mutableUiState.update {
+            it.copy(nextPage = null, loadMore = true, listRevision = it.listRevision + 1)
+        }
     }
 
     override fun loadMore() {
@@ -366,50 +381,73 @@ class UserMediaListViewModel(
                     old.loadMore == new.loadMore
                             && old.listStatus == new.listStatus
                             && old.listSort == new.listSort
+                            && old.titleInitial == new.titleInitial
+                            && old.listRevision == new.listRevision
                 }
                 .filter { it.listStatus != null && it.listSort != null && it.loadMore }
                 .collectLatest { uiState ->
                     mutableUiState.update {
                         it.copy(
                             isLoadingMore = true,
-                            isLoading = uiState.nextPage == null
+                            isLoading = uiState.nextPage == null,
+                            listLoadFailed = false,
                         )
                     }
-                    val result = if (uiState.mediaType == MediaType.ANIME) {
-                        animeRepository.getUserAnimeList(
-                            status = uiState.listStatus!!.toDto(),
-                            sort = uiState.listSort!!,
-                            page = uiState.nextPage
-                        )
-                    } else {
-                        mangaRepository.getUserMangaList(
-                            status = uiState.listStatus!!.toDto(),
-                            sort = uiState.listSort!!,
-                            page = uiState.nextPage
-                        )
-                    }
-
-                    if (result.data != null) {
-                        if (uiState.nextPage == null) uiState.mediaList.clear()
-                        uiState.mediaList.addAll(result.data!!)
-
-                        mutableUiState.update {
-                            it.copy(
-                                loadMore = false,
-                                nextPage = result.paging?.next,
-                                isLoadingMore = false,
-                                isLoading = false
+                    var page = uiState.nextPage
+                    val visitedPages = mutableSetOf<String>().apply { page?.let { add(it) } }
+                    while (true) {
+                        val result = if (uiState.mediaType == MediaType.ANIME) {
+                            animeRepository.getUserAnimeList(
+                                status = uiState.listStatus!!.toDto(),
+                                sort = uiState.listSort!!,
+                                page = page,
+                            )
+                        } else {
+                            mangaRepository.getUserMangaList(
+                                status = uiState.listStatus!!.toDto(),
+                                sort = uiState.listSort!!,
+                                page = page,
                             )
                         }
-                    } else {
+                        // A cancelled request must not append to a new status/sort/filter.
+                        currentCoroutineContext().ensureActive()
+                        val current = mutableUiState.value
+                        if (current.listStatus != uiState.listStatus ||
+                            current.listSort != uiState.listSort ||
+                            current.titleInitial != uiState.titleInitial ||
+                            current.listRevision != uiState.listRevision
+                        ) return@collectLatest
+                        if (result.data == null) {
+                            mutableUiState.update {
+                                it.copy(
+                                    loadMore = false,
+                                    isLoadingMore = false,
+                                    isLoading = false,
+                                    listLoadFailed = true,
+                                    message = result.message ?: result.error,
+                                )
+                            }
+                            break
+                        }
+                        if (page == null) uiState.mediaList.clear()
+                        val knownIds = uiState.mediaList.mapTo(mutableSetOf()) { it.node.id }
+                        uiState.mediaList.addAll(result.data!!.filter { knownIds.add(it.node.id) })
+
+                        val nextPage = result.paging?.next
+                        val repeatedPage = nextPage != null && !visitedPages.add(nextPage)
+                        val scanMore = uiState.titleInitial.isActive && nextPage != null &&
+                                !repeatedPage
                         mutableUiState.update {
                             it.copy(
-                                loadMore = false,
-                                isLoadingMore = false,
+                                loadMore = scanMore,
+                                nextPage = nextPage.takeUnless { repeatedPage },
+                                isLoadingMore = scanMore,
                                 isLoading = false,
-                                message = result.message ?: result.error
+                                listLoadFailed = repeatedPage,
                             )
                         }
+                        if (!scanMore) break
+                        page = nextPage
                     }
                 }
         }

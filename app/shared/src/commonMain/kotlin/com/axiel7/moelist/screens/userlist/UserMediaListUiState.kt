@@ -21,6 +21,9 @@ data class UserMediaListUiState(
     val mediaType: MediaType,
     val listStatus: ListStatus?,
     val listSort: MediaSort? = null,
+    val titleInitial: TitleInitialFilter = TitleInitialFilter.ALL,
+    val listRevision: Int = 0,
+    val listLoadFailed: Boolean = false,
     val listStyle: ListStyle = ListStyle.STANDARD,
     val itemsPerRow: ItemsPerRow = ItemsPerRow.DEFAULT,
     val mediaList: SnapshotStateList<BaseUserMediaList<out BaseMediaNode>> = mutableStateListOf(),
@@ -38,6 +41,11 @@ data class UserMediaListUiState(
 ) : PagedUiState() {
     override fun setLoading(value: Boolean) = copy(isLoading = value)
     override fun setMessage(value: String?) = copy(message = value)
+
+    val visibleMediaList: List<BaseUserMediaList<out BaseMediaNode>>
+        get() = if (!titleInitial.isActive) mediaList else mediaList.filter {
+            titleInitial.matches(it.node.title(preferredTitle))
+        }
 
     val mediaInfo: BaseMediaNode?
         get() = (selectedItem?.node as? AnimeNode) ?: (selectedItem?.node as? MangaNode)

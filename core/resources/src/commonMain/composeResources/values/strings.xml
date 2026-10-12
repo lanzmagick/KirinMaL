@@ -21,6 +21,11 @@
     <string name="serialization">Serialization</string>
     <string name="login">Login</string>
     <string name="no_results">No results</string>
+    <string name="filter_title_initial">Filter by title initial</string>
+    <string name="all_titles">All titles</string>
+    <string name="symbol_initials">Symbols / other initials</string>
+    <string name="title_initial_empty">No titles start with this initial</string>
+    <string name="title_initial_load_failed">Could not finish loading the list</string>
     <string name="title_profile">Profile</string>
     <string name="cancel">Cancel</string>
     <string name="apply">Apply</string>

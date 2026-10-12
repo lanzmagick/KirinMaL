@@ -4,6 +4,8 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
 import com.axiel7.moelist.data.model.base.LocalizableAndColorable
 import com.axiel7.moelist.data.model.media.ListStatusDto
 import com.axiel7.moelist.data.model.media.MediaType
@@ -86,6 +88,19 @@ enum class ListStatus(
     fun isCurrent() = this == WATCHING || this == READING
 
     fun isPlanning() = this == PLAN_TO_WATCH || this == PLAN_TO_READ
+
+    // MAL's status colors stay recognizable even with a custom/dynamic app theme.
+    val badgeColor: Color
+        get() = when (this) {
+            WATCHING, READING -> Color(0xFF2DB039)
+            COMPLETED -> Color(0xFF26448F)
+            ON_HOLD -> Color(0xFFF9D457)
+            DROPPED -> Color(0xFFA12F31)
+            PLAN_TO_WATCH, PLAN_TO_READ -> Color(0xFFC3C3C3)
+        }
+
+    val onBadgeColor: Color
+        get() = if (badgeColor.luminance() > 0.179f) Color.Black else Color.White
 
     @Composable
     override fun localized() = stringResource(stringRes)

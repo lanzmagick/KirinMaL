@@ -7,6 +7,7 @@
 ## Features
 
 - Track anime and manga with your MyAnimeList account.
+- Anime and Manga list controls: title-initial filter for A–Z, 1–0 and symbols beside Sort, with MAL status colors on the status badges and floating selector.
 - Anime Menu and Manga Menu: MAL rankings plus one bento Genres tab with full MAL category names and AniList discovery. Only MAL-linked titles open the MAL editor, so tracking remains in MyAnimeList.
 - Seasonal anime, calendar and recommendations, with a pinned Home search bar.
 - Anime & Manga Stats inspired by KirinNime, including progress and reading/watching totals.
