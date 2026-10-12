@@ -4,6 +4,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.calculateBottomPadding
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -67,11 +71,20 @@ fun AniListGenreBentoView(
         catalog.filter { showAdult || !it.isAdult }
     }
 
+    // Keep the final MAL category (Explicit) fully scrollable ABOVE Android's
+    // system navigation / gesture area on both anime and manga screens.
+    val navigationBarBottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+
     if (selected == null) {
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
             modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(12.dp),
+            contentPadding = PaddingValues(
+                start = 12.dp,
+                top = 12.dp,
+                end = 12.dp,
+                bottom = navigationBarBottom + 40.dp,
+            ),
             verticalArrangement = Arrangement.spacedBy(10.dp),
             horizontalArrangement = Arrangement.spacedBy(10.dp),
         ) {
@@ -130,6 +143,7 @@ fun AniListGenreBentoView(
                 showAdult = showAdult,
                 api = api,
                 navActionManager = navActionManager,
+                bottomContentPadding = navigationBarBottom + 32.dp,
             )
         }
     }
@@ -142,6 +156,7 @@ private fun AniListGenreMediaList(
     showAdult: Boolean,
     api: JikanApi,
     navActionManager: NavActionManager,
+    bottomContentPadding: androidx.compose.ui.unit.Dp,
 ) {
     val results = remember(type, category.malGenreId, showAdult) { mutableStateListOf<AniListMedia>() }
     var page by remember(type, category.malGenreId, showAdult) { mutableIntStateOf(1) }
@@ -182,7 +197,7 @@ private fun AniListGenreMediaList(
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         state = listState,
-        contentPadding = PaddingValues(bottom = 24.dp),
+        contentPadding = PaddingValues(bottom = bottomContentPadding),
     ) {
         items(results, key = { it.idMal!! }) { item ->
             MediaItemDetailed(

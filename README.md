@@ -19,7 +19,7 @@
 
 **[KirinMaL Stable Releases](https://github.com/lanzmagick/KirinMaL/releases)**
 
-**v1.0.2** keeps the KirinMaL Android application ID (`com.lanzmagick.kirinmal`) and adds checks of the merged APK permissions, signing certificate, package identity, target SDK and archive integrity. It installs separately from MoeList (`com.axiel7.moelist`) and earlier KirinMaL releases. No debug APKs are published; signed APKs are distributed through GitHub Releases.
+**v1.0.3** keeps the KirinMaL Android application ID (`com.lanzmagick.kirinmal`) and adds checks of the merged APK permissions, signing certificate, package identity, target SDK and archive integrity. It installs separately from MoeList (`com.axiel7.moelist`) and earlier KirinMaL releases. No debug APKs are published; signed APKs are distributed through GitHub Releases.
 
 ## Build (Android)
 
@@ -30,6 +30,12 @@ CLIENT_SECRET=""
 ```
 
 To publish **signed** APKs, set the four GitHub Actions repository secrets `KEYSTORE_FILE` (base64-encoded keystore), `KEYSTORE_PASSWORD`, `KEY_ALIAS` and `KEY_PASSWORD`. Then use **Actions → KirinMaL Signed Release → Run workflow**. Keep the keystore safely offline for future updates; do not commit secrets.
+
+## KirinMaL MyAnimeList Client ID (Android)
+
+KirinMaL Android no longer embeds the original MoeList OAuth Client ID. Register your **own MAL API application**, using the exact redirect URI `moelist://moelist.page.link/`. Add its **Client ID** (not the client secret) to GitHub Actions repository secret **`MAL_CLIENT_ID`** before publishing a signed APK. The release workflow refuses to publish without the owner's ID. For local builds add `MAL_CLIENT_ID=your-client-id` to the gitignored `private.properties`.
+
+The Anime and Manga Genres pages now reserve extra bottom spacing above Android's system navigation bar so the final Explicit category can be scrolled fully into view.
 
 See [Release signing instructions](docs/ANDROID_RELEASE.md) and [Play Protect diagnosis](docs/PLAY_PROTECT.md). The **Android application ID is KirinMaL-specific**. The internal Kotlin namespace and MyAnimeList OAuth redirect URI (`moelist://moelist.page.link/`) remain unchanged for compatibility. After installing the new KirinMaL package, log into MAL again; it does not inherit the old app’s local data.
 

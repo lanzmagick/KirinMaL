@@ -54,4 +54,7 @@ jobs:
           python3 tools/generate_brand_assets.py
 
       - name: Assemble release APK (verification only; NOT published)
+        # Dummy non-production client ID for compile verification; no APK is released.
+        env:
+          MAL_CLIENT_ID: verifyonlyclientid
         run: ./gradlew :app:androidApp:assembleRelease --stacktrace --no-daemon --no-configuration-cache

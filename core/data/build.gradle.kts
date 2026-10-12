@@ -18,6 +18,13 @@ val privateProps = Properties().also {
     it.load(project.rootProject.file("private.properties").reader())
 }
 
+// Android uses the KirinMaL owner's MAL API Client ID. It can be provided
+// via GitHub Actions MAL_CLIENT_ID or local private.properties (gitignored).
+// Never fall back to the upstream MoeList Client ID for Android releases.
+val androidMalClientId = System.getenv("MAL_CLIENT_ID")?.trim()
+    ?.takeIf { it.isNotEmpty() }
+    ?: privateProps.getProperty("MAL_CLIENT_ID", "").trim()
+
 kotlin {
     applyDefaultHierarchyTemplate()
 
@@ -101,6 +108,7 @@ buildConfig {
 
     sourceSets.named("androidMain") {
         buildConfigField("CLIENT_SECRET", "")
+        buildConfigField("MAL_CLIENT_ID", androidMalClientId)
     }
     sourceSets.named("iosMain") {
         buildConfigField("CLIENT_SECRET", "")

@@ -78,6 +78,24 @@ jobs:
           rm -f "$RUNNER_TEMP/signing-check.p12" "$RUNNER_TEMP/signing-check.log"
           echo "Private signing key successfully verified."
 
+      - name: Require the owner's MyAnimeList Client ID
+        env:
+          MAL_CLIENT_ID: ${{ secrets.MAL_CLIENT_ID }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -z "${MAL_CLIENT_ID:-}" ]]; then
+            echo "::error::Missing MAL_CLIENT_ID. Register your own MyAnimeList API application and add its Client ID in Settings > Secrets and variables > Actions. Redirect URI: moelist://moelist.page.link/"
+            exit 1
+          fi
+          case "$MAL_CLIENT_ID" in
+            *[!a-zA-Z0-9]*)
+              echo "::error::MAL_CLIENT_ID must contain only letters and digits. Copy only the client ID, not the label or URL."
+              exit 1
+              ;;
+          esac
+          echo "Custom MyAnimeList Client ID configured for this Android release."
+
       - name: Verify KirinMaL Android app identity
         shell: bash
         run: |
@@ -92,6 +110,7 @@ jobs:
 
       - name: Build signed production APKs
         env:
+          MAL_CLIENT_ID: ${{ secrets.MAL_CLIENT_ID }}
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
