@@ -34,6 +34,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.screens.editmedia.EditMediaSheet
+import com.axiel7.moelist.ui.composables.media.LocalMediaQuickEdit
 import com.axiel7.moelist.ui.base.navigation.NavActionManager
 import com.axiel7.moelist.ui.composables.LoadingDialog
 import com.axiel7.moelist.ui.theme.MoeListTheme
@@ -57,6 +58,9 @@ fun UserMediaListWithFabView(
 ) {
     val viewModel: UserMediaListViewModel = koinViewModel { parametersOf(mediaType) }
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val sharedEditor = LocalMediaQuickEdit.current
+    val editRevision = sharedEditor?.revision ?: 0
+    LaunchedEffect(editRevision) { if (editRevision > 0) viewModel.refreshList() }
 
     UserMediaListWithFabViewContent(
         uiState = uiState,

@@ -24,6 +24,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.model.ui.TabRowItem
 import com.axiel7.moelist.screens.editmedia.EditMediaSheet
+import com.axiel7.moelist.ui.composables.media.LocalMediaQuickEdit
 import com.axiel7.moelist.screens.userlist.composables.SetScoreDialog
 import com.axiel7.moelist.ui.base.model.ListStatus.Companion.listStatusValues
 import com.axiel7.moelist.ui.base.navigation.NavActionManager
@@ -78,6 +79,9 @@ fun UserMediaListWithTabsView(
                 parameters = { parametersOf(mediaType, listStatus) }
             )
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+            val sharedEditor = LocalMediaQuickEdit.current
+            val editRevision = sharedEditor?.revision ?: 0
+            LaunchedEffect(editRevision) { if (editRevision > 0) viewModel.refreshList() }
 
             if (uiState.openSetScoreDialog) {
                 SetScoreDialog(

@@ -5,6 +5,7 @@ import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.setValue
 import com.axiel7.moelist.data.model.media.BaseMyListStatus
 import com.axiel7.moelist.data.model.media.MediaType
@@ -17,6 +18,8 @@ class MediaQuickEditController {
         private set
 
     val statuses = mutableStateMapOf<Pair<MediaType, Int>, BaseMyListStatus?>()
+    var revision by mutableIntStateOf(0)
+        private set
 
     fun open(type: MediaType, id: Int) {
         if (id > 0) target = MediaQuickEditTarget(type, id)
@@ -26,6 +29,7 @@ class MediaQuickEditController {
 
     fun onEdited(type: MediaType, id: Int, status: BaseMyListStatus?, removed: Boolean) {
         statuses[type to id] = if (removed) null else status
+        revision++
         dismiss()
     }
 }
