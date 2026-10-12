@@ -5,7 +5,6 @@ on:
     branches: [main]
     paths:
       - 'version.properties'
-      - '.github/workflows/build-android.yml'
   workflow_dispatch:
 
 permissions:
@@ -56,6 +55,28 @@ jobs:
           printf '%s' "$SIGNING_BASE64" | base64 --decode > "$RUNNER_TEMP/KirinMaL-release.jks"
           test -s "$RUNNER_TEMP/KirinMaL-release.jks"
           echo "KEYSTORE_FILE=$RUNNER_TEMP/KirinMaL-release.jks" >> "$GITHUB_ENV"
+      - name: Validate signing keystore and private key
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          # Reading the alias alone does not verify the private-key password.
+          # Importing into an ephemeral PKCS12 file checks all four secrets.
+          if ! keytool -importkeystore -noprompt \
+            -srckeystore "$KEYSTORE_FILE" -srcstoretype JKS \
+            -srcstorepass:env KEYSTORE_PASSWORD -srckeypass:env KEY_PASSWORD \
+            -srcalias "$KEY_ALIAS" -destkeystore "$RUNNER_TEMP/signing-check.p12" \
+            -deststoretype PKCS12 -deststorepass:env KEYSTORE_PASSWORD \
+            > "$RUNNER_TEMP/signing-check.log" 2>&1; then
+            echo "::error::Keystore could not unlock the private key. Update the KEY_PASSWORD secret with the exact KEY_PASSWORD value in GitHub-Secrets-4-Kunci.txt from your private ZIP; check KEYSTORE_PASSWORD and KEY_ALIAS too."
+            exit 1
+          fi
+          rm -f "$RUNNER_TEMP/signing-check.p12" "$RUNNER_TEMP/signing-check.log"
+          echo "Private signing key successfully verified."
+
       - name: Build signed production APKs
         env:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
