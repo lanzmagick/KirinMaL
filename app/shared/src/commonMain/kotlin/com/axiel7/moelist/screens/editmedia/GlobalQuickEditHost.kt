@@ -40,7 +40,9 @@ fun GlobalQuickEditHost(controller: MediaQuickEditController) {
     var listStatus by remember(target) { mutableStateOf<BaseMyListStatus?>(null) }
     var loading by remember(target) { mutableStateOf(true) }
     var error by remember(target) { mutableStateOf<String?>(null) }
-    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    // Match the original MediaDetails editor: open as a half-height sheet.
+    // The user can drag it upwards to inspect additional fields if wanted.
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = false)
 
     LaunchedEffect(target) {
         loading = true
