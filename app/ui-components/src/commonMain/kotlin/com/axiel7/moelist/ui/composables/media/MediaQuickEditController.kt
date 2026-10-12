@@ -18,6 +18,25 @@ class MediaQuickEditController {
         private set
 
     val statuses = mutableStateMapOf<Pair<MediaType, Int>, BaseMyListStatus?>()
+    // An absent entry means UNKNOWN until all MAL list pages have synced.
+    val syncedTypes = mutableStateMapOf<MediaType, Boolean>()
+    private val editedKeys = mutableSetOf<Pair<MediaType, Int>>()
+
+    fun seedFromMal(type: MediaType, data: Map<Int, out BaseMyListStatus>) {
+        data.forEach { (id, status) ->
+            val key = type to id
+            if (key !in editedKeys) statuses[key] = status
+        }
+        syncedTypes[type] = true
+    }
+
+    fun resetForLogout() {
+        dismiss()
+        statuses.clear()
+        syncedTypes.clear()
+        editedKeys.clear()
+        revision = 0
+    }
     var revision by mutableIntStateOf(0)
         private set
 
@@ -28,6 +47,7 @@ class MediaQuickEditController {
     fun dismiss() { target = null }
 
     fun onEdited(type: MediaType, id: Int, status: BaseMyListStatus?, removed: Boolean) {
+        editedKeys.add(type to id)
         statuses[type to id] = if (removed) null else status
         revision++
         dismiss()
