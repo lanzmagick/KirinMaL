@@ -20,6 +20,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -47,6 +51,7 @@ import org.koin.compose.koinInject
 fun MediaRankingView(
     arguments: Route.MediaRanking,
     isCompactScreen: Boolean,
+    isCurrentRoute: Boolean = true,
     navActionManager: NavActionManager,
 ) {
     val type = arguments.mediaType
@@ -61,13 +66,21 @@ fun MediaRankingView(
     // The only extra tab is Genres, after Upcoming (Anime) or Favorite (Manga).
     val pager = rememberPagerState { rankings.size + 1 }
     val scope = rememberCoroutineScope()
+    // Saved at the ranking destination, not inside a disposable pager page.
+    // Preserve the genre when opening MAL details and navigating back.
+    var selectedGenreId by rememberSaveable(type) { mutableIntStateOf(0) }
+    val inGenreResults = pager.currentPage == rankings.size && selectedGenreId > 0
+    val returnToBento = { selectedGenreId = 0 }
+    // Only intercept Back while the RANKING route is actually on top.
+    // Otherwise Back from a media detail must pop the detail first.
+    GenreSystemBackHandler(enabled = isCurrentRoute && inGenreResults, onBack = returnToBento)
 
     DefaultScaffoldWithTopAppBar(
         title = stringResource(
             if (type == MediaType.ANIME) UiRes.string.anime_menu
             else UiRes.string.manga_menu
         ),
-        navigateBack = navActionManager::goBack,
+        navigateBack = { if (inGenreResults) returnToBento() else navActionManager.goBack() },
         contentWindowInsets = WindowInsets.systemBars
             .only(WindowInsetsSides.Horizontal),
     ) { padding ->
@@ -111,6 +124,8 @@ fun MediaRankingView(
                         type = type,
                         showAdult = showAdult,
                         api = api,
+                        selectedGenreId = selectedGenreId,
+                        onGenreSelected = { selectedGenreId = it },
                         navActionManager = navActionManager,
                     )
                 }

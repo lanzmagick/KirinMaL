@@ -43,7 +43,6 @@ import com.axiel7.moelist.data.model.genre.MalCategoryGroup
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.network.AniListMedia
 import com.axiel7.moelist.data.network.JikanApi
-import com.axiel7.moelist.screens.ranking.GenreSystemBackHandler
 import com.axiel7.moelist.ui.base.navigation.NavActionManager
 import com.axiel7.moelist.ui.composables.OnBottomReached
 import com.axiel7.moelist.ui.composables.media.MediaItemDetailed
@@ -58,11 +57,12 @@ fun AniListGenreBentoView(
     type: MediaType,
     showAdult: Boolean,
     api: JikanApi,
+    selectedGenreId: Int,
+    onGenreSelected: (Int) -> Unit,
     navActionManager: NavActionManager,
 ) {
     val catalog = remember(type) { MalAniListCatalog.forType(type) }
-    var selected by remember(type) { mutableStateOf<MalAniListCategory?>(null) }
-    GenreSystemBackHandler(enabled = selected != null) { selected = null }
+    val selected = catalog.firstOrNull { it.malGenreId == selectedGenreId }
     val visible = remember(catalog, showAdult) {
         catalog.filter { showAdult || !it.isAdult }
     }
@@ -93,7 +93,7 @@ fun AniListGenreBentoView(
                         key = { group.name + ":" + it.malGenreId },
                     ) { entry ->
                         Surface(
-                            onClick = { selected = entry },
+                            onClick = { onGenreSelected(entry.malGenreId) },
                             modifier = Modifier.fillMaxWidth().height(84.dp),
                             shape = RoundedCornerShape(22.dp),
                             color = MaterialTheme.colorScheme.primaryContainer,
