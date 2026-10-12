@@ -32,7 +32,12 @@ class EditMediaViewModel(
     override val mutableUiState = MutableStateFlow(EditMediaUiState(mediaType = mediaType))
 
     override fun setMediaInfo(value: BaseMediaNode) {
-        mutableUiState.update { it.copy(mediaInfo = value) }
+        // Reset stale status/score/progress when the shared sheet is opened for
+        // a different MAL entry (or an entry that was previously edited).
+        mutableUiState.value = EditMediaUiState(
+            mediaType = value.mediaType,
+            mediaInfo = value,
+        )
     }
 
     override fun setEditVariables(myListStatus: BaseMyListStatus) {
