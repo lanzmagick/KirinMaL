@@ -240,6 +240,7 @@ fun UserMediaListView(
                     UserListToolbar(
                         uiState = uiState,
                         event = event,
+                        navActionManager = navActionManager,
                         modifier = Modifier.padding(horizontal = 8.dp),
                     )
                 }
@@ -308,6 +309,7 @@ fun UserMediaListView(
                     UserListToolbar(
                         uiState = uiState,
                         event = event,
+                        navActionManager = navActionManager,
                         modifier = Modifier.padding(horizontal = 16.dp),
                     )
                 }
@@ -389,6 +391,7 @@ fun UserMediaListView(
                     UserListToolbar(
                         uiState = uiState,
                         event = event,
+                        navActionManager = navActionManager,
                         modifier = Modifier.padding(horizontal = 8.dp),
                     )
                 }

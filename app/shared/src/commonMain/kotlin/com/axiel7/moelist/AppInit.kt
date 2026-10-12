@@ -26,6 +26,7 @@ import com.axiel7.moelist.screens.details.MediaDetailsViewModel
 import com.axiel7.moelist.screens.editmedia.EditMediaViewModel
 import com.axiel7.moelist.screens.home.HomeViewModel
 import com.axiel7.moelist.screens.login.LoginViewModel
+import com.axiel7.moelist.screens.magic.MagicPickerViewModel
 import com.axiel7.moelist.screens.more.MoreViewModel
 import com.axiel7.moelist.screens.more.settings.SettingsViewModel
 import com.axiel7.moelist.screens.more.settings.list.ListStyleSettingsViewModel
@@ -89,6 +90,7 @@ fun initApp(
         viewModelOf(::MediaDetailsViewModel)
         viewModelOf(::EditMediaViewModel)
         viewModelOf(::HomeViewModel)
+        viewModelOf(::MagicPickerViewModel)
         viewModelOf(::MainViewModel)
         viewModelOf(::ListStyleSettingsViewModel)
         viewModelOf(::ProfileViewModel)

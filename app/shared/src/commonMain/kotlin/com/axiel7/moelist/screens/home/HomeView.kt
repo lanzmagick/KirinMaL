@@ -18,11 +18,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,7 +28,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -42,6 +38,8 @@ import com.axiel7.moelist.data.utils.SeasonCalendar
 import com.axiel7.moelist.screens.home.composables.AiringAnimeHorizontalItem
 import com.axiel7.moelist.screens.home.composables.HomeCard
 import com.axiel7.moelist.screens.home.composables.HomeMangaCarousel
+import com.axiel7.moelist.screens.magic.MagicPickerContext
+import com.axiel7.moelist.screens.magic.RandomMagicControls
 import com.axiel7.moelist.ui.base.model.ListStatus.Companion.toBo
 import com.axiel7.moelist.ui.base.navigation.NavActionManager
 import com.axiel7.moelist.ui.composables.HeaderHorizontalList
@@ -57,7 +55,6 @@ import com.axiel7.moelist.ui.generated.resources.UiRes
 import com.axiel7.moelist.ui.generated.resources.anime_menu
 import com.axiel7.moelist.ui.generated.resources.calendar
 import com.axiel7.moelist.ui.generated.resources.error_server
-import com.axiel7.moelist.ui.generated.resources.ic_round_casino_24
 import com.axiel7.moelist.ui.generated.resources.ic_round_event_24
 import com.axiel7.moelist.ui.generated.resources.ic_round_menu_book_24
 import com.axiel7.moelist.ui.generated.resources.ic_round_movie_24
@@ -65,7 +62,6 @@ import com.axiel7.moelist.ui.generated.resources.manga_menu
 import com.axiel7.moelist.ui.generated.resources.no_recommendations
 import com.axiel7.moelist.ui.generated.resources.nothing_today
 import com.axiel7.moelist.ui.generated.resources.please_login_to_use_this_feature
-import com.axiel7.moelist.ui.generated.resources.random
 import com.axiel7.moelist.ui.generated.resources.recommendations
 import com.axiel7.moelist.ui.generated.resources.seasonal_chart
 import com.axiel7.moelist.ui.generated.resources.today
@@ -73,7 +69,6 @@ import com.axiel7.moelist.ui.theme.MoeListTheme
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import kotlin.random.Random
 
 @Composable
 fun HomeView(
@@ -103,7 +98,6 @@ fun HomeView(
     )
 }
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 private fun HomeViewContent(
     uiState: HomeUiState,
@@ -439,34 +433,23 @@ imageUrl = it.node.mainPicture?.large,
         MangaSection(HomeMangaSection.POPULAR)
         MangaSection(HomeMangaSection.TOP_RATED)
 
-        Row(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 16.dp),
-            horizontalArrangement = Arrangement.Center
+                .padding(horizontal = 16.dp, vertical = 16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            //Random
-            OutlinedButton(
-                onClick = dropUnlessResumed {
-                    val type = if (Random.nextBoolean()) MediaType.ANIME else MediaType.MANGA
-                    val id = Random.nextInt(from = 0, until = 6000)
-                    navActionManager.toMediaDetails(type, id)
-                },
-                shapes = ButtonDefaults.shapes(),
-            ) {
-                Icon(
-                    painter = painterResource(UiRes.drawable.ic_round_casino_24),
-                    contentDescription = stringResource(UiRes.string.random),
-                    modifier = Modifier
-                        .padding(end = 8.dp)
-                        .size(18.dp)
-                )
-                Text(
-                    text = stringResource(UiRes.string.random),
-                    overflow = TextOverflow.Ellipsis,
-                    maxLines = 1
-                )
-            }
+            RandomMagicControls(
+                context = MagicPickerContext(MediaType.ANIME),
+                homeStyle = true,
+                onOpen = { navActionManager.toMediaDetails(MediaType.ANIME, it.id) },
+            )
+            RandomMagicControls(
+                context = MagicPickerContext(MediaType.MANGA),
+                homeStyle = true,
+                onOpen = { navActionManager.toMediaDetails(MediaType.MANGA, it.id) },
+            )
         }
     }
 }

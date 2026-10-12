@@ -30,6 +30,17 @@
     <string name="home_popular_manga">Popular Manga</string>
     <string name="home_top_rated_manga">Top Rated Manga</string>
     <string name="no_reading_manga">Your Reading list is empty</string>
+    <string name="magic">Magic</string>
+    <string name="magic_anime">Magic Anime</string>
+    <string name="magic_manga">Magic Manga</string>
+    <string name="random_anime">Random Anime</string>
+    <string name="random_manga">Random Manga</string>
+    <string name="magic_surprise">A surprise for you</string>
+    <string name="magic_picking">Finding your surprise…</string>
+    <string name="magic_empty">No titles match this selection</string>
+    <string name="magic_unavailable">Could not load a surprise. Try again.</string>
+    <string name="magic_again">Surprise me again</string>
+    <string name="magic_open">Open info</string>
     <string name="title_profile">Profile</string>
     <string name="cancel">Cancel</string>
     <string name="apply">Apply</string>
