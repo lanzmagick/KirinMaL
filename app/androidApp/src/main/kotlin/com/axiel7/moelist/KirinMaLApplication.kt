@@ -11,7 +11,7 @@ import dev.brewkits.kmpworkmanager.background.domain.AndroidWorkerFactory
 import org.koin.android.ext.koin.androidContext
 import org.publicvalue.multiplatform.oidc.appsupport.AndroidCodeAuthFlowFactory
 
-class MoeListApplication : Application() {
+class KirinMaLApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
@@ -22,7 +22,7 @@ class MoeListApplication : Application() {
             context = applicationContext,
             codeAuthFlowFactory = AndroidCodeAuthFlowFactory()
         ).apply {
-            androidContext(this@MoeListApplication)
+            androidContext(this@KirinMaLApplication)
         }
         KmpWorkManager.initialize(
             context = this,

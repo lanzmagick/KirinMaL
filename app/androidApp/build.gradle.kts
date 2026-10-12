@@ -54,7 +54,7 @@ android {
         versionCode = versionProps.getProperty("code").toInt()
         versionName = versionProps.getProperty("name")
         addManifestPlaceholders(
-            mapOf("oidcRedirectScheme" to "moelist")
+            mapOf("oidcRedirectScheme" to "kirinmal")
         )
     }
 

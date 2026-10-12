@@ -17,7 +17,7 @@
     <uses-sdk tools:overrideLibrary="dev.brewkits.kmpworkmanager" />
 
     <application
-        android:name="com.axiel7.moelist.MoeListApplication"
+        android:name="com.axiel7.moelist.KirinMaLApplication"
         android:allowBackup="true"
         android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher"

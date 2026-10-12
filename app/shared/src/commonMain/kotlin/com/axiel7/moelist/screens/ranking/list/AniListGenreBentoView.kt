@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -70,9 +70,9 @@ fun AniListGenreBentoView(
         catalog.filter { showAdult || !it.isAdult }
     }
 
-    // Keep the final MAL category (Explicit) fully scrollable ABOVE Android's
-    // system navigation / gesture area on both anime and manga screens.
-    val navigationBarBottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+    // Keep Explicit fully above the phone's gesture/navigation bar with a visible
+    // resting gap in both Anime and Manga. The system inset alone is not enough.
+    val safeBottom = WindowInsets.safeDrawing.asPaddingValues().calculateBottomPadding()
 
     if (selected == null) {
         LazyVerticalGrid(
@@ -82,7 +82,7 @@ fun AniListGenreBentoView(
                 start = 12.dp,
                 top = 12.dp,
                 end = 12.dp,
-                bottom = navigationBarBottom + 40.dp,
+                bottom = safeBottom + 80.dp,
             ),
             verticalArrangement = Arrangement.spacedBy(10.dp),
             horizontalArrangement = Arrangement.spacedBy(10.dp),
@@ -142,7 +142,7 @@ fun AniListGenreBentoView(
                 showAdult = showAdult,
                 api = api,
                 navActionManager = navActionManager,
-                bottomContentPadding = navigationBarBottom + 32.dp,
+                bottomContentPadding = safeBottom + 64.dp,
             )
         }
     }
