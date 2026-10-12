@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
+import androidx.compose.foundation.Image
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -18,6 +18,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.dropUnlessResumed
@@ -37,7 +38,7 @@ import com.axiel7.moelist.ui.generated.resources.app_name
 import com.axiel7.moelist.ui.generated.resources.feedback
 import com.axiel7.moelist.ui.generated.resources.ic_campaign
 import com.axiel7.moelist.ui.generated.resources.ic_info
-import com.axiel7.moelist.ui.generated.resources.ic_moelist_logo
+import com.axiel7.moelist.ui.generated.resources.kirinmal_logo
 import com.axiel7.moelist.ui.generated.resources.ic_new_releases
 import com.axiel7.moelist.ui.generated.resources.ic_round_feedback_24
 import com.axiel7.moelist.ui.generated.resources.ic_round_power_settings_new_24
@@ -123,14 +124,14 @@ private fun MoreViewContent(
             .verticalScroll(scrollState)
             .padding(padding)
     ) {
-        Icon(
-            painter = painterResource(UiRes.drawable.ic_moelist_logo),
+        Image(
+            painter = painterResource(UiRes.drawable.kirinmal_logo),
             contentDescription = stringResource(UiRes.string.app_name),
             modifier = Modifier
-                .padding(vertical = 24.dp)
+                .padding(vertical = 16.dp)
                 .fillMaxWidth()
-                .height(60.dp),
-            tint = MaterialTheme.colorScheme.onSurface
+                .height(100.dp),
+            contentScale = ContentScale.Fit,
         )
 
         HorizontalDivider()

@@ -37,6 +37,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.dropUnlessResumed
 import com.axiel7.moelist.data.model.media.MediaType
+import com.axiel7.moelist.screens.ranking.GenreSystemBackHandler
 import com.axiel7.moelist.data.network.AniListCatalogApi
 import com.axiel7.moelist.data.network.AniListMedia
 import com.axiel7.moelist.data.network.JikanApi
@@ -59,6 +60,10 @@ fun AniListGenreBentoView(
     val defaults = remember { AniListCatalogApi.offlineGenres }
     var genres by remember { mutableStateOf(defaults) }
     var selectedGenre by remember(type) { mutableStateOf<String?>(null) }
+    // Android hardware/system Back closes only the selected genre first.
+    GenreSystemBackHandler(enabled = selectedGenre != null) {
+        selectedGenre = null
+    }
     var catalogError by remember { mutableStateOf<String?>(null) }
     var catalogRetry by remember { mutableIntStateOf(0) }
 
@@ -129,13 +134,10 @@ fun AniListGenreBentoView(
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                TextButton(onClick = { selectedGenre = null }) {
-                    Text("‹ Genres")
-                }
                 Text(
                     text = genre,
                     style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.padding(start = 8.dp),
+                    modifier = Modifier.padding(vertical = 10.dp),
                 )
             }
             AniListGenreMediaList(
