@@ -1,0 +1,32 @@
+name: Sync KirinMaL Release Notes
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/releases/v1.0.0.md'
+      - '.github/workflows/sync-release-notes.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: kirinmal-release-notes-v1.0.0
+  cancel-in-progress: true
+
+jobs:
+  update:
+    name: Update v1.0.0 GitHub Release description
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update published first-release notes (no APK rebuild)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          gh release view v1.0.0 --repo "$GITHUB_REPOSITORY" >/dev/null
+          gh release edit v1.0.0 \
+            --repo "$GITHUB_REPOSITORY" \
+            --notes-file docs/releases/v1.0.0.md

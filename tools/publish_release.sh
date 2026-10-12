@@ -80,6 +80,11 @@ notes="$tmp/release-notes.md"
   git log -n 5 --format='- %h %s (%cs)' || true
 } > "$notes"
 
+# Keep curated notes for stable versions, not just the latest five commits.
+if [ "$tag" != "development" ] && [ -f "docs/releases/$tag.md" ]; then
+  cp "docs/releases/$tag.md" "$notes"
+fi
+
 set -- "$tmp"/*
 # The release notes are for GitHub, not downloadable assets.
 for file in "$@"; do
