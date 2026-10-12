@@ -19,7 +19,7 @@
 
 **[KirinMaL Stable Releases](https://github.com/lanzmagick/KirinMaL/releases)**
 
-The first public production build is **v1.0.0**, signed using the project owner's private Android keystore. No debug APKs are published. Only signed APKs appear in GitHub Releases, never in Actions artifacts.
+**v1.0.1** uses KirinMaL’s own Android application ID (`com.lanzmagick.kirinmal`). It installs separately from MoeList (`com.axiel7.moelist`) and earlier KirinMaL releases. No debug APKs are published; signed APKs are distributed through GitHub Releases.
 
 ## Build (Android)
 
@@ -31,7 +31,7 @@ CLIENT_SECRET=""
 
 To publish **signed** APKs, set the four GitHub Actions repository secrets `KEYSTORE_FILE` (base64-encoded keystore), `KEYSTORE_PASSWORD`, `KEY_ALIAS` and `KEY_PASSWORD`. Then use **Actions → KirinMaL Signed Release → Run workflow**. Keep the keystore safely offline for future updates; do not commit secrets.
 
-See [Release signing instructions](docs/ANDROID_RELEASE.md). Internal package identifiers remain unchanged to preserve MAL OAuth compatibility.
+See [Release signing instructions](docs/ANDROID_RELEASE.md). The **Android application ID is KirinMaL-specific**. The internal Kotlin namespace and MyAnimeList OAuth redirect URI (`moelist://moelist.page.link/`) remain unchanged for compatibility. After installing v1.0.1, log into MAL again; it does not inherit the old app’s local data.
 
 ## Credits & License
 

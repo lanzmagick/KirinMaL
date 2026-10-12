@@ -77,6 +77,18 @@ jobs:
           rm -f "$RUNNER_TEMP/signing-check.p12" "$RUNNER_TEMP/signing-check.log"
           echo "Private signing key successfully verified."
 
+      - name: Verify KirinMaL Android app identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -Fq 'applicationId = "com.lanzmagick.kirinmal"' app/androidApp/build.gradle.kts
+          if grep -Fq 'android:targetPackage="com.axiel7.moelist"' app/androidApp/src/main/res/xml-v25/shortcuts.xml; then
+            echo "::error::An Android shortcut still launches the original MoeList package"
+            exit 1
+          fi
+          grep -Fq 'android:targetPackage="com.lanzmagick.kirinmal"' app/androidApp/src/main/res/xml-v25/shortcuts.xml
+          echo "KirinMaL has its own Android package ID."
+
       - name: Build signed production APKs
         env:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}

@@ -1,6 +1,6 @@
-# KirinMaL — Android Stable Release v1.0.0
+# KirinMaL — Android Signed Releases
 
-This is the project's **first public signed release**. Builds are distributed through **GitHub Releases**, never as debug APKs or Actions artifacts.
+The first public signed release was v1.0.0. **v1.0.1** introduces a distinct Android application ID. Builds are distributed through **GitHub Releases**, never as debug APKs or Actions artifacts.
 
 ## Four GitHub Actions secrets
 
@@ -19,9 +19,9 @@ These values come from the owner's privately provided **KirinMaL-4-Kunci-Release
 2. Set all four secrets.
 3. Go to **Actions → KirinMaL Signed Release → Run workflow → main**.
 4. Wait for **Build signed production APKs**, **Verify every APK has an Android release signature**, and **Publish KirinMaL first stable release** to succeed.
-5. Open **Releases → v1.0.0** and download the matching device APK. The draft only becomes public **after** signed APKs have been uploaded and verified.
+5. Open **Releases → v1.0.1** and download the matching device APK. The draft only becomes public **after** signed APKs have been uploaded and verified.
 6. The old `development` release containing debug APKs is removed during first-release preparation or successful signed publication.
 
 The `Verify KirinMaL Android Release` workflow compiles an **unsigned test release** on pushes to check Kotlin/Android compilation; it **never publishes APKs**.
 
-**Important:** The production application ID is still `com.axiel7.moelist` for MAL login compatibility. A debug APK used the separate `.debug` package and is not an in-place upgrade to the stable package. Do not uninstall an old installation until any locally stored app data is backed up.
+**Android identity:** From v1.0.1 onwards the release `applicationId` is `com.lanzmagick.kirinmal`. Older v1.0.0 packages and MoeList use `com.axiel7.moelist`, so this is a **separate installation**, not an overwrite or automatic migration. The internal Android/Kotlin namespace remains `com.axiel7.moelist` because it is code-only; Android resolves launcher activities with fully qualified class names. Shortcuts explicitly target the new application ID. The MAL OAuth redirect `moelist://moelist.page.link/` remains unchanged to avoid invalidating the existing MAL OAuth client registration. The user must sign into MAL again and may need to choose the right app if other apps register the same redirect scheme. Back up any local-only data before removing old installations.

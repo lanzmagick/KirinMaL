@@ -17,7 +17,7 @@
     <uses-sdk tools:overrideLibrary="dev.brewkits.kmpworkmanager" />
 
     <application
-        android:name=".MoeListApplication"
+        android:name="com.axiel7.moelist.MoeListApplication"
         android:allowBackup="true"
         android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher"
@@ -29,7 +29,7 @@
         tools:targetApi="33">
         <activity
             android:exported="true"
-            android:name=".MainActivity"
+            android:name="com.axiel7.moelist.MainActivity"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -75,7 +75,7 @@
 
 
         <receiver
-            android:name=".widget.AiringWidgetReceiver"
+            android:name="com.axiel7.moelist.widget.AiringWidgetReceiver"
             android:enabled="@bool/glance_appwidget_available"
             android:exported="false">
             <intent-filter>
