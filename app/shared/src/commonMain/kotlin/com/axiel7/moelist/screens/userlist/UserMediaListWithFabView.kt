@@ -91,6 +91,7 @@ private fun UserMediaListWithFabViewContent(
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     val haptic = LocalHapticFeedback.current
+    val sharedEditor = LocalMediaQuickEdit.current
 
     val editSheetState = rememberModalBottomSheetState()
     var showEditSheet by remember { mutableStateOf(false) }
