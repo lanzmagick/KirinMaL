@@ -63,7 +63,7 @@ fun MediaItemDetailed(
     } else null
     val badgeAction = onBadgeClick ?: editAction
     val cached = canEdit && editor!!.statuses.containsKey(key)
-    val synced = canEdit && editor!!.syncedTypes[mediaType] == true
+    val synced = canEdit && editor!!.syncedTypes[key!!.first] == true
     val malStatus = if (cached) editor!!.statuses[key]?.status?.toBo() else null
     Card(
         modifier = Modifier
