@@ -45,6 +45,7 @@
     <string name="settings">Settings</string>
     <string name="anime_ranking">Anime Ranking</string>
     <string name="anime_menu">Anime Menu</string>
+    <string name="genres_menu">Genres</string>
     <string name="manga_menu">Manga Menu</string>
     <string name="manga_ranking">Manga Ranking</string>
     <string name="seasonal_chart">Seasonal Chart</string>

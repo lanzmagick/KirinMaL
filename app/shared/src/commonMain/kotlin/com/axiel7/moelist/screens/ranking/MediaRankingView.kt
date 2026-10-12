@@ -17,40 +17,30 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.axiel7.moelist.data.model.genre.JikanGenre
-import com.axiel7.moelist.data.model.genre.MalGenreDefaults
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.model.media.RankingType
 import com.axiel7.moelist.data.model.media.RankingType.Companion.rankingAnimeValues
 import com.axiel7.moelist.data.model.media.RankingType.Companion.rankingMangaValues
 import com.axiel7.moelist.data.network.JikanApi
 import com.axiel7.moelist.data.repository.DefaultPreferencesRepository
-import com.axiel7.moelist.screens.ranking.list.GenreCatalogListView
+import com.axiel7.moelist.screens.ranking.list.AniListGenreBentoView
 import com.axiel7.moelist.screens.ranking.list.MediaRankingListView
 import com.axiel7.moelist.ui.base.navigation.NavActionManager
 import com.axiel7.moelist.ui.base.navigation.Route
 import com.axiel7.moelist.ui.composables.DefaultScaffoldWithTopAppBar
 import com.axiel7.moelist.ui.generated.resources.UiRes
 import com.axiel7.moelist.ui.generated.resources.anime_menu
+import com.axiel7.moelist.ui.generated.resources.genres_menu
 import com.axiel7.moelist.ui.generated.resources.manga_menu
-import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
-
-private data class CatalogTab(
-    val ranking: RankingType? = null,
-    val genre: JikanGenre? = null,
-)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -59,45 +49,22 @@ fun MediaRankingView(
     isCompactScreen: Boolean,
     navActionManager: NavActionManager,
 ) {
-    val mediaType = arguments.mediaType
-    val snackbarHostState = remember { SnackbarHostState() }
+    val type = arguments.mediaType
+    val snackbar = remember { SnackbarHostState() }
     val api: JikanApi = koinInject()
     val preferences: DefaultPreferencesRepository = koinInject()
     val showAdult by preferences.nsfw.collectAsStateWithLifecycle(initialValue = true)
-    // Show every MAL genre immediately after the ranking tabs, even offline.
-    val defaults = remember(mediaType) { MalGenreDefaults.forType(mediaType) }
-    var genres by remember(mediaType) { mutableStateOf(defaults) }
-
-    LaunchedEffect(mediaType) {
-        try {
-            val live = api.getGenres(mediaType).data
-                .filter { it.malId > 0 && it.name.isNotBlank() }
-            if (live.isNotEmpty()) {
-                genres = (defaults + live)
-                    .associateBy { it.malId }
-                    .values
-                    .sortedWith(compareBy<JikanGenre> { it.isAdult }.thenBy { it.name })
-            }
-        } catch (e: CancellationException) {
-            throw e
-        } catch (_: Exception) {
-            // KirinNime-style catalog fallback: keep tabs visible on Jikan failure.
-        }
-    }
-
-    val rankings = remember(mediaType) {
-        if (mediaType == MediaType.ANIME) rankingAnimeValues.toList()
+    val rankings = remember(type) {
+        if (type == MediaType.ANIME) rankingAnimeValues.toList()
         else rankingMangaValues.toList()
     }
-    val visibleGenres = if (showAdult) genres else genres.filterNot { it.isAdult }
-    val tabs = rankings.map { CatalogTab(ranking = it) } +
-        visibleGenres.map { CatalogTab(genre = it) }
-    val pagerState = rememberPagerState { tabs.size }
+    // The only extra tab is Genres, after Upcoming (Anime) or Favorite (Manga).
+    val pager = rememberPagerState { rankings.size + 1 }
     val scope = rememberCoroutineScope()
 
     DefaultScaffoldWithTopAppBar(
         title = stringResource(
-            if (mediaType == MediaType.ANIME) UiRes.string.anime_menu
+            if (type == MediaType.ANIME) UiRes.string.anime_menu
             else UiRes.string.manga_menu
         ),
         navigateBack = navActionManager::goBack,
@@ -106,50 +73,46 @@ fun MediaRankingView(
     ) { padding ->
         Column(Modifier.fillMaxSize().padding(padding)) {
             PrimaryScrollableTabRow(
-                selectedTabIndex = pagerState.currentPage.coerceAtMost(tabs.lastIndex),
+                selectedTabIndex = pager.currentPage,
                 edgePadding = 12.dp,
                 divider = {},
             ) {
-                tabs.forEachIndexed { index, tab ->
+                rankings.forEachIndexed { index, tab ->
                     Tab(
-                        selected = pagerState.currentPage == index,
-                        onClick = { scope.launch { pagerState.scrollToPage(index) } },
-                        text = {
-                            Text(
-                                text = tab.ranking?.localized() ?: tab.genre?.name.orEmpty(),
-                                maxLines = 1,
-                            )
-                        },
+                        selected = pager.currentPage == index,
+                        onClick = { scope.launch { pager.animateScrollToPage(index) } },
+                        text = { Text(tab.localized(), maxLines = 1) },
                         unselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 }
+                Tab(
+                    selected = pager.currentPage == rankings.size,
+                    onClick = { scope.launch { pager.animateScrollToPage(rankings.size) } },
+                    text = { Text(stringResource(UiRes.string.genres_menu)) },
+                    unselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
             }
             HorizontalDivider()
             HorizontalPager(
-                state = pagerState,
+                state = pager,
                 modifier = Modifier.fillMaxSize(),
                 beyondViewportPageCount = 0,
-            ) { page ->
-                when (val tab = tabs.getOrNull(page)) {
-                    null -> Unit
-                    else -> if (tab.ranking != null) {
-                        MediaRankingListView(
-                            arguments = arguments,
-                            rankingType = tab.ranking,
-                            isCompactScreen = isCompactScreen,
-                            snackbarHostState = snackbarHostState,
-                            navActionManager = navActionManager,
-                        )
-                    } else if (tab.genre != null) {
-                        GenreCatalogListView(
-                            genre = tab.genre,
-                            mediaType = mediaType,
-                            isCompactScreen = isCompactScreen,
-                            showAdult = showAdult,
-                            api = api,
-                            navActionManager = navActionManager,
-                        )
-                    }
+            ) { index ->
+                if (index < rankings.size) {
+                    MediaRankingListView(
+                        arguments = arguments,
+                        rankingType = rankings[index],
+                        isCompactScreen = isCompactScreen,
+                        snackbarHostState = snackbar,
+                        navActionManager = navActionManager,
+                    )
+                } else {
+                    AniListGenreBentoView(
+                        type = type,
+                        showAdult = showAdult,
+                        api = api,
+                        navActionManager = navActionManager,
+                    )
                 }
             }
         }

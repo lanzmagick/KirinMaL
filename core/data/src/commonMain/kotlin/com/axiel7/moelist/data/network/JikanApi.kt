@@ -2,8 +2,6 @@ package com.axiel7.moelist.data.network
 
 import com.axiel7.moelist.data.model.Response
 import com.axiel7.moelist.data.model.UserStats
-import com.axiel7.moelist.data.model.genre.JikanGenreMediaResponse
-import com.axiel7.moelist.data.model.genre.JikanGenreResponse
 import com.axiel7.moelist.data.model.media.MediaType
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -11,7 +9,6 @@ import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.get
 import io.ktor.client.request.header
-import io.ktor.client.request.parameter
 import io.ktor.http.HttpHeaders
 import io.ktor.http.encodeURLPathPart
 import io.ktor.serialization.kotlinx.json.json
@@ -49,26 +46,15 @@ class JikanApi(client: HttpClient) {
             header(HttpHeaders.Accept, "application/json")
         }.body()
 
-    /** Live taxonomy, backed by a local MAL genre-ID snapshot in the menu. */
-    suspend fun getGenres(mediaType: MediaType): JikanGenreResponse =
-        publicClient.get("${JIKAN_API_URL}genres/${mediaType.name.lowercase()}") {
-            header(HttpHeaders.Accept, "application/json")
-        }.body()
+    // Shared public client is isolated from MyAnimeList OAuth headers.
+    private val aniList by lazy { AniListCatalogApi(publicClient) }
 
-    /** True MAL genre ID filter; sfw=false permits explicit categories. */
-    suspend fun getGenreMedia(
-        mediaType: MediaType,
-        genreId: Int,
+    suspend fun getAniListGenres(): List<String> = aniList.genres()
+
+    suspend fun getAniListGenreMedia(
+        type: MediaType,
+        genre: String,
         page: Int,
         showAdult: Boolean,
-    ): JikanGenreMediaResponse =
-        publicClient.get("${JIKAN_API_URL}${mediaType.name.lowercase()}") {
-            header(HttpHeaders.Accept, "application/json")
-            parameter("genres", genreId)
-            parameter("page", page)
-            parameter("limit", 25)
-            parameter("sfw", !showAdult)
-            parameter("order_by", "popularity")
-            parameter("sort", "asc")
-        }.body()
+    ): AniListCatalogPage = aniList.media(type, genre, page, showAdult)
 }

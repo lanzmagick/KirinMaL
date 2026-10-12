@@ -5,7 +5,7 @@
 ## Features
 
 - Track anime and manga with your MyAnimeList account.
-- Anime Menu and Manga Menu with MAL ranking and genre tabs (including adult genres when NSFW is enabled).
+- Anime Menu and Manga Menu: MAL rankings plus one AniList-powered bento Genres tab. Only MAL-linked titles open the MAL editor, so tracking remains in MyAnimeList.
 - Seasonal anime, calendar and recommendations, with a pinned Home search bar.
 - Anime & Manga Stats inspired by KirinNime, including progress and reading/watching totals.
 - Optional NSFW visibility (enabled by default for new installs; switch it off in Settings).
