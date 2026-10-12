@@ -17,9 +17,9 @@
 
 ## Download
 
-**[Get the latest Development APK](https://github.com/lanzmagick/KirinMaL/releases/tag/development)** · [All Releases](https://github.com/lanzmagick/KirinMaL/releases)
+**[KirinMaL Stable Releases](https://github.com/lanzmagick/KirinMaL/releases)**
 
-Development APKs are test builds; device installation and MAL login are not yet fully verified. Builds are published to **GitHub Releases**, not Actions artifacts.
+The first public production build is **v1.0.0**, signed using the project owner's private Android keystore. No debug APKs are published. Only signed APKs appear in GitHub Releases, never in Actions artifacts.
 
 ## Build (Android)
 
@@ -29,13 +29,9 @@ Requires **JDK 21** and the Android SDK. Create `private.properties` at the repo
 CLIENT_SECRET=""
 ```
 
-Then run:
+To publish **signed** APKs, set the four GitHub Actions repository secrets `KEYSTORE_FILE` (base64-encoded keystore), `KEYSTORE_PASSWORD`, `KEY_ALIAS` and `KEY_PASSWORD`. Then use **Actions → KirinMaL Signed Release → Run workflow**. Keep the keystore safely offline for future updates; do not commit secrets.
 
-```bash
-./gradlew :app:androidApp:assembleDebug
-```
-
-See [GitHub Actions](https://github.com/lanzmagick/KirinMaL/actions) for build results. Internal package identifiers remain unchanged to preserve MAL OAuth compatibility.
+See [Release signing instructions](docs/ANDROID_RELEASE.md). Internal package identifiers remain unchanged to preserve MAL OAuth compatibility.
 
 ## Credits & License
 

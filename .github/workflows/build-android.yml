@@ -1,66 +1,116 @@
-name: KirinMaL Android APK Release
+name: KirinMaL Signed Release
 
 on:
   push:
-    paths:
-      - 'version.properties'
+    branches: [main]
+    paths: ['version.properties']
   workflow_dispatch:
-    inputs:
-      single_apk:
-        description: 'Build only the universal apk'
-        type: boolean
-
-env:
-  BRANCH_NAME: ${{ github.base_ref || github.ref_name }}
 
 permissions:
   contents: write
 
+concurrency:
+  group: kirinmal-stable-release
+  cancel-in-progress: false
+
 jobs:
-  build:
+  prepare:
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
-
-      - name: Decode Keystore File
-        uses: timheuer/base64-to-file@v2
-        id: android_keystore
-        with:
-          fileName: "android_keystore.keystore"
-          encodedString: ${{secrets.KEYSTORE_FILE}}
-      
-      - name: Accept Android SDK license
-        run: yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
-
-      - name: Set up JDK
-        uses: actions/setup-java@v5
-        with:
-          java-version: 21
-          distribution: temurin
-
-      - if: ${{ inputs.single_apk == true || env.BRANCH_NAME == 'develop' }}
-        run: sed -i -e '/isEnable/s/true/false/' app/androidApp/build.gradle.kts
-
-      - name: Set MAL Client Secret ID
-        run: touch private.properties && echo 'CLIENT_SECRET=""' > private.properties
-
-      - name: Make gradlew executable
-        run: chmod +x ./gradlew
-
-      - name: Build Android release
-        run: fastlane release
-        env:
-          KEYSTORE_FILE: ${{steps.android_keystore.outputs.filePath}}
-          KEYSTORE_PASSWORD: ${{secrets.KEYSTORE_PASSWORD}}
-          KEY_ALIAS: ${{secrets.KEY_ALIAS}}
-          KEY_PASSWORD: ${{secrets.KEY_PASSWORD}}
-
-      - name: Publish signed APK to versioned GitHub Release
+      - uses: actions/checkout@v4
+      - name: Prepare first stable release draft and remove old debug release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
         run: |
+          set -euo pipefail
           version="$(awk -F= '/^name[[:space:]]*=/ {gsub(/[[:space:]]/, "", $2); print $2; exit}' version.properties)"
-          test -n "$version" || { echo "Missing version in version.properties"; exit 1; }
+          test -n "$version"
+          tag="v$version"
+          if ! gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release create "$tag" --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
+              --draft --title "KirinMaL $tag" \
+              --notes "First KirinMaL Android stable release. Signed APK will be attached after the four repository signing secrets are configured and the Signed Release workflow is run."
+          fi
+          # User requested removal of the old rolling debug distribution.
+          if gh release view development --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release delete development --cleanup-tag --yes --repo "$GITHUB_REPOSITORY"
+          fi
+
+  signed-release:
+    if: github.event_name == 'workflow_dispatch'
+    name: Build and publish signed Android APK
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+      - name: Prepare app resources
+        run: |
+          printf 'CLIENT_SECRET=""\n' > private.properties
+          chmod +x ./gradlew
+          python3 -m pip install --disable-pip-version-check pillow
+          python3 tools/generate_brand_assets.py
+      - name: Restore private signing keystore
+        env:
+          SIGNING_BASE64: ${{ secrets.KEYSTORE_FILE }}
+          SIGNING_STORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          SIGNING_KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          SIGNING_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          for name in SIGNING_BASE64 SIGNING_STORE_PASSWORD SIGNING_KEY_ALIAS SIGNING_KEY_PASSWORD; do
+            if [[ -z "${!name:-}" ]]; then
+              echo "::error::Missing signing secret: $name. Add all four values from your private signing ZIP in Settings > Secrets and variables > Actions."
+              exit 1
+            fi
+          done
+          umask 077
+          printf '%s' "$SIGNING_BASE64" | base64 --decode > "$RUNNER_TEMP/KirinMaL-release.jks"
+          test -s "$RUNNER_TEMP/KirinMaL-release.jks"
+          echo "KEYSTORE_FILE=$RUNNER_TEMP/KirinMaL-release.jks" >> "$GITHUB_ENV"
+      - name: Build signed production APKs
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: ./gradlew :app:androidApp:assembleRelease --no-daemon --no-configuration-cache --stacktrace
+      - name: Verify every APK has an Android release signature
+        shell: bash
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          apks=(app/androidApp/build/outputs/apk/release/*.apk)
+          test "${#apks[@]}" -gt 0 || { echo "::error::No release APKs produced"; exit 1; }
+          tool="$(find "$ANDROID_HOME/build-tools" -maxdepth 2 -name apksigner -type f | sort -V | tail -n 1)"
+          test -n "$tool"
+          for apk in "${apks[@]}"; do
+            "$tool" verify --verbose --print-certs "$apk" > "$RUNNER_TEMP/apk-signature-report.txt"
+            grep -q 'Verified using v2 scheme (APK Signature Scheme v2): true' "$RUNNER_TEMP/apk-signature-report.txt" || {
+              echo "::error::APK lacks v2 release signature: $apk"; exit 1;
+            }
+            echo "Verified signed release: $(basename "$apk")"
+          done
+      - name: Publish KirinMaL first stable release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          version="$(awk -F= '/^name[[:space:]]*=/ {gsub(/[[:space:]]/, "", $2); print $2; exit}' version.properties)"
+          test -n "$version"
           bash tools/publish_release.sh "v$version" android-release app/androidApp/build/outputs/apk/release/*.apk
+          # Remove the old debug release only after a signed stable APK exists.
+          if gh release view development --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release delete development --cleanup-tag --yes --repo "$GITHUB_REPOSITORY"
+          fi

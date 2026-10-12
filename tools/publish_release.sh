@@ -36,13 +36,8 @@ for src in "$@"; do
   base="$(basename "$src")"
   case "$channel" in
     android-debug)
-      case "$base" in
-        *arm64-v8a*) asset="KirinMaL-debug-arm64-v8a.apk" ;;
-        *armeabi-v7a*) asset="KirinMaL-debug-armeabi-v7a.apk" ;;
-        *x86_64*) asset="KirinMaL-debug-x86_64.apk" ;;
-        *x86*) asset="KirinMaL-debug-x86.apk" ;;
-        *) asset="KirinMaL-debug-universal.apk" ;;
-      esac
+      echo "Debug APK publication is disabled; only signed release APKs are accepted." >&2
+      exit 2
       ;;
     windows)
       asset="KirinMaL-windows-$index.msi"
@@ -96,7 +91,7 @@ for file in "$@"; do
   if [ "$tag" = "development" ]; then
     gh release create "$tag" --target "$revision" --repo "$repo" --title "KirinMaL Development" --prerelease --notes-file "$notes"
   else
-    gh release create "$tag" --target "$revision" --repo "$repo" --title "$title" --notes-file "$notes"
+    gh release create "$tag" --target "$revision" --repo "$repo" --title "$title" --draft --notes-file "$notes"
   fi
   break
 done
@@ -109,6 +104,6 @@ done
 if [ "$tag" = "development" ]; then
   gh release edit "$tag" --repo "$repo" --title "KirinMaL Development" --prerelease --notes-file "$notes"
 else
-  gh release edit "$tag" --repo "$repo" --notes-file "$notes"
+  gh release edit "$tag" --repo "$repo" --draft=false --prerelease=false --notes-file "$notes"
 fi
 echo "Published to https://github.com/$repo/releases/tag/$tag"

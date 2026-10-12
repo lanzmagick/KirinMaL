@@ -24,3 +24,10 @@ AppDir
 appimage-build
 *.AppImage
 *.zsync
+
+# Never track Android release signing materials
+*.jks
+*.keystore
+*.p12
+*.pfx
+signing-secrets*.txt

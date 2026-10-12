@@ -32,6 +32,17 @@ val versionProps = Properties().also {
     it.load(project.rootProject.file("version.properties").reader())
 }
 
+// Secrets are provided only by GitHub Actions at release time. Never commit
+// the keystore or its passwords to this public repository.
+val releaseStoreFile = System.getenv("KEYSTORE_FILE")?.takeIf { it.isNotBlank() }
+val releaseStorePassword = System.getenv("KEYSTORE_PASSWORD")?.takeIf { it.isNotBlank() }
+val releaseKeyAlias = System.getenv("KEY_ALIAS")?.takeIf { it.isNotBlank() }
+val releaseKeyPassword = System.getenv("KEY_PASSWORD")?.takeIf { it.isNotBlank() }
+val hasReleaseSigning = releaseStoreFile != null &&
+    releaseStorePassword != null &&
+    releaseKeyAlias != null &&
+    releaseKeyPassword != null
+
 android {
     namespace = "com.axiel7.moelist"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
@@ -54,6 +65,17 @@ android {
         )
     }
 
+    signingConfigs {
+        if (hasReleaseSigning) {
+            create("production") {
+                storeFile = file(releaseStoreFile!!)
+                storePassword = releaseStorePassword
+                keyAlias = releaseKeyAlias
+                keyPassword = releaseKeyPassword
+            }
+        }
+    }
+
     buildTypes {
         debug {
             applicationIdSuffix = ".debug"
@@ -63,6 +85,7 @@ android {
             isShrinkResources = false
         }
         release {
+            signingConfigs.findByName("production")?.let { signingConfig = it }
             isDebuggable = false
             isMinifyEnabled = true
             isShrinkResources = false

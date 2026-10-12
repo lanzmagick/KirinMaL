@@ -1,4 +1,4 @@
-name: Verify KirinMaL Android Debug
+name: Verify KirinMaL Android Release
 
 on:
   push:
@@ -17,16 +17,11 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
-
-# Avoid older debug builds replacing a newer APK in the rolling Release.
-concurrency:
-  group: kirinmal-debug-release
-  cancel-in-progress: true
+  contents: read
 
 jobs:
-  android-debug:
-    name: Build Android debug APK
+  android-release:
+    name: Verify unsigned Android release build
     runs-on: ubuntu-latest
     timeout-minutes: 45
 
@@ -58,10 +53,5 @@ jobs:
           python3 -m pip install --disable-pip-version-check pillow
           python3 tools/generate_brand_assets.py
 
-      - name: Assemble debug APK
-        run: ./gradlew :app:androidApp:assembleDebug --stacktrace --no-daemon
-
-      - name: Publish debug APK to rolling GitHub Release
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: bash tools/publish_release.sh development android-debug app/androidApp/build/outputs/apk/debug/*.apk
+      - name: Assemble release APK (verification only; NOT published)
+        run: ./gradlew :app:androidApp:assembleRelease --stacktrace --no-daemon --no-configuration-cache
