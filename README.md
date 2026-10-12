@@ -26,7 +26,7 @@
 
 **Latest published signed APK: v1.0.3.** It adds safe bottom spacing to Anime and Manga Genres, an owner-supplied MAL Client ID and the KirinMaL redirect `kirinmal://oauth/mal`.
 
-The next version, **v1.0.4**, adds title-initial filtering beside Sort, MAL-colored status badges, three manga carousels on Home, and Magic surprise pickers for anime and manga. Its patch is ready; the Android build has not been run yet. See [v1.0.4 release notes](docs/releases/v1.0.4.md).
+The **v1.0.4** release build adds title-initial filtering beside Sort, MAL-colored status badges, three manga carousels on Home, and Magic surprise pickers for anime and manga. The signed APK build is now requested; publication follows successful tests, compilation and APK audits. See [v1.0.4 release notes](docs/releases/v1.0.4.md).
 
 The Android application ID is `com.lanzmagick.kirinmal`, separate from MoeList and KirinMaL v1.0.0 (`com.axiel7.moelist`). Versions v1.0.1 and later share the KirinMaL package ID and update the same installation when signed with the same release key. Signed APKs are distributed through GitHub Releases. See [v1.0.3 release notes](docs/releases/v1.0.3.md).
 
@@ -51,7 +51,7 @@ To publish **signed** APKs, set the four GitHub Actions signing secrets `KEYSTOR
 - **Freshness:** opening a picker reloads its MAL candidates. Within the popup, **Surprise me again** reuses the bag; changing title language or NSFW visibility causes a reload on the next pick. The repositories apply the user's NSFW preference.
 - **Empty lists and failures:** an empty result or failed request shows a message and allows another attempt. Closing the popup cancels its pending request. Choosing a surprise only opens its Anime/Manga Info page; list edits use the existing MAL editor.
 
-Shuffle-bag tests cover unique turns, duplicate IDs, refill repeats, pool replacement, and empty/single-title pools. They are included in the patch; the Kotlin tests and Android build will be run when the build is requested.
+Shuffle-bag tests cover unique turns, duplicate IDs, refill repeats, pool replacement, and empty/single-title pools. The signed release workflow runs these tests before building and auditing the APKs.
 
 ## KirinMaL MyAnimeList Client ID (Android)
 
