@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.remember
 import com.axiel7.moelist.data.model.media.MediaType
+import com.axiel7.moelist.data.model.media.RankingType
 import kotlinx.collections.immutable.ImmutableList
 
 @Immutable
@@ -14,8 +15,12 @@ class NavActionManager(
         navigator.goBack()
     }
 
-    fun toMediaRanking(mediaType: MediaType) {
-        navigator.navigate(Route.MediaRanking(mediaType))
+    fun toMediaRanking(mediaType: MediaType, ranking: RankingType = RankingType.SCORE) {
+        navigator.navigate(Route.MediaRanking(mediaType, ranking))
+    }
+
+    fun toReadingManga() {
+        navigator.navigate(Route.ReadingManga)
     }
 
     fun toMediaDetails(mediaType: MediaType, id: Int) {

@@ -27,6 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.ui.base.model.ListStatus.Companion.toBo
+import com.axiel7.moelist.ui.base.model.ListStatus
 import com.axiel7.moelist.ui.composables.defaultPlaceholder
 import com.axiel7.moelist.ui.composables.score.SmallScoreIndicator
 import com.axiel7.moelist.ui.generated.resources.UiRes
@@ -51,6 +52,7 @@ fun MediaItemVertical(
     mediaId: Int? = null,
     onLongClick: (() -> Unit)? = null,
     onBadgeClick: (() -> Unit)? = null,
+    badgeStatus: ListStatus? = null,
     onClick: () -> Unit,
 ) {
     val editor = LocalMediaQuickEdit.current
@@ -63,6 +65,7 @@ fun MediaItemVertical(
     val cached = canEdit && editor!!.statuses.containsKey(key)
     val synced = canEdit && editor!!.syncedTypes[key!!.first] == true
     val malStatus = if (cached) editor!!.statuses[key]?.status?.toBo() else null
+    val displayedStatus = if (cached || synced) malStatus else badgeStatus
     Column(
         modifier = modifier
             .width(MEDIA_POSTER_SMALL_WIDTH.dp)
@@ -91,7 +94,7 @@ fun MediaItemVertical(
                 Row(
                     modifier = Modifier
                         .clip(RoundedCornerShape(topEnd = 8.dp, bottomStart = 8.dp))
-                        .background(MaterialTheme.colorScheme.primaryContainer)
+                        .background(displayedStatus?.badgeColor ?: MaterialTheme.colorScheme.primaryContainer)
                         .then(if (badgeAction != null) Modifier.clickable(onClick = badgeAction) else Modifier)
                         .padding(horizontal = 8.dp, vertical = 4.dp),
                     verticalAlignment = Alignment.CenterVertically,
@@ -101,7 +104,7 @@ fun MediaItemVertical(
                             painter = painterResource(malStatus?.icon ?: UiRes.drawable.ic_round_add_24),
                             contentDescription = malStatus?.localized() ?: "Add to MAL",
                             modifier = Modifier.size(20.dp),
-                            tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                            tint = malStatus?.onBadgeColor ?: MaterialTheme.colorScheme.onPrimaryContainer,
                         )
                         badgeContent != null -> badgeContent()
                         canEdit -> Icon(

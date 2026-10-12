@@ -63,7 +63,9 @@ fun MediaRankingView(
         else rankingMangaValues.toList()
     }
     // The only extra tab is Genres, after Upcoming (Anime) or Favorite (Manga).
-    val pager = rememberPagerState { rankings.size + 1 }
+    val pager = rememberPagerState(
+        initialPage = rankings.indexOf(arguments.initialRanking).coerceAtLeast(0),
+    ) { rankings.size + 1 }
     val scope = rememberCoroutineScope()
     // Saved at the ranking destination, not inside a disposable pager page.
     // Preserve the genre when opening MAL details and navigating back.

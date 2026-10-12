@@ -37,9 +37,11 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.compose.dropUnlessResumed
 import com.axiel7.moelist.data.model.media.MediaType
+import com.axiel7.moelist.data.model.media.RankingType
 import com.axiel7.moelist.data.utils.SeasonCalendar
 import com.axiel7.moelist.screens.home.composables.AiringAnimeHorizontalItem
 import com.axiel7.moelist.screens.home.composables.HomeCard
+import com.axiel7.moelist.screens.home.composables.HomeMangaCarousel
 import com.axiel7.moelist.ui.base.model.ListStatus.Companion.toBo
 import com.axiel7.moelist.ui.base.navigation.NavActionManager
 import com.axiel7.moelist.ui.composables.HeaderHorizontalList
@@ -49,6 +51,7 @@ import com.axiel7.moelist.ui.composables.media.MEDIA_POSTER_SMALL_HEIGHT
 import com.axiel7.moelist.ui.composables.media.MediaItemDetailedPlaceholder
 import com.axiel7.moelist.ui.composables.media.MediaItemVertical
 import com.axiel7.moelist.ui.composables.media.MediaItemVerticalPlaceholder
+import com.axiel7.moelist.ui.composables.media.LocalMediaQuickEdit
 import com.axiel7.moelist.ui.composables.score.SmallScoreIndicator
 import com.axiel7.moelist.ui.generated.resources.UiRes
 import com.axiel7.moelist.ui.generated.resources.anime_menu
@@ -82,6 +85,12 @@ fun HomeView(
 ) {
     val viewModel: HomeViewModel = koinViewModel()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val editRevision = LocalMediaQuickEdit.current?.revision ?: 0
+    LaunchedEffect(editRevision) {
+        if (isLoggedIn && editRevision > 0) {
+            viewModel.reloadMangaSection(HomeMangaSection.READING)
+        }
+    }
 
     HomeViewContent(
         uiState = uiState,
@@ -126,6 +135,41 @@ private fun HomeViewContent(
 
     LaunchedEffect(isLoggedIn) {
         event?.initRequestChain(isLoggedIn)
+    }
+
+    @Composable
+    fun MangaSection(section: HomeMangaSection) {
+        HomeMangaCarousel(
+            section = section,
+            entries = when (section) {
+                HomeMangaSection.READING -> uiState.readingManga
+                HomeMangaSection.POPULAR -> uiState.popularManga
+                HomeMangaSection.TOP_RATED -> uiState.topRatedManga
+            },
+            isLoading = when (section) {
+                HomeMangaSection.READING -> uiState.isLoadingReadingManga
+                HomeMangaSection.POPULAR -> uiState.isLoadingPopularManga
+                HomeMangaSection.TOP_RATED -> uiState.isLoadingTopRatedManga
+            },
+            hasError = when (section) {
+                HomeMangaSection.READING -> uiState.readingMangaError
+                HomeMangaSection.POPULAR -> uiState.popularMangaError
+                HomeMangaSection.TOP_RATED -> uiState.topRatedMangaError
+            },
+            preferredTitle = uiState.preferredTitle,
+            hideScore = uiState.hideScore,
+            navActionManager = navActionManager,
+            onOpenAll = dropUnlessResumed {
+                when (section) {
+                    HomeMangaSection.READING -> navActionManager.toReadingManga()
+                    HomeMangaSection.POPULAR -> navActionManager.toMediaRanking(
+                        MediaType.MANGA, RankingType.POPULARITY),
+                    HomeMangaSection.TOP_RATED -> navActionManager.toMediaRanking(
+                        MediaType.MANGA, RankingType.SCORE),
+                }
+            },
+            onRetry = { event?.reloadMangaSection(section) },
+        )
     }
 
     @Composable
@@ -199,6 +243,8 @@ private fun HomeViewContent(
                 ChipRow2()
             }
         }
+
+        if (isLoggedIn) MangaSection(HomeMangaSection.READING)
 
         // Airing
         HeaderHorizontalList(
@@ -389,6 +435,9 @@ imageUrl = it.node.mainPicture?.large,
 
             PlatformHorizontalScrollbar(scrollState = recommendListState)
         }
+
+        MangaSection(HomeMangaSection.POPULAR)
+        MangaSection(HomeMangaSection.TOP_RATED)
 
         Row(
             modifier = Modifier

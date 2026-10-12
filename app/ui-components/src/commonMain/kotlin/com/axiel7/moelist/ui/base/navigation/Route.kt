@@ -3,6 +3,7 @@ package com.axiel7.moelist.ui.base.navigation
 import androidx.compose.runtime.Stable
 import androidx.navigation3.runtime.NavKey
 import com.axiel7.moelist.data.model.media.MediaType
+import com.axiel7.moelist.data.model.media.RankingType
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.serialization.Serializable
 
@@ -25,7 +26,13 @@ sealed interface Route : NavKey {
 
     @Serializable
     @Stable
-    data class MediaRanking(val mediaType: MediaType) : Route
+    data class MediaRanking(
+        val mediaType: MediaType,
+        val initialRanking: RankingType = RankingType.SCORE,
+    ) : Route
+
+    @Serializable
+    data object ReadingManga : Route
 
     @Serializable
     @Stable

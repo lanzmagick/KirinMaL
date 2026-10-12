@@ -8,6 +8,7 @@
 
 - Track anime and manga with your MyAnimeList account.
 - Anime and Manga list controls: title-initial filter for A–Z, 1–0 and symbols beside Sort, with MAL status colors on the status badges and floating selector.
+- Home manga carousels: Reading Manga with chapter/volume progress, Popular Manga by MAL Members, and Top Rated Manga by MAL score. Each section opens its matching full list.
 - Anime Menu and Manga Menu: MAL rankings plus one bento Genres tab with full MAL category names and AniList discovery. Only MAL-linked titles open the MAL editor, so tracking remains in MyAnimeList.
 - Seasonal anime, calendar and recommendations, with a pinned Home search bar.
 - Anime & Manga Stats inspired by KirinNime, including progress and reading/watching totals.
@@ -24,7 +25,7 @@
 
 **Latest published signed APK: v1.0.3.** It adds safe bottom spacing to Anime and Manga Genres, an owner-supplied MAL Client ID and the KirinMaL redirect `kirinmal://oauth/mal`.
 
-The next version, **v1.0.4**, adds title-initial filtering beside Sort and MAL-colored status badges for Anime and Manga lists. Its patch is ready; the Android build has not been run yet. See [v1.0.4 release notes](docs/releases/v1.0.4.md).
+The next version, **v1.0.4**, adds title-initial filtering beside Sort, MAL-colored status badges and three manga carousels on Home. Its patch is ready; the Android build has not been run yet. See [v1.0.4 release notes](docs/releases/v1.0.4.md).
 
 The Android application ID is `com.lanzmagick.kirinmal`, separate from MoeList and KirinMaL v1.0.0 (`com.axiel7.moelist`). Versions v1.0.1 and later share the KirinMaL package ID and update the same installation when signed with the same release key. Signed APKs are distributed through GitHub Releases. See [v1.0.3 release notes](docs/releases/v1.0.3.md).
 

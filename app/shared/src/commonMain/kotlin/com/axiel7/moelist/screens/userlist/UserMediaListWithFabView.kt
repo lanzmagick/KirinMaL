@@ -55,8 +55,11 @@ fun UserMediaListWithFabView(
     topBarAnimateTo: suspend (Float) -> Unit,
     topBarSnapTo: suspend (Float) -> Unit,
     padding: PaddingValues,
+    initialListStatus: ListStatus? = null,
 ) {
-    val viewModel: UserMediaListViewModel = koinViewModel { parametersOf(mediaType) }
+    val viewModel: UserMediaListViewModel = koinViewModel {
+        parametersOf(mediaType, initialListStatus)
+    }
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val sharedEditor = LocalMediaQuickEdit.current
     val editRevision = sharedEditor?.revision ?: 0

@@ -26,6 +26,10 @@
     <string name="symbol_initials">Symbols / other initials</string>
     <string name="title_initial_empty">No titles start with this initial</string>
     <string name="title_initial_load_failed">Could not finish loading the list</string>
+    <string name="home_reading_manga">Reading Manga</string>
+    <string name="home_popular_manga">Popular Manga</string>
+    <string name="home_top_rated_manga">Top Rated Manga</string>
+    <string name="no_reading_manga">Your Reading list is empty</string>
     <string name="title_profile">Profile</string>
     <string name="cancel">Cancel</string>
     <string name="apply">Apply</string>

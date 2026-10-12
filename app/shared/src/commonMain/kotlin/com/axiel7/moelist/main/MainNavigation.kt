@@ -43,9 +43,11 @@ import com.axiel7.moelist.screens.userlist.UserMediaListWithFabView
 import com.axiel7.moelist.screens.userlist.UserMediaListWithTabsView
 import com.axiel7.moelist.ui.base.navigation.NavActionManager
 import com.axiel7.moelist.ui.base.navigation.Route
+import com.axiel7.moelist.ui.base.model.ListStatus
 import com.axiel7.moelist.ui.composables.DefaultScaffoldWithTopAppBar
 import com.axiel7.moelist.ui.generated.resources.UiRes
 import com.axiel7.moelist.ui.generated.resources.title_profile
+import com.axiel7.moelist.ui.generated.resources.title_manga_list
 import org.jetbrains.compose.resources.stringResource
 
 private val topNavigationTransitionSpec = NavDisplay.transitionSpec {
@@ -163,6 +165,29 @@ fun MainNavigation(
                 topBarSnapTo = topBarSnapTo,
                 isLoggedIn = isLoggedIn
             )
+        }
+
+        entry<Route.ReadingManga> {
+            DefaultScaffoldWithTopAppBar(
+                title = stringResource(UiRes.string.title_manga_list),
+                navigateBack = navActionManager::goBack,
+            ) { listPadding ->
+                if (!isLoggedIn) {
+                    LoginView(modifier = Modifier.padding(listPadding))
+                } else {
+                    UserMediaListWithFabView(
+                        mediaType = MediaType.MANGA,
+                        initialListStatus = ListStatus.READING,
+                        isCompactScreen = isCompactScreen,
+                        navActionManager = navActionManager,
+                        padding = listPadding,
+                        topBarHeightPx = 0f,
+                        topBarOffsetY = 0f,
+                        topBarAnimateTo = {},
+                        topBarSnapTo = {},
+                    )
+                }
+            }
         }
 
         entry<Route.MediaRanking> {
