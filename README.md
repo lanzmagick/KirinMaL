@@ -19,7 +19,7 @@
 
 **[KirinMaL Stable Releases](https://github.com/lanzmagick/KirinMaL/releases)**
 
-**v1.0.1** uses KirinMaL’s own Android application ID (`com.lanzmagick.kirinmal`). It installs separately from MoeList (`com.axiel7.moelist`) and earlier KirinMaL releases. No debug APKs are published; signed APKs are distributed through GitHub Releases.
+**v1.0.2** keeps the KirinMaL Android application ID (`com.lanzmagick.kirinmal`) and adds checks of the merged APK permissions, signing certificate, package identity, target SDK and archive integrity. It installs separately from MoeList (`com.axiel7.moelist`) and earlier KirinMaL releases. No debug APKs are published; signed APKs are distributed through GitHub Releases.
 
 ## Build (Android)
 
@@ -31,7 +31,7 @@ CLIENT_SECRET=""
 
 To publish **signed** APKs, set the four GitHub Actions repository secrets `KEYSTORE_FILE` (base64-encoded keystore), `KEYSTORE_PASSWORD`, `KEY_ALIAS` and `KEY_PASSWORD`. Then use **Actions → KirinMaL Signed Release → Run workflow**. Keep the keystore safely offline for future updates; do not commit secrets.
 
-See [Release signing instructions](docs/ANDROID_RELEASE.md). The **Android application ID is KirinMaL-specific**. The internal Kotlin namespace and MyAnimeList OAuth redirect URI (`moelist://moelist.page.link/`) remain unchanged for compatibility. After installing v1.0.1, log into MAL again; it does not inherit the old app’s local data.
+See [Release signing instructions](docs/ANDROID_RELEASE.md) and [Play Protect diagnosis](docs/PLAY_PROTECT.md). The **Android application ID is KirinMaL-specific**. The internal Kotlin namespace and MyAnimeList OAuth redirect URI (`moelist://moelist.page.link/`) remain unchanged for compatibility. After installing the new KirinMaL package, log into MAL again; it does not inherit the old app’s local data.
 
 ## Credits & License
 

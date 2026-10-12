@@ -111,7 +111,11 @@ jobs:
             }
             echo "Verified signed release: $(basename "$apk")"
           done
-      - name: Publish KirinMaL first stable release
+      - name: Audit signed APK manifest, permissions and identity
+        shell: bash
+        run: bash tools/audit_android_release.sh app/androidApp/build/outputs/apk/release/*.apk
+
+      - name: Publish audited KirinMaL Android release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         shell: bash

@@ -111,9 +111,7 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
-    dependenciesInfo {
-        includeInApk = false
-    }
+    // Retain standard Android dependency metadata in the signed APK.
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
     }

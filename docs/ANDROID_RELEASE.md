@@ -1,6 +1,6 @@
 # KirinMaL — Android Signed Releases
 
-The first public signed release was v1.0.0. **v1.0.1** introduces a distinct Android application ID. Builds are distributed through **GitHub Releases**, never as debug APKs or Actions artifacts.
+The first public signed release was v1.0.0. **v1.0.1** introduces a distinct Android application ID; **v1.0.2** audits the signed APK before publication. Builds are distributed through **GitHub Releases**, never as debug APKs or Actions artifacts.
 
 ## Four GitHub Actions secrets
 
