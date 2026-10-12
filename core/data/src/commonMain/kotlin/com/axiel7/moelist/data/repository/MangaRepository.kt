@@ -23,6 +23,34 @@ class MangaRepository(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) {
 
+    /**
+     * Read all pages of the signed-in MAL manga list. Do not return a
+     * partially fetched catalog as complete; unknown badges must not become "+".
+     */
+    suspend fun loadAllUserMangaStatuses(): Map<Int, MyMangaListStatus>? = withContext(dispatcher) {
+        try {
+            val statuses = mutableMapOf<Int, MyMangaListStatus>()
+            var next: String? = null
+            var pages = 0
+            do {
+                val response = if (pages == 0) api.getAllUserMangaStatusEntries()
+                    else api.getUserMangaList(next ?: break)
+                val entries = response.data ?: return@withContext null
+                if (response.error != null) return@withContext null
+                entries.forEach { entry ->
+                    entry.listStatus?.let { statuses[entry.node.id] = it }
+                }
+                next = response.paging?.next?.takeIf { it.isNotBlank() }
+                pages++
+            } while (next != null && pages < 100)
+            if (next != null) null else statuses
+        } catch (e: kotlinx.coroutines.CancellationException) {
+            throw e
+        } catch (_: Exception) {
+            null
+        }
+    }
+
     companion object {
         private const val LIST_STATUS_FIELDS =
             "start_date,finish_date,num_times_reread,is_rereading,reread_value,priority,tags,comments"
