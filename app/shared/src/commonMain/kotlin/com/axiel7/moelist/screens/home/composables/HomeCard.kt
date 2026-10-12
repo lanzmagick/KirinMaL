@@ -1,9 +1,11 @@
 package com.axiel7.moelist.screens.home.composables
 
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -25,23 +27,25 @@ fun HomeCard(
 ) {
     Card(
         onClick = onClick,
-        modifier = modifier.padding(start = 8.dp),
+        modifier = modifier.height(84.dp),
+        shape = RoundedCornerShape(22.dp),
     ) {
         Row(
             modifier = Modifier
-                .padding(horizontal = 16.dp, vertical = 8.dp)
-                .height(40.dp),
+                .fillMaxSize()
+                .padding(14.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
                 painter = painterResource(icon),
-                contentDescription = text,
+                contentDescription = null,
                 modifier = Modifier
                     .padding(end = 8.dp)
-                    .size(18.dp),
+                    .size(22.dp),
             )
             Text(
                 text = text,
+                modifier = Modifier.weight(1f),
                 style = MaterialTheme.typography.labelLarge,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 2,

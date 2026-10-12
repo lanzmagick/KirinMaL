@@ -3,14 +3,10 @@ package com.axiel7.moelist.screens.magic
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AssistChip
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -26,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.axiel7.moelist.data.model.media.BaseMediaNode
 import com.axiel7.moelist.data.model.media.MediaType
+import com.axiel7.moelist.screens.home.composables.HomeCard
 import com.axiel7.moelist.ui.composables.LoadingDialog
 import com.axiel7.moelist.ui.generated.resources.UiRes
 import com.axiel7.moelist.ui.generated.resources.cancel
@@ -48,50 +45,50 @@ import org.koin.core.parameter.parametersOf
 
 private enum class Presentation { DIRECT, MAGIC }
 
-@OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3ExpressiveApi::class)
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun RandomMagicControls(
     context: MagicPickerContext,
     onOpen: (BaseMediaNode) -> Unit,
     homeStyle: Boolean = false,
     onDefaultRandom: (() -> Unit)? = null,
+    modifier: Modifier = Modifier,
 ) {
     var presentation by remember(context) { mutableStateOf<Presentation?>(null) }
     @Composable
     fun PickerButton(label: String, icon: DrawableResource, onClick: () -> Unit) {
-        if (homeStyle) {
-            OutlinedButton(onClick = onClick, shapes = ButtonDefaults.shapes()) {
-                Icon(painterResource(icon), contentDescription = null,
-                    modifier = Modifier.padding(end = 8.dp).size(20.dp))
-                Text(label)
-            }
-        } else {
-            AssistChip(onClick = onClick, label = { Text(label) }, leadingIcon = {
-                Icon(painterResource(icon), contentDescription = null, modifier = Modifier.size(20.dp))
-            })
-        }
+        AssistChip(onClick = onClick, label = { Text(label) }, leadingIcon = {
+            Icon(painterResource(icon), contentDescription = null, modifier = Modifier.size(20.dp))
+        })
     }
-    FlowRow(
-        horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-    ) {
-        PickerButton(
-            stringResource(if (!homeStyle) UiRes.string.random
-                else if (context.mediaType == MediaType.ANIME) UiRes.string.random_anime
-                else UiRes.string.random_manga),
-            UiRes.drawable.ic_round_casino_24,
-            onClick = {
-                if (onDefaultRandom != null) onDefaultRandom()
-                else presentation = Presentation.DIRECT
-            },
-        )
-        PickerButton(
-            stringResource(if (!homeStyle) UiRes.string.magic
-                else if (context.mediaType == MediaType.ANIME) UiRes.string.magic_anime
-                else UiRes.string.magic_manga),
-            UiRes.drawable.ic_magic_sparkles_24,
+    if (homeStyle) {
+        HomeCard(
+            text = stringResource(if (context.mediaType == MediaType.ANIME)
+                UiRes.string.magic_anime else UiRes.string.magic_manga),
+            icon = UiRes.drawable.ic_magic_sparkles_24,
+            modifier = modifier,
             onClick = { presentation = Presentation.MAGIC },
         )
+    } else {
+        FlowRow(
+            modifier = modifier,
+            horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            PickerButton(
+                stringResource(UiRes.string.random),
+                UiRes.drawable.ic_round_casino_24,
+                onClick = {
+                    if (onDefaultRandom != null) onDefaultRandom()
+                    else presentation = Presentation.DIRECT
+                },
+            )
+            PickerButton(
+                stringResource(UiRes.string.magic),
+                UiRes.drawable.ic_magic_sparkles_24,
+                onClick = { presentation = Presentation.MAGIC },
+            )
+        }
     }
     val mode = presentation ?: return
     val viewModel: MagicPickerViewModel = koinViewModel(

@@ -8,6 +8,8 @@ APK signed terbaru kekal **v1.0.4 (411)**. Perubahan berikut sudah disediakan pa
 
 ## Home
 
+- Buang butang Random Anime dan Random Manga daripada Home; kekalkan Magic Anime dan Magic Manga dengan popup sedia ada.
+- Gabungkan kedua-dua Magic dengan empat shortcut Home dalam bento bersaiz seragam: dua kolum di telefon dan tiga kolum di skrin besar, tinggi kad 84 dp dan jarak 8 dp.
 - Buang slot **Popular Manga** dan **Top Rated Manga** daripada Home; kedua-dua ranking masih tersedia dalam Manga Menu.
 - Susunan slot peribadi selepas shortcut Home: **Recent Watching Anime → Reading Manga → Recommended Manga**. Muncul selepas login.
 - Recent Watching Anime mengambil sehingga 25 tajuk status Watching, disusun mengikut kemas kini MAL terbaru, dengan progress episod dan badge Watching. Tajuk slot membuka list Watching.

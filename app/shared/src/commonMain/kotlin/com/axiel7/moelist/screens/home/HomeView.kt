@@ -1,12 +1,9 @@
 package com.axiel7.moelist.screens.home
 
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -33,13 +30,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.compose.dropUnlessResumed
 import com.axiel7.moelist.data.model.media.MediaType
-import com.axiel7.moelist.data.utils.SeasonCalendar
 import com.axiel7.moelist.screens.home.composables.AiringAnimeHorizontalItem
-import com.axiel7.moelist.screens.home.composables.HomeCard
 import com.axiel7.moelist.screens.home.composables.HomeMangaCarousel
+import com.axiel7.moelist.screens.home.composables.HomeShortcutBento
 import com.axiel7.moelist.screens.home.composables.RecentWatchingCarousel
-import com.axiel7.moelist.screens.magic.MagicPickerContext
-import com.axiel7.moelist.screens.magic.RandomMagicControls
 import com.axiel7.moelist.ui.base.model.ListStatus.Companion.toBo
 import com.axiel7.moelist.ui.base.navigation.NavActionManager
 import com.axiel7.moelist.ui.composables.HeaderHorizontalList
@@ -52,18 +46,11 @@ import com.axiel7.moelist.ui.composables.media.MediaItemVerticalPlaceholder
 import com.axiel7.moelist.ui.composables.media.LocalMediaQuickEdit
 import com.axiel7.moelist.ui.composables.score.SmallScoreIndicator
 import com.axiel7.moelist.ui.generated.resources.UiRes
-import com.axiel7.moelist.ui.generated.resources.anime_menu
-import com.axiel7.moelist.ui.generated.resources.calendar
 import com.axiel7.moelist.ui.generated.resources.error_server
-import com.axiel7.moelist.ui.generated.resources.ic_round_event_24
-import com.axiel7.moelist.ui.generated.resources.ic_round_menu_book_24
-import com.axiel7.moelist.ui.generated.resources.ic_round_movie_24
-import com.axiel7.moelist.ui.generated.resources.manga_menu
 import com.axiel7.moelist.ui.generated.resources.no_recommendations
 import com.axiel7.moelist.ui.generated.resources.nothing_today
 import com.axiel7.moelist.ui.generated.resources.please_login_to_use_this_feature
 import com.axiel7.moelist.ui.generated.resources.recommendations
-import com.axiel7.moelist.ui.generated.resources.seasonal_chart
 import com.axiel7.moelist.ui.generated.resources.today
 import com.axiel7.moelist.ui.theme.MoeListTheme
 import org.jetbrains.compose.resources.painterResource
@@ -160,48 +147,6 @@ private fun HomeViewContent(
         )
     }
 
-    @Composable
-    fun RowScope.ChipRow1() {
-        HomeCard(
-            text = stringResource(UiRes.string.anime_menu),
-            icon = UiRes.drawable.ic_round_movie_24,
-            modifier = Modifier.weight(1f),
-            onClick = dropUnlessResumed {
-                navActionManager.toMediaRanking(MediaType.ANIME)
-            },
-        )
-
-        HomeCard(
-            text = stringResource(UiRes.string.manga_menu),
-            icon = UiRes.drawable.ic_round_menu_book_24,
-            modifier = Modifier.weight(1f),
-            onClick = dropUnlessResumed {
-                navActionManager.toMediaRanking(MediaType.MANGA)
-            },
-        )
-    }
-
-    @Composable
-    fun RowScope.ChipRow2() {
-        HomeCard(
-            text = stringResource(UiRes.string.seasonal_chart),
-            icon = SeasonCalendar.currentSeason.icon,
-            modifier = Modifier.weight(1f),
-            onClick = dropUnlessResumed {
-                navActionManager.toSeasonChart()
-            },
-        )
-
-        HomeCard(
-            text = stringResource(UiRes.string.calendar),
-            icon = UiRes.drawable.ic_round_event_24,
-            modifier = Modifier.weight(1f),
-            onClick = dropUnlessResumed {
-                navActionManager.toCalendar()
-            },
-        )
-    }
- 
     Column(
         modifier = Modifier
             // Scroll the Home content only; the search bar stays in Scaffold.topBar.
@@ -210,27 +155,10 @@ private fun HomeViewContent(
             .padding(padding)
             .verticalScroll(scrollState)
     ) {
-        // Chips
-        if (isCompactScreen) {
-            Row(
-                modifier = Modifier.padding(top = 10.dp, start = 8.dp, end = 16.dp)
-            ) {
-                ChipRow1()
-            }
-
-            Row(
-                modifier = Modifier.padding(top = 10.dp, start = 8.dp, end = 16.dp)
-            ) {
-                ChipRow2()
-            }
-        } else {
-            Row(
-                modifier = Modifier.padding(top = 10.dp, start = 8.dp, end = 16.dp)
-            ) {
-                ChipRow1()
-                ChipRow2()
-            }
-        }
+        HomeShortcutBento(
+            isCompactScreen = isCompactScreen,
+            navActionManager = navActionManager,
+        )
 
         if (isLoggedIn) {
             RecentWatchingCarousel(
@@ -433,25 +361,6 @@ imageUrl = it.node.mainPicture?.large,
             }
 
             PlatformHorizontalScrollbar(scrollState = recommendListState)
-        }
-
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            RandomMagicControls(
-                context = MagicPickerContext(MediaType.ANIME),
-                homeStyle = true,
-                onOpen = { navActionManager.toMediaDetails(MediaType.ANIME, it.id) },
-            )
-            RandomMagicControls(
-                context = MagicPickerContext(MediaType.MANGA),
-                homeStyle = true,
-                onOpen = { navActionManager.toMediaDetails(MediaType.MANGA, it.id) },
-            )
         }
     }
 }
