@@ -4,13 +4,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
@@ -36,19 +36,22 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.dropUnlessResumed
+import com.axiel7.moelist.data.model.genre.AniListFilterKind
+import com.axiel7.moelist.data.model.genre.MalAniListCatalog
+import com.axiel7.moelist.data.model.genre.MalAniListCategory
+import com.axiel7.moelist.data.model.genre.MalCategoryGroup
 import com.axiel7.moelist.data.model.media.MediaType
-import com.axiel7.moelist.screens.ranking.GenreSystemBackHandler
-import com.axiel7.moelist.data.network.AniListCatalogApi
 import com.axiel7.moelist.data.network.AniListMedia
 import com.axiel7.moelist.data.network.JikanApi
+import com.axiel7.moelist.screens.ranking.GenreSystemBackHandler
 import com.axiel7.moelist.ui.base.navigation.NavActionManager
 import com.axiel7.moelist.ui.composables.OnBottomReached
 import com.axiel7.moelist.ui.composables.media.MediaItemDetailed
 import kotlinx.coroutines.CancellationException
 
 /**
- * Exactly ONE additional tab in Anime/Manga Menu. Inside it, genres are bento
- * tiles and AniList results are mapped by idMal into native MAL detail screens.
+ * One Genres tab only, with MAL's categories displayed in a two-column bento.
+ * AniList discovers titles, then idMal routes edits to MyAnimeList.
  */
 @Composable
 fun AniListGenreBentoView(
@@ -57,34 +60,14 @@ fun AniListGenreBentoView(
     api: JikanApi,
     navActionManager: NavActionManager,
 ) {
-    val defaults = remember { AniListCatalogApi.offlineGenres }
-    var genres by remember { mutableStateOf(defaults) }
-    var selectedGenre by remember(type) { mutableStateOf<String?>(null) }
-    // Android hardware/system Back closes only the selected genre first.
-    GenreSystemBackHandler(enabled = selectedGenre != null) {
-        selectedGenre = null
-    }
-    var catalogError by remember { mutableStateOf<String?>(null) }
-    var catalogRetry by remember { mutableIntStateOf(0) }
-
-    LaunchedEffect(catalogRetry) {
-        try {
-            val live = api.getAniListGenres()
-            if (live.isNotEmpty()) genres = live
-            catalogError = null
-        } catch (e: CancellationException) {
-            throw e
-        } catch (e: Exception) {
-            // Bento keeps a usable curated AniList genre list while offline.
-            catalogError = e.message ?: "AniList genres could not be refreshed."
-        }
+    val catalog = remember(type) { MalAniListCatalog.forType(type) }
+    var selected by remember(type) { mutableStateOf<MalAniListCategory?>(null) }
+    GenreSystemBackHandler(enabled = selected != null) { selected = null }
+    val visible = remember(catalog, showAdult) {
+        catalog.filter { showAdult || !it.isAdult }
     }
 
-    val visibleGenres = genres.filterNot {
-        !showAdult && (it.equals("Hentai", true) || it.equals("Erotica", true))
-    }
-
-    if (selectedGenre == null) {
+    if (selected == null) {
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
             modifier = Modifier.fillMaxSize(),
@@ -92,57 +75,58 @@ fun AniListGenreBentoView(
             verticalArrangement = Arrangement.spacedBy(10.dp),
             horizontalArrangement = Arrangement.spacedBy(10.dp),
         ) {
-            items(visibleGenres, key = { it }) { genre ->
-                Surface(
-                    onClick = { selectedGenre = genre },
-                    modifier = Modifier.fillMaxWidth().height(84.dp),
-                    shape = RoundedCornerShape(22.dp),
-                    color = MaterialTheme.colorScheme.primaryContainer,
-                ) {
-                    Box(
-                        modifier = Modifier.fillMaxSize().padding(12.dp),
-                        contentAlignment = Alignment.Center,
+            MalCategoryGroup.entries.forEach { group ->
+                val entries = visible.filter { it.group == group }
+                if (entries.isNotEmpty()) {
+                    item(
+                        key = group.name,
+                        span = { GridItemSpan(maxLineSpan) },
                     ) {
                         Text(
-                            text = genre,
-                            style = MaterialTheme.typography.titleSmall,
-                            fontWeight = FontWeight.SemiBold,
-                            color = MaterialTheme.colorScheme.onPrimaryContainer,
-                            maxLines = 2,
-                            overflow = TextOverflow.Ellipsis,
+                            text = group.label,
+                            style = MaterialTheme.typography.titleMedium,
+                            modifier = Modifier.padding(start = 4.dp, top = 8.dp),
                         )
                     }
-                }
-            }
-            if (catalogError != null) {
-                item(span = { androidx.compose.foundation.lazy.grid.GridItemSpan(maxLineSpan) }) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center,
-                    ) {
-                        TextButton(onClick = { catalogRetry++ }) {
-                            Text("Refresh AniList genres")
+                    items(
+                        items = entries,
+                        key = { group.name + ":" + it.malGenreId },
+                    ) { entry ->
+                        Surface(
+                            onClick = { selected = entry },
+                            modifier = Modifier.fillMaxWidth().height(84.dp),
+                            shape = RoundedCornerShape(22.dp),
+                            color = MaterialTheme.colorScheme.primaryContainer,
+                        ) {
+                            Box(
+                                modifier = Modifier.fillMaxSize().padding(12.dp),
+                                contentAlignment = Alignment.Center,
+                            ) {
+                                Text(
+                                    text = entry.name,
+                                    style = MaterialTheme.typography.titleSmall,
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                    maxLines = 2,
+                                    overflow = TextOverflow.Ellipsis,
+                                )
+                            }
                         }
                     }
                 }
             }
         }
     } else {
-        val genre = selectedGenre ?: return
+        val selectedGenre = selected ?: return
         Column(modifier = Modifier.fillMaxSize()) {
-            Row(
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text(
-                    text = genre,
-                    style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.padding(vertical = 10.dp),
-                )
-            }
+            Text(
+                text = selectedGenre.name,
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
+            )
             AniListGenreMediaList(
                 type = type,
-                genre = genre,
+                category = selectedGenre,
                 showAdult = showAdult,
                 api = api,
                 navActionManager = navActionManager,
@@ -154,24 +138,30 @@ fun AniListGenreBentoView(
 @Composable
 private fun AniListGenreMediaList(
     type: MediaType,
-    genre: String,
+    category: MalAniListCategory,
     showAdult: Boolean,
     api: JikanApi,
     navActionManager: NavActionManager,
 ) {
-    val results = remember(type, genre, showAdult) { mutableStateListOf<AniListMedia>() }
-    var page by remember(type, genre, showAdult) { mutableIntStateOf(1) }
-    var isLoading by remember(type, genre, showAdult) { mutableStateOf(true) }
-    var hasMore by remember(type, genre, showAdult) { mutableStateOf(true) }
-    var error by remember(type, genre, showAdult) { mutableStateOf<String?>(null) }
-    var retry by remember(type, genre, showAdult) { mutableIntStateOf(0) }
+    val results = remember(type, category.malGenreId, showAdult) { mutableStateListOf<AniListMedia>() }
+    var page by remember(type, category.malGenreId, showAdult) { mutableIntStateOf(1) }
+    var isLoading by remember(type, category.malGenreId, showAdult) { mutableStateOf(true) }
+    var hasMore by remember(type, category.malGenreId, showAdult) { mutableStateOf(true) }
+    var error by remember(type, category.malGenreId, showAdult) { mutableStateOf<String?>(null) }
+    var retry by remember(type, category.malGenreId, showAdult) { mutableIntStateOf(0) }
     val canLoadMore by rememberUpdatedState(!isLoading && hasMore && error == null)
 
-    LaunchedEffect(type, genre, showAdult, page, retry) {
+    LaunchedEffect(type, category.malGenreId, showAdult, page, retry) {
         isLoading = true
         error = null
         try {
-            val payload = api.getAniListGenreMedia(type, genre, page, showAdult)
+            val payload = api.getAniListGenreMedia(
+                type = type,
+                genre = category.aniListFilter,
+                page = page,
+                showAdult = showAdult,
+                filterByTag = category.filterKind == AniListFilterKind.TAG,
+            )
             val knownIds = results.mapNotNullTo(mutableSetOf()) { it.idMal }
             payload.entries.filter { knownIds.add(it.idMal!!) }.forEach(results::add)
             hasMore = payload.hasNextPage
@@ -196,36 +186,30 @@ private fun AniListGenreMediaList(
     ) {
         items(results, key = { it.idMal!! }) { item ->
             MediaItemDetailed(
-                title = item.title?.userPreferred ?: "MAL #${item.idMal}",
                 mediaType = type,
-mediaId = item.idMal!!,
-imageUrl = item.coverImage?.large,
+                mediaId = item.idMal!!,
+                title = item.title?.userPreferred ?: "MAL #${item.idMal}",
+                imageUrl = item.coverImage?.large,
                 subtitle1 = {
-                    Text(
-                        item.format?.replace("_", " ") ?: "AniList",
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
+                    Text(item.format?.replace("_", " ") ?: "AniList",
+                        color = MaterialTheme.colorScheme.onSurfaceVariant)
                 },
                 subtitle2 = {
-                    Text(
-                        item.averageScore?.let { "AniList: $it / 100" } ?: "AniList",
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
+                    Text(item.averageScore?.let { "AniList: $it / 100" } ?: "AniList",
+                        color = MaterialTheme.colorScheme.onSurfaceVariant)
                 },
                 subtitle3 = {
-                    Text("Open MAL details", color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text("MyAnimeList", color = MaterialTheme.colorScheme.onSurfaceVariant)
                 },
                 onClick = dropUnlessResumed {
-                    // NEVER pass an AniList internal ID into the MAL repository.
                     navActionManager.toMediaDetails(type, item.idMal!!)
                 },
             )
         }
         if (isLoading) item {
-            Box(
-                modifier = Modifier.fillParentMaxWidth().padding(20.dp),
-                contentAlignment = Alignment.Center,
-            ) { CircularProgressIndicator() }
+            Box(Modifier.fillParentMaxWidth().padding(20.dp), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator()
+            }
         }
         if (error != null) item {
             Column(
@@ -240,11 +224,8 @@ imageUrl = item.coverImage?.large,
             }
         }
         if (!isLoading && results.isEmpty() && error == null) item {
-            Box(
-                modifier = Modifier.fillParentMaxWidth().padding(20.dp),
-                contentAlignment = Alignment.Center,
-            ) {
-                Text("No titles with a MyAnimeList ID for this genre.")
+            Box(Modifier.fillParentMaxWidth().padding(20.dp), contentAlignment = Alignment.Center) {
+                Text("No AniList titles with a matching MyAnimeList ID for ${category.name}.")
             }
         }
     }

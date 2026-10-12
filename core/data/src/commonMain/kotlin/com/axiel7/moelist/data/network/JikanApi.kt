@@ -56,5 +56,6 @@ class JikanApi(client: HttpClient) {
         genre: String,
         page: Int,
         showAdult: Boolean,
-    ): AniListCatalogPage = aniList.media(type, genre, page, showAdult)
+        filterByTag: Boolean = false,
+    ): AniListCatalogPage = aniList.media(type, genre, page, showAdult, filterByTag)
 }

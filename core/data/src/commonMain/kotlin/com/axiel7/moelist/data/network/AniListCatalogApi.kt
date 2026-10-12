@@ -39,13 +39,217 @@ class AniListCatalogApi(private val client: HttpClient) {
         genre: String,
         page: Int,
         includeAdult: Boolean,
+        filterByTag: Boolean = false,
     ): AniListCatalogPage {
+        val filterField = if (filterByTag) "tag" else "genre"
         val adultFilter = if (includeAdult) "" else ", isAdult: false"
         val query = """
             query (${'$'}page: Int!, ${'$'}genre: String!, ${'$'}type: MediaType!) {
               Page(page: ${'$'}page, perPage: 25) {
                 pageInfo { hasNextPage }
-                media(type: ${'$'}type, genre: ${'$'}genre, sort: POPULARITY_DESC$adultFilter) {
+                media(type: ${' {
+                  idMal
+                  isAdult
+                  title { userPreferred }
+                  coverImage { large }
+                  averageScore
+                  format
+                }
+              }
+            }
+        """.trimIndent()
+        val response: AniListGraphResponse = client.post(GRAPHQL) {
+            contentType(ContentType.Application.Json)
+            setBody(
+                AniListGraphRequest(
+                    query = query,
+                    variables = AniListVariables(
+                        page = page,
+                        genre = genre,
+                        type = type.name,
+                    ),
+                )
+            )
+        }.body()
+        response.requireNoErrors()
+        val payload = response.data?.page ?: throw IllegalStateException("AniList returned no genre page.")
+        return AniListCatalogPage(
+            // AniList-only media IDs may not be used for MAL updates.
+            entries = payload.media.filter { (it.idMal ?: 0) > 0 && (includeAdult || !it.isAdult) },
+            hasNextPage = payload.pageInfo?.hasNextPage == true,
+        )
+    }
+}
+
+data class AniListCatalogPage(
+    val entries: List<AniListMedia>,
+    val hasNextPage: Boolean,
+)
+
+@Serializable
+private data class AniListGraphRequest(
+    val query: String,
+    val variables: AniListVariables? = null,
+)
+
+@Serializable
+private data class AniListVariables(
+    val page: Int,
+    val genre: String,
+    val type: String,
+)
+
+@Serializable
+private data class AniListGraphResponse(
+    val data: AniListGraphData? = null,
+    val errors: List<AniListGraphError> = emptyList(),
+) {
+    fun requireNoErrors() {
+        if (errors.isNotEmpty()) throw IllegalStateException(
+            errors.first().message.ifBlank { "AniList is temporarily unavailable." }
+        )
+    }
+}
+
+@Serializable
+private data class AniListGraphError(
+    val message: String = "",
+)
+
+@Serializable
+private data class AniListGraphData(
+    @SerialName("GenreCollection") val genres: List<String>? = null,
+    @SerialName("Page") val page: AniListGraphPage? = null,
+)
+
+@Serializable
+private data class AniListGraphPage(
+    val pageInfo: AniListPageInfo? = null,
+    val media: List<AniListMedia> = emptyList(),
+)
+
+@Serializable
+private data class AniListPageInfo(
+    val hasNextPage: Boolean = false,
+)
+
+@Serializable
+data class AniListMedia(
+    val idMal: Int? = null,
+    val isAdult: Boolean = false,
+    val title: AniListTitle? = null,
+    val coverImage: AniListCover? = null,
+    val averageScore: Int? = null,
+    val format: String? = null,
+)
+
+@Serializable
+data class AniListTitle(val userPreferred: String? = null)
+
+@Serializable
+data class AniListCover(val large: String? = null)
+}type, $filterField: ${' {
+                  idMal
+                  isAdult
+                  title { userPreferred }
+                  coverImage { large }
+                  averageScore
+                  format
+                }
+              }
+            }
+        """.trimIndent()
+        val response: AniListGraphResponse = client.post(GRAPHQL) {
+            contentType(ContentType.Application.Json)
+            setBody(
+                AniListGraphRequest(
+                    query = query,
+                    variables = AniListVariables(
+                        page = page,
+                        genre = genre,
+                        type = type.name,
+                    ),
+                )
+            )
+        }.body()
+        response.requireNoErrors()
+        val payload = response.data?.page ?: throw IllegalStateException("AniList returned no genre page.")
+        return AniListCatalogPage(
+            // AniList-only media IDs may not be used for MAL updates.
+            entries = payload.media.filter { (it.idMal ?: 0) > 0 && (includeAdult || !it.isAdult) },
+            hasNextPage = payload.pageInfo?.hasNextPage == true,
+        )
+    }
+}
+
+data class AniListCatalogPage(
+    val entries: List<AniListMedia>,
+    val hasNextPage: Boolean,
+)
+
+@Serializable
+private data class AniListGraphRequest(
+    val query: String,
+    val variables: AniListVariables? = null,
+)
+
+@Serializable
+private data class AniListVariables(
+    val page: Int,
+    val genre: String,
+    val type: String,
+)
+
+@Serializable
+private data class AniListGraphResponse(
+    val data: AniListGraphData? = null,
+    val errors: List<AniListGraphError> = emptyList(),
+) {
+    fun requireNoErrors() {
+        if (errors.isNotEmpty()) throw IllegalStateException(
+            errors.first().message.ifBlank { "AniList is temporarily unavailable." }
+        )
+    }
+}
+
+@Serializable
+private data class AniListGraphError(
+    val message: String = "",
+)
+
+@Serializable
+private data class AniListGraphData(
+    @SerialName("GenreCollection") val genres: List<String>? = null,
+    @SerialName("Page") val page: AniListGraphPage? = null,
+)
+
+@Serializable
+private data class AniListGraphPage(
+    val pageInfo: AniListPageInfo? = null,
+    val media: List<AniListMedia> = emptyList(),
+)
+
+@Serializable
+private data class AniListPageInfo(
+    val hasNextPage: Boolean = false,
+)
+
+@Serializable
+data class AniListMedia(
+    val idMal: Int? = null,
+    val isAdult: Boolean = false,
+    val title: AniListTitle? = null,
+    val coverImage: AniListCover? = null,
+    val averageScore: Int? = null,
+    val format: String? = null,
+)
+
+@Serializable
+data class AniListTitle(val userPreferred: String? = null)
+
+@Serializable
+data class AniListCover(val large: String? = null)
+}genre, sort: POPULARITY_DESC$adultFilter) {
                   idMal
                   isAdult
                   title { userPreferred }
