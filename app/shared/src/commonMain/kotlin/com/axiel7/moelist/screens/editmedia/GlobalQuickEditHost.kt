@@ -3,6 +3,7 @@ package com.axiel7.moelist.screens.editmedia
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -29,6 +30,7 @@ import org.koin.compose.koinInject
  * One instance hosts the existing MAL edit sheet for all media cards.
  * Details are fetched from MAL before opening; AniList IDs are never used.
  */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GlobalQuickEditHost(controller: MediaQuickEditController) {
     val target = controller.target ?: return
