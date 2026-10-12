@@ -25,8 +25,12 @@ for apk in "$@"; do
   fi
   "$signer" verify --verbose --print-certs "$apk" > "$RUNNER_TEMP/release-signer.txt"
   grep -Fq 'Verified using v2 scheme (APK Signature Scheme v2): true' "$RUNNER_TEMP/release-signer.txt" || { echo "::error::Missing v2 signature"; exit 1; }
-  cert="$(sed -n 's/^Signer #1 certificate SHA-256 digest: //p' "$RUNNER_TEMP/release-signer.txt" | head -n 1)"
-  test -n "$cert" || { echo "::error::Signing certificate not found"; exit 1; }
+  # apksigner versions can format this line with varying indentation/spaces.
+  # Fingerprints are public metadata, unlike keystore/private key credentials.
+  echo "APK signer summary:"
+  grep -E 'Signer #|Verified using' "$RUNNER_TEMP/release-signer.txt" || true
+  cert="$(grep -im1 'certificate SHA-256 digest' "$RUNNER_TEMP/release-signer.txt" | sed -E 's/^.*digest:[[:space:]]*//' | tr -d '\r' || true)"
+  test -n "$cert" || { echo "::error::Signing certificate SHA-256 digest was not reported by apksigner"; exit 1; }
   if [ -n "$first_cert" ] && [ "$first_cert" != "$cert" ]; then echo "::error::Inconsistent certificate"; exit 1; fi
   first_cert="$cert"
   printf 'Verified %s | SDK %s | Certificate %s\n' "$(basename "$apk")" "$target" "$cert"

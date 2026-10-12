@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - 'version.properties'
+      - 'tools/audit_android_release.sh'
   workflow_dispatch:
 
 permissions:
