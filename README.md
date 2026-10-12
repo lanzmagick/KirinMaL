@@ -22,7 +22,9 @@
 
 **[KirinMaL Stable Releases](https://github.com/lanzmagick/KirinMaL/releases)**
 
-**Latest published signed APK: v1.0.2.** The next version, **v1.0.3**, adds safe bottom spacing to Anime and Manga Genres, an owner-supplied MAL Client ID and the KirinMaL redirect `kirinmal://oauth/mal`. Its signed release is pending configuration of `MAL_CLIENT_ID`.
+**Latest published signed APK: v1.0.3.** It adds safe bottom spacing to Anime and Manga Genres, an owner-supplied MAL Client ID and the KirinMaL redirect `kirinmal://oauth/mal`.
+
+The next version, **v1.0.4**, adds title-initial filtering beside Sort and MAL-colored status badges for Anime and Manga lists. Its patch is ready; the Android build has not been run yet. See [v1.0.4 release notes](docs/releases/v1.0.4.md).
 
 The Android application ID is `com.lanzmagick.kirinmal`, separate from MoeList and KirinMaL v1.0.0 (`com.axiel7.moelist`). Versions v1.0.1 and later share the KirinMaL package ID and update the same installation when signed with the same release key. Signed APKs are distributed through GitHub Releases. See [v1.0.3 release notes](docs/releases/v1.0.3.md).
 
