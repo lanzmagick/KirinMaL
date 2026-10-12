@@ -60,8 +60,9 @@ fun MediaItemVertical(
         { editor!!.open(mediaType!!, mediaId!!) }
     } else null
     val badgeAction = onBadgeClick ?: editAction
-    val overridden = canEdit && editor!!.statuses.containsKey(key)
-    val overriddenStatus = if (overridden) editor!!.statuses[key]?.status?.toBo() else null
+    val cached = canEdit && editor!!.statuses.containsKey(key)
+    val synced = canEdit && editor!!.syncedTypes[mediaType] == true
+    val malStatus = if (cached) editor!!.statuses[key]?.status?.toBo() else null
     Column(
         modifier = modifier
             .width(MEDIA_POSTER_SMALL_WIDTH.dp)
@@ -86,7 +87,7 @@ fun MediaItemVertical(
                     )
             )
 
-            if (badgeContent != null || canEdit) {
+            if (badgeContent != null || (canEdit && (cached || synced))) {
                 Row(
                     modifier = Modifier
                         .clip(RoundedCornerShape(topEnd = 8.dp, bottomStart = 8.dp))
@@ -96,9 +97,9 @@ fun MediaItemVertical(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     when {
-                        overridden -> Icon(
-                            painter = painterResource(overriddenStatus?.icon ?: UiRes.drawable.ic_round_add_24),
-                            contentDescription = overriddenStatus?.localized() ?: "Add to MAL",
+                        cached || synced -> Icon(
+                            painter = painterResource(malStatus?.icon ?: UiRes.drawable.ic_round_add_24),
+                            contentDescription = malStatus?.localized() ?: "Add to MAL",
                             modifier = Modifier.size(20.dp),
                             tint = MaterialTheme.colorScheme.onPrimaryContainer,
                         )

@@ -44,9 +44,13 @@ fun AiringAnimeHorizontalItem(
     val editor = LocalMediaQuickEdit.current
     val edit: () -> Unit = { editor?.open(MediaType.ANIME, item.node.id); Unit }
     val key = MediaType.ANIME to item.node.id
-    val overridden = editor?.statuses?.containsKey(key) == true
-    val status = if (overridden) editor?.statuses?.get(key)?.status?.toBo()
-        else item.node.myListStatus?.status?.toBo()
+    val synced = editor?.syncedTypes?.get(MediaType.ANIME) == true
+    val known = editor?.statuses?.containsKey(key) == true
+    val status = when {
+        known -> editor?.statuses?.get(key)?.status?.toBo()
+        synced -> null
+        else -> item.node.myListStatus?.status?.toBo()
+    }
     Row(
         modifier = Modifier
             .padding(horizontal = 8.dp)
@@ -70,7 +74,7 @@ fun AiringAnimeHorizontalItem(
                     )
             )
 
-            if (status != null || editor != null) {
+            if (status != null || (editor != null && synced)) {
                 Row(
                     modifier = Modifier
                         .clip(RoundedCornerShape(topEnd = 8.dp))
