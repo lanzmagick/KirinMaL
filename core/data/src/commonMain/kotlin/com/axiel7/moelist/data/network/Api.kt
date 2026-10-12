@@ -111,6 +111,14 @@ class Api(private val client: HttpClient) {
     suspend fun getUserAnimeList(url: String): Response<List<UserAnimeList>> =
         client.get(url).body()
 
+    /** Every signed-in MAL anime status, including explicit titles. */
+    suspend fun getAllUserAnimeStatusEntries(): Response<List<UserAnimeList>> =
+        client.get("${MAL_API_URL}users/@me/animelist") {
+            parameter("limit", 1000)
+            parameter("nsfw", 1)
+            parameter("fields", "list_status")
+        }.body()
+
     suspend fun updateUserAnimeList(
         animeId: Int,
         status: ListStatusDto?,
@@ -199,6 +207,14 @@ class Api(private val client: HttpClient) {
 
     suspend fun getUserMangaList(url: String): Response<List<UserMangaList>> =
         client.get(url).body()
+
+    /** Every signed-in MAL manga status, including explicit titles. */
+    suspend fun getAllUserMangaStatusEntries(): Response<List<UserMangaList>> =
+        client.get("${MAL_API_URL}users/@me/mangalist") {
+            parameter("limit", 1000)
+            parameter("nsfw", 1)
+            parameter("fields", "list_status")
+        }.body()
 
     /** Includes every status and NSFW entry for profile totals. */
     suspend fun getAllUserMangaEntries(): Response<List<UserMangaList>> =
