@@ -42,7 +42,7 @@ fun AiringAnimeHorizontalItem(
     onClick: () -> Unit
 ) {
     val editor = LocalMediaQuickEdit.current
-    val edit = { editor?.open(MediaType.ANIME, item.node.id) }
+    val edit: () -> Unit = { editor?.open(MediaType.ANIME, item.node.id); Unit }
     val key = MediaType.ANIME to item.node.id
     val overridden = editor?.statuses?.containsKey(key) == true
     val status = if (overridden) editor?.statuses?.get(key)?.status?.toBo()
