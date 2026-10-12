@@ -2,6 +2,7 @@ package com.axiel7.moelist
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
@@ -27,6 +28,9 @@ import com.axiel7.moelist.data.model.ui.ThemeStyle
 import com.axiel7.moelist.main.MainEvent
 import com.axiel7.moelist.main.MainUiState
 import com.axiel7.moelist.main.MainView
+import com.axiel7.moelist.screens.editmedia.GlobalQuickEditHost
+import com.axiel7.moelist.ui.composables.media.LocalMediaQuickEdit
+import com.axiel7.moelist.ui.composables.media.MediaQuickEditController
 import com.axiel7.moelist.ui.base.BrowserHandler
 import com.axiel7.moelist.ui.base.model.BottomDestination
 import com.axiel7.moelist.ui.base.model.BottomDestination.Companion.isBottomDestination
@@ -95,8 +99,17 @@ fun App(
     LaunchedEffect(uiState.language) { onLocaleChange(uiState.language) }
 
 
+    val quickEditController = remember { MediaQuickEditController() }
+    LaunchedEffect(uiState.isLoggedIn) {
+        if (!uiState.isLoggedIn) {
+            quickEditController.dismiss()
+            quickEditController.statuses.clear()
+        }
+    }
+
     CompositionLocalProvider(
-        BrowserHandler.LocalBrowserHandler provides browserHandler
+        BrowserHandler.LocalBrowserHandler provides browserHandler,
+        LocalMediaQuickEdit provides quickEditController.takeIf { uiState.isLoggedIn },
     ) {
         MoeListTheme(
             darkTheme = isDarkTheme,
@@ -109,7 +122,8 @@ fun App(
                 modifier = Modifier.fillMaxSize(),
                 color = backgroundColor
             ) {
-                MainView(
+                Box(Modifier.fillMaxSize()) {
+                    MainView(
                     isCompactScreen = isCompactScreen,
                     isLoggedIn = uiState.isLoggedIn,
                     useListTabs = uiState.useListTabs,
@@ -119,7 +133,11 @@ fun App(
                     saveLastTab = event::saveLastTab,
                     pinnedNavBar = uiState.pinnedNavBar,
                     profilePicture = uiState.profilePicture,
-                )
+                    )
+                    if (uiState.isLoggedIn) {
+                        GlobalQuickEditHost(quickEditController)
+                    }
+                }
             }
         }
     }
