@@ -226,7 +226,9 @@ private fun SearchViewContent(
     fun ItemView(item: BaseMediaList) {
         MediaItemDetailed(
             title = item.node.title(uiState.preferredTitle),
-            imageUrl = item.node.mainPicture?.large,
+            mediaType = uiState.mediaType,
+mediaId = item.node.id,
+imageUrl = item.node.mainPicture?.large,
             badgeContent = item.node.myListStatus?.status?.toBo()?.let { status ->
                 {
                     Icon(

@@ -662,6 +662,8 @@ private fun MediaDetailsContent(
                             imageUrl = item.node.mainPicture?.large,
                             title = item.node.title(uiState.preferredTitle),
                             modifier = Modifier.padding(end = 16.dp),
+                            mediaType = MediaType.ANIME,
+                            mediaId = item.node.id,
                             subtitle = {
                                 Text(
                                     text = item.relationType.localized(),
@@ -690,6 +692,8 @@ private fun MediaDetailsContent(
                             imageUrl = item.node.mainPicture?.large,
                             title = item.node.title(uiState.preferredTitle),
                             modifier = Modifier.padding(end = 16.dp),
+                            mediaType = MediaType.MANGA,
+                            mediaId = item.node.id,
                             subtitle = {
                                 Text(
                                     text = item.relationType.localized(),
@@ -720,6 +724,8 @@ private fun MediaDetailsContent(
                             imageUrl = item.node.mainPicture?.large,
                             title = item.node.title(uiState.preferredTitle),
                             modifier = Modifier.padding(end = 16.dp),
+                            mediaType = item.node.mediaType,
+                            mediaId = item.node.id,
                             subtitle = {
                                 TextIconHorizontal(
                                     text = item.numRecommendations.format() ?: UNKNOWN_CHAR,

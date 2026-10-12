@@ -280,7 +280,9 @@ private fun HomeViewContent(
                     contentType = { it.node }
                 ) {
                     MediaItemVertical(
-                        imageUrl = it.node.mainPicture?.large,
+                        mediaType = MediaType.ANIME,
+mediaId = it.node.id,
+imageUrl = it.node.mainPicture?.large,
                         title = it.node.title(uiState.preferredTitle),
                         modifier = Modifier.padding(horizontal = 8.dp),
                         badgeContent = it.node.myListStatus?.status?.toBo()?.let { status ->
@@ -360,7 +362,9 @@ private fun HomeViewContent(
                     contentType = { it.node }
                 ) {
                     MediaItemVertical(
-                        imageUrl = it.node.mainPicture?.large,
+                        mediaType = MediaType.ANIME,
+mediaId = it.node.id,
+imageUrl = it.node.mainPicture?.large,
                         title = it.node.title(uiState.preferredTitle),
                         modifier = Modifier.padding(horizontal = 8.dp),
                         subtitle = if (!uiState.hideScore) {

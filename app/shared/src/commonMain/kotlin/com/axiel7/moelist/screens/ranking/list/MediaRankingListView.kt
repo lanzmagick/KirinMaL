@@ -94,7 +94,9 @@ private fun MediaRankingListViewContent(
     fun ItemView(item: BaseRanking) {
         MediaItemDetailed(
             title = item.node.title(uiState.preferredTitle),
-            imageUrl = item.node.mainPicture?.large,
+            mediaType = mediaType,
+mediaId = item.node.id,
+imageUrl = item.node.mainPicture?.large,
             topBadgeContent = {
                 Text(
                     text = "#${item.ranking?.rank}",

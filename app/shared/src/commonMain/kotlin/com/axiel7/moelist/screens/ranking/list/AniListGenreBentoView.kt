@@ -197,7 +197,9 @@ private fun AniListGenreMediaList(
         items(results, key = { it.idMal!! }) { item ->
             MediaItemDetailed(
                 title = item.title?.userPreferred ?: "MAL #${item.idMal}",
-                imageUrl = item.coverImage?.large,
+                mediaType = type,
+mediaId = item.idMal!!,
+imageUrl = item.coverImage?.large,
                 subtitle1 = {
                     Text(
                         item.format?.replace("_", " ") ?: "AniList",

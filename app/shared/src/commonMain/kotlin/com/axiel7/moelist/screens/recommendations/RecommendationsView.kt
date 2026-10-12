@@ -94,7 +94,9 @@ private fun RecommendationsViewContent(
                     contentAlignment = Alignment.TopCenter
                 ) {
                     MediaItemVertical(
-                        imageUrl = item.node.mainPicture?.large,
+                        mediaType = MediaType.ANIME,
+mediaId = item.node.id,
+imageUrl = item.node.mainPicture?.large,
                         title = item.node.title(uiState.preferredTitle),
                         subtitle = if (!uiState.hideScore) {
                             {

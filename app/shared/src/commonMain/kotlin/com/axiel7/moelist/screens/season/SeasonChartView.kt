@@ -151,7 +151,9 @@ private fun SeasonChartViewContent(
                     contentAlignment = Alignment.TopCenter
                 ) {
                     MediaItemVertical(
-                        imageUrl = item.node.mainPicture?.large,
+                        mediaType = MediaType.ANIME,
+mediaId = item.node.id,
+imageUrl = item.node.mainPicture?.large,
                         title = item.node.title(uiState.preferredTitle),
                         badgeContent = item.node.myListStatus?.status?.toBo()?.let { status ->
                             {
