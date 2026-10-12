@@ -42,10 +42,10 @@ class AniListCatalogApi(private val client: HttpClient) {
     ): AniListCatalogPage {
         val adultFilter = if (includeAdult) "" else ", isAdult: false"
         val query = """
-            query (\$page: Int!, \$genre: String!, \$type: MediaType!) {
-              Page(page: \$page, perPage: 25) {
+            query (${'$'}page: Int!, ${'$'}genre: String!, ${'$'}type: MediaType!) {
+              Page(page: ${'$'}page, perPage: 25) {
                 pageInfo { hasNextPage }
-                media(type: \$type, genre: \$genre, sort: POPULARITY_DESC$adultFilter) {
+                media(type: ${'$'}type, genre: ${'$'}genre, sort: POPULARITY_DESC$adultFilter) {
                   idMal
                   isAdult
                   title { userPreferred }
