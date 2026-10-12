@@ -157,9 +157,13 @@ private fun HomeViewContent(
                 when (section) {
                     HomeMangaSection.READING -> navActionManager.toReadingManga()
                     HomeMangaSection.POPULAR -> navActionManager.toMediaRanking(
-                        MediaType.MANGA, RankingType.POPULARITY),
+                        MediaType.MANGA,
+                        RankingType.POPULARITY,
+                    )
                     HomeMangaSection.TOP_RATED -> navActionManager.toMediaRanking(
-                        MediaType.MANGA, RankingType.SCORE),
+                        MediaType.MANGA,
+                        RankingType.SCORE,
+                    )
                 }
             },
             onRetry = { event?.reloadMangaSection(section) },
