@@ -11,6 +11,10 @@
 - Optional NSFW visibility (enabled by default for new installs; switch it off in Settings).
 - KirinMaL icons and branding across platforms.
 
+## Website
+
+**[KirinMaL Official Pages](https://lanzmagick.github.io/KirinMaL/)** — lightweight, responsive landing page with features and Android APK download links.
+
 ## Download
 
 **[Get the latest Development APK](https://github.com/lanzmagick/KirinMaL/releases/tag/development)** · [All Releases](https://github.com/lanzmagick/KirinMaL/releases)
