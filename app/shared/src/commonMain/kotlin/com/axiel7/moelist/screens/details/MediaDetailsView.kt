@@ -90,6 +90,7 @@ import com.axiel7.moelist.ui.composables.defaultPlaceholder
 import com.axiel7.moelist.ui.composables.media.MEDIA_POSTER_BIG_HEIGHT
 import com.axiel7.moelist.ui.composables.media.MEDIA_POSTER_BIG_WIDTH
 import com.axiel7.moelist.ui.composables.media.MediaItemVertical
+import com.axiel7.moelist.ui.composables.media.LocalMediaQuickEdit
 import com.axiel7.moelist.ui.composables.media.MediaPoster
 import com.axiel7.moelist.ui.composables.stats.HorizontalStatsBar
 import com.axiel7.moelist.ui.generated.resources.UiRes
@@ -182,6 +183,7 @@ private fun MediaDetailsContent(
     val topAppBarScrollBehavior =
         TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
     val scope = rememberCoroutineScope()
+    val sharedEditor = LocalMediaQuickEdit.current
 
     val sheetState = rememberModalBottomSheetState()
     var showSheet by remember { mutableStateOf(false) }
@@ -210,6 +212,9 @@ private fun MediaDetailsContent(
             myListStatus = uiState.myListStatus,
             bottomPadding = bottomBarPadding,
             onEdited = { status, removed ->
+                uiState.mediaInfo?.let { media ->
+                    sharedEditor?.onEdited(media.mediaType, media.id, status, removed)
+                }
                 hideSheet()
                 event?.onChangedMyListStatus(status, removed)
             },

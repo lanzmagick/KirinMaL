@@ -128,6 +128,9 @@ private fun UserMediaListWithFabViewContent(
             myListStatus = uiState.myListStatus,
             bottomPadding = bottomBarPadding,
             onEdited = { status, removed ->
+                uiState.mediaInfo?.let { media ->
+                    sharedEditor?.onEdited(media.mediaType, media.id, status, removed)
+                }
                 hideEditSheet()
                 event?.onChangeItemMyListStatus(status, removed)
             },
