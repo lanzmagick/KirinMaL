@@ -85,7 +85,7 @@ jobs:
         run: |
           set -euo pipefail
           if [[ -z "${MAL_CLIENT_ID:-}" ]]; then
-            echo "::error::Missing MAL_CLIENT_ID. Register your own MyAnimeList API application and add its Client ID in Settings > Secrets and variables > Actions. Redirect URI: kirinmal://auth/"
+            echo "::error::Missing MAL_CLIENT_ID. Register your own MyAnimeList API application and add its Client ID in Settings > Secrets and variables > Actions. Redirect URI: kirinmal://oauth/mal"
             exit 1
           fi
           case "$MAL_CLIENT_ID" in
@@ -102,7 +102,7 @@ jobs:
           set -euo pipefail
           grep -Fq 'applicationId = "com.lanzmagick.kirinmal"' app/androidApp/build.gradle.kts
           grep -Fq 'mapOf("oidcRedirectScheme" to "kirinmal")' app/androidApp/build.gradle.kts
-          grep -Fq 'actual val AUTH_REDIRECT_URI: String = "kirinmal://auth/"' core/data/src/androidMain/kotlin/com/axiel7/moelist/data/utils/Constants.android.kt
+          grep -Fq 'actual val AUTH_REDIRECT_URI: String = "kirinmal://oauth/mal"' core/data/src/androidMain/kotlin/com/axiel7/moelist/data/utils/Constants.android.kt
           grep -Fq 'android:name="com.axiel7.moelist.KirinMaLApplication"' app/androidApp/src/main/AndroidManifest.xml
           if grep -Fq 'android:targetPackage="com.axiel7.moelist"' app/androidApp/src/main/res/xml-v25/shortcuts.xml; then
             echo "::error::An Android shortcut still launches the original MoeList package"

@@ -2,7 +2,7 @@
 
 **KirinMaL** is an unofficial [MyAnimeList](https://myanimelist.net/) client based on [MoeList Multiplatform](https://github.com/axiel7/MoeListKMP), customized for Android. The repository also includes iOS and desktop source code.
 
-**Android identity:** `com.lanzmagick.kirinmal` · custom MAL redirect `kirinmal://auth/` · owner-supplied `MAL_CLIENT_ID` GitHub Action secret. Login requires registering that exact redirect in the owner's MAL API application. The original project remains credited as the upstream source.
+**Android identity:** `com.lanzmagick.kirinmal` · custom MAL redirect `kirinmal://oauth/mal` · owner-supplied `MAL_CLIENT_ID` GitHub Action secret. Login requires registering that exact redirect in the owner's MAL API application. The original project remains credited as the upstream source.
 
 ## Features
 
@@ -46,3 +46,8 @@ See [Release signing instructions](docs/ANDROID_RELEASE.md) and [Play Protect di
 Based on [axiel7/MoeListKMP](https://github.com/axiel7/MoeListKMP), with credit to its original authors and contributors. KirinMaL is **not affiliated with MyAnimeList**.
 
 Licensed under [GPL-3.0](LICENSE).
+
+
+## MyAnimeList Login
+
+KirinMaL requires a dedicated MAL API Client ID whose redirect URI is `kirinmal://oauth/mal`. The KirinNime API app uses `kirinime://oauth/mal`; do not confuse the two. Set the KirinMaL Client ID in GitHub Actions secret `MAL_CLIENT_ID`. See [MAL Client ID instructions](docs/MAL_CLIENT_ID.md).
