@@ -29,6 +29,7 @@ import com.axiel7.moelist.main.MainEvent
 import com.axiel7.moelist.main.MainUiState
 import com.axiel7.moelist.main.MainView
 import com.axiel7.moelist.screens.editmedia.GlobalQuickEditHost
+import com.axiel7.moelist.screens.editmedia.MalStatusSync
 import com.axiel7.moelist.ui.composables.media.LocalMediaQuickEdit
 import com.axiel7.moelist.ui.composables.media.MediaQuickEditController
 import com.axiel7.moelist.ui.base.BrowserHandler
@@ -102,8 +103,7 @@ fun App(
     val quickEditController = remember { MediaQuickEditController() }
     LaunchedEffect(uiState.isLoggedIn) {
         if (!uiState.isLoggedIn) {
-            quickEditController.dismiss()
-            quickEditController.statuses.clear()
+            quickEditController.resetForLogout()
         }
     }
 
@@ -135,6 +135,7 @@ fun App(
                     profilePicture = uiState.profilePicture,
                     )
                     if (uiState.isLoggedIn) {
+                        MalStatusSync(quickEditController)
                         GlobalQuickEditHost(quickEditController)
                     }
                 }
