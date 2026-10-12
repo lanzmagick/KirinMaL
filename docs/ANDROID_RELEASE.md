@@ -13,13 +13,17 @@ The owner must add these values under **Settings → Secrets and variables → A
 
 These values come from the owner's privately provided **KirinMaL-4-Kunci-Release.zip** file and **must never be committed to the repository** or published as an artifact.
 
+## MyAnimeList Client ID
+
+Signed builds also require the owner's **`MAL_CLIENT_ID`** repository secret. Register the MAL API application with the exact redirect `kirinmal://oauth/mal`, then copy its Client ID into this secret. See [MAL Client ID instructions](MAL_CLIENT_ID.md).
+
 ## Publish stable APKs
 
 1. Back up the private JKS file and passwords. If the keystore is lost, future Android updates cannot use the same signature.
-2. Set all four secrets.
+2. Set all four signing secrets and `MAL_CLIENT_ID`.
 3. Go to **Actions → KirinMaL Signed Release → Run workflow → main**.
-4. Wait for **Build signed production APKs**, **Verify every APK has an Android release signature**, and **Publish KirinMaL first stable release** to succeed.
-5. Open **Releases → v1.0.1** and download the matching device APK. The draft only becomes public **after** signed APKs have been uploaded and verified.
+4. Wait for **Build signed production APKs**, **Verify every APK has an Android release signature**, **Audit signed APK manifest, permissions and identity**, and **Publish audited KirinMaL Android release** to succeed.
+5. Open **Releases → the version from `version.properties`** and download the matching device APK. The draft only becomes public **after** signed APKs have been uploaded and verified.
 6. The old `development` release containing debug APKs is removed during first-release preparation or successful signed publication.
 
 The `Verify KirinMaL Android Release` workflow compiles an **unsigned test release** on pushes to check Kotlin/Android compilation; it **never publishes APKs**.
