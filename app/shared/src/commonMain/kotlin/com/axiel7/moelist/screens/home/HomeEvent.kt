@@ -7,4 +7,6 @@ import com.axiel7.moelist.ui.base.event.UiEvent
 interface HomeEvent : UiEvent {
     fun initRequestChain(isLoggedIn: Boolean)
     fun reloadMangaSection(section: HomeMangaSection)
+    fun reloadRecentWatching()
+    fun refreshPersonalSections()
 }

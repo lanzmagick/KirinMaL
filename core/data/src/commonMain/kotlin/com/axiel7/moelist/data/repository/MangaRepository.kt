@@ -2,19 +2,25 @@ package com.axiel7.moelist.data.repository
 
 import androidx.annotation.IntRange
 import com.axiel7.moelist.data.model.Response
+import com.axiel7.moelist.data.model.anime.Recommendations
 import com.axiel7.moelist.data.model.manga.MangaDetails
 import com.axiel7.moelist.data.model.manga.MangaList
+import com.axiel7.moelist.data.model.manga.MangaNode
 import com.axiel7.moelist.data.model.manga.MangaRanking
 import com.axiel7.moelist.data.model.manga.MyMangaListStatus
 import com.axiel7.moelist.data.model.manga.UserMangaList
+import com.axiel7.moelist.data.model.manga.selectMangaRecommendations
 import com.axiel7.moelist.data.model.media.ListStatusDto
 import com.axiel7.moelist.data.model.media.MediaSort
 import com.axiel7.moelist.data.model.media.RankingType
 import com.axiel7.moelist.data.network.Api
 import io.ktor.http.HttpStatusCode
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
 
 class MangaRepository(
@@ -68,7 +74,70 @@ class MangaRepository(
                     "my_list_status{status}"
         private const val RANKING_FIELDS =
             "alternative_titles{en,ja},mean,media_type,num_chapters,num_list_users,my_list_status{status}"
+        private const val RECOMMENDATIONS_FIELDS =
+            "recommendations{alternative_titles{en,ja},mean,media_type,nsfw,my_list_status{status}}"
     }
+
+    /** Recommendations from up to three recently updated Reading (or Completed) manga. */
+    suspend fun getRecommendedManga(limit: Int = 25): Response<List<MangaList>> =
+        withContext(dispatcher) {
+            try {
+                val nsfw = defaultPreferencesRepository.nsfwInt()
+                var seedResponse = api.getUserMangaList(
+                    status = ListStatusDto.READING,
+                    sort = MediaSort.UPDATED,
+                    limit = 3,
+                    nsfw = nsfw,
+                    fields = USER_MANGA_LIST_FIELDS,
+                )
+                if (seedResponse.data == null) {
+                    return@withContext Response(message = seedResponse.message ?: "Manga list unavailable")
+                }
+                if (seedResponse.data.isNullOrEmpty()) {
+                    seedResponse = api.getUserMangaList(
+                        status = ListStatusDto.COMPLETED,
+                        sort = MediaSort.UPDATED,
+                        limit = 3,
+                        nsfw = nsfw,
+                        fields = USER_MANGA_LIST_FIELDS,
+                    )
+                }
+                val seeds = seedResponse.data?.distinctBy { it.node.id }?.take(3)
+                    ?: return@withContext Response(message = seedResponse.message ?: "Manga list unavailable")
+                if (seeds.isEmpty()) return@withContext Response(data = emptyList())
+
+                val listed = loadAllUserMangaStatuses()
+                    ?: return@withContext Response(message = "Manga list unavailable")
+                val recommendations = mutableListOf<Recommendations<MangaNode>>()
+                var successfulSources = 0
+                for (seed in seeds) {
+                    try {
+                        val details = api.getMangaDetails(seed.node.id, RECOMMENDATIONS_FIELDS)
+                        check(details.id == seed.node.id) { "Manga recommendations unavailable" }
+                        recommendations.addAll(details.recommendations.orEmpty().distinctBy { it.node.id })
+                        successfulSources++
+                    } catch (e: CancellationException) {
+                        throw e
+                    } catch (_: Exception) {
+                        // One unavailable seed must not hide recommendations from the others.
+                    }
+                    currentCoroutineContext().ensureActive()
+                }
+                if (successfulSources == 0) {
+                    return@withContext Response(message = "Manga recommendations unavailable")
+                }
+                Response(data = selectMangaRecommendations(
+                    recommendations = recommendations,
+                    excludedIds = listed.keys + seeds.map { it.node.id },
+                    showAdult = nsfw == 1,
+                    limit = limit.coerceIn(1, 100),
+                ).map { MangaList(it) })
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Response(message = e.message ?: "Manga recommendations unavailable")
+            }
+        }
 
     suspend fun getMangaDetails(
         mangaId: Int

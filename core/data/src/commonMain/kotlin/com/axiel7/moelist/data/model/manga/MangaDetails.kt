@@ -87,5 +87,6 @@ data class MangaDetails(
         mediaFormat = mediaFormat,
         status = status,
         mean = mean,
+        nsfw = nsfw,
     )
 }

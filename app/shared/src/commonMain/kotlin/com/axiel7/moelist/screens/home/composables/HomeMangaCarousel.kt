@@ -25,7 +25,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.dropUnlessResumed
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.model.media.TitleLanguage
-import com.axiel7.moelist.data.utils.NumExtensions.format
 import com.axiel7.moelist.data.utils.UNKNOWN_CHAR
 import com.axiel7.moelist.screens.home.HomeMangaItem
 import com.axiel7.moelist.screens.home.HomeMangaSection
@@ -41,12 +40,11 @@ import com.axiel7.moelist.ui.composables.score.SmallScoreIndicator
 import com.axiel7.moelist.ui.generated.resources.UiRes
 import com.axiel7.moelist.ui.generated.resources.chapters
 import com.axiel7.moelist.ui.generated.resources.error_server
-import com.axiel7.moelist.ui.generated.resources.home_popular_manga
+import com.axiel7.moelist.ui.generated.resources.home_recommended_manga
 import com.axiel7.moelist.ui.generated.resources.home_reading_manga
-import com.axiel7.moelist.ui.generated.resources.home_top_rated_manga
-import com.axiel7.moelist.ui.generated.resources.members
+import com.axiel7.moelist.ui.generated.resources.manga_recommendations_hint
+import com.axiel7.moelist.ui.generated.resources.no_recommendations
 import com.axiel7.moelist.ui.generated.resources.no_reading_manga
-import com.axiel7.moelist.ui.generated.resources.no_results
 import com.axiel7.moelist.ui.generated.resources.retry
 import com.axiel7.moelist.ui.generated.resources.volumes
 import org.jetbrains.compose.resources.painterResource
@@ -67,10 +65,15 @@ fun HomeMangaCarousel(
     val listState = rememberLazyListState()
     val title = when (section) {
         HomeMangaSection.READING -> UiRes.string.home_reading_manga
-        HomeMangaSection.POPULAR -> UiRes.string.home_popular_manga
-        HomeMangaSection.TOP_RATED -> UiRes.string.home_top_rated_manga
+        HomeMangaSection.RECOMMENDED -> UiRes.string.home_recommended_manga
     }
     HeaderHorizontalList(stringResource(title), onClick = onOpenAll)
+    if (section == HomeMangaSection.RECOMMENDED) Text(
+        stringResource(UiRes.string.manga_recommendations_hint),
+        modifier = Modifier.padding(start = 20.dp, end = 20.dp, bottom = 12.dp),
+        style = MaterialTheme.typography.bodySmall,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+    )
     if (hasError) {
         Row(
             modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
@@ -88,7 +91,7 @@ fun HomeMangaCarousel(
         ) {
             Text(
                 stringResource(if (section == HomeMangaSection.READING)
-                    UiRes.string.no_reading_manga else UiRes.string.no_results),
+                    UiRes.string.no_reading_manga else UiRes.string.no_recommendations),
                 textAlign = TextAlign.Center,
             )
         }
@@ -104,7 +107,7 @@ fun HomeMangaCarousel(
                 MediaItemVertical(
                     mediaType = MediaType.MANGA,
                     mediaId = item.node.id,
-                    imageUrl = item.node.mainPicture?.large,
+                    imageUrl = item.node.mainPicture?.large ?: item.node.mainPicture?.medium,
                     title = item.node.title(preferredTitle),
                     modifier = Modifier.padding(horizontal = 8.dp),
                     minLines = 2,
@@ -132,13 +135,7 @@ fun HomeMangaCarousel(
                                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                                 )
                             }
-                            HomeMangaSection.POPULAR -> Text(
-                                (item.node.numListUsers?.format() ?: UNKNOWN_CHAR) + " " +
-                                        stringResource(UiRes.string.members),
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            )
-                            HomeMangaSection.TOP_RATED -> if (!hideScore) {
+                            HomeMangaSection.RECOMMENDED -> if (!hideScore) {
                                 SmallScoreIndicator(score = item.node.mean)
                             }
                         }

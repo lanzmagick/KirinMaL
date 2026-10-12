@@ -23,6 +23,14 @@ class NavActionManager(
         navigator.navigate(Route.ReadingManga)
     }
 
+    fun toWatchingAnime() {
+        navigator.navigate(Route.WatchingAnime)
+    }
+
+    fun toMangaRecommendations() {
+        navigator.navigate(Route.MangaRecommendations)
+    }
+
     fun toMediaDetails(mediaType: MediaType, id: Int) {
         navigator.navigate(
             Route.MediaDetails(

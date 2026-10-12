@@ -5,6 +5,7 @@ import com.axiel7.moelist.data.model.anime.AnimeList
 import com.axiel7.moelist.data.model.anime.AnimeRanking
 import com.axiel7.moelist.data.model.anime.AnimeSeasonal
 import com.axiel7.moelist.data.model.anime.StartSeason
+import com.axiel7.moelist.data.model.anime.UserAnimeList
 import com.axiel7.moelist.data.model.media.TitleLanguage
 import com.axiel7.moelist.data.utils.SeasonCalendar
 import com.axiel7.moelist.ui.base.state.UiState
@@ -16,14 +17,14 @@ data class HomeUiState(
     val seasonAnimes: List<AnimeSeasonal> = emptyList(),
     val recommendedAnimes: List<AnimeList> = emptyList(),
     val readingManga: List<HomeMangaItem> = emptyList(),
-    val popularManga: List<HomeMangaItem> = emptyList(),
-    val topRatedManga: List<HomeMangaItem> = emptyList(),
+    val recommendedManga: List<HomeMangaItem> = emptyList(),
+    val recentWatchingAnime: List<UserAnimeList> = emptyList(),
     val isLoadingReadingManga: Boolean = true,
-    val isLoadingPopularManga: Boolean = true,
-    val isLoadingTopRatedManga: Boolean = true,
+    val isLoadingRecommendedManga: Boolean = true,
+    val isLoadingRecentWatching: Boolean = true,
     val readingMangaError: Boolean = false,
-    val popularMangaError: Boolean = false,
-    val topRatedMangaError: Boolean = false,
+    val recommendedMangaError: Boolean = false,
+    val recentWatchingError: Boolean = false,
     val hideScore: Boolean = false,
     val preferredTitle: TitleLanguage = TitleLanguage.ROMAJI,
     override val isLoading: Boolean = true,

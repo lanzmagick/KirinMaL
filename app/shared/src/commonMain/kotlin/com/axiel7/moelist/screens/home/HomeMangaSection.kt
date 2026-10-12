@@ -4,7 +4,7 @@ import androidx.compose.runtime.Immutable
 import com.axiel7.moelist.data.model.manga.MangaNode
 import com.axiel7.moelist.data.model.manga.MyMangaListStatus
 
-enum class HomeMangaSection { READING, POPULAR, TOP_RATED }
+enum class HomeMangaSection { READING, RECOMMENDED }
 
 @Immutable
 data class HomeMangaItem(

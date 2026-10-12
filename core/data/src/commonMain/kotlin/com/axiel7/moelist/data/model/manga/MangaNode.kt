@@ -37,4 +37,5 @@ data class MangaNode(
     override val mean: Float? = null,
     @SerialName("my_list_status")
     override val myListStatus: BasicMyListStatus? = null,
+    val nsfw: String? = null,
 ) : BaseMediaNode()

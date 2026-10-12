@@ -36,6 +36,7 @@ import com.axiel7.moelist.screens.more.settings.SettingsView
 import com.axiel7.moelist.screens.more.settings.list.ListStyleSettingsView
 import com.axiel7.moelist.screens.profile.ProfileView
 import com.axiel7.moelist.screens.ranking.MediaRankingView
+import com.axiel7.moelist.screens.recommendations.MangaRecommendationsView
 import com.axiel7.moelist.screens.recommendations.RecommendationsView
 import com.axiel7.moelist.screens.search.SearchHostView
 import com.axiel7.moelist.screens.season.SeasonChartView
@@ -48,6 +49,8 @@ import com.axiel7.moelist.ui.composables.DefaultScaffoldWithTopAppBar
 import com.axiel7.moelist.ui.generated.resources.UiRes
 import com.axiel7.moelist.ui.generated.resources.title_profile
 import com.axiel7.moelist.ui.generated.resources.title_manga_list
+import com.axiel7.moelist.ui.generated.resources.home_recent_watching
+import com.axiel7.moelist.ui.generated.resources.home_recommended_manga
 import org.jetbrains.compose.resources.stringResource
 
 private val topNavigationTransitionSpec = NavDisplay.transitionSpec {
@@ -187,6 +190,42 @@ fun MainNavigation(
                         topBarSnapTo = {},
                     )
                 }
+            }
+        }
+
+        entry<Route.WatchingAnime> {
+            DefaultScaffoldWithTopAppBar(
+                title = stringResource(UiRes.string.home_recent_watching),
+                navigateBack = navActionManager::goBack,
+            ) { listPadding ->
+                if (!isLoggedIn) {
+                    LoginView(modifier = Modifier.padding(listPadding))
+                } else {
+                    UserMediaListWithFabView(
+                        mediaType = MediaType.ANIME,
+                        initialListStatus = ListStatus.WATCHING,
+                        isCompactScreen = isCompactScreen,
+                        navActionManager = navActionManager,
+                        padding = listPadding,
+                        topBarHeightPx = 0f,
+                        topBarOffsetY = 0f,
+                        topBarAnimateTo = {},
+                        topBarSnapTo = {},
+                    )
+                }
+            }
+        }
+
+        entry<Route.MangaRecommendations> {
+            if (!isLoggedIn) {
+                DefaultScaffoldWithTopAppBar(
+                    title = stringResource(UiRes.string.home_recommended_manga),
+                    navigateBack = navActionManager::goBack,
+                ) { loginPadding ->
+                    LoginView(modifier = Modifier.padding(loginPadding))
+                }
+            } else {
+                MangaRecommendationsView(navActionManager)
             }
         }
 

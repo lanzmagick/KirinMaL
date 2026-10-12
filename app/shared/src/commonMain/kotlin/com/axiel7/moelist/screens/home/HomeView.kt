@@ -33,11 +33,11 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.compose.dropUnlessResumed
 import com.axiel7.moelist.data.model.media.MediaType
-import com.axiel7.moelist.data.model.media.RankingType
 import com.axiel7.moelist.data.utils.SeasonCalendar
 import com.axiel7.moelist.screens.home.composables.AiringAnimeHorizontalItem
 import com.axiel7.moelist.screens.home.composables.HomeCard
 import com.axiel7.moelist.screens.home.composables.HomeMangaCarousel
+import com.axiel7.moelist.screens.home.composables.RecentWatchingCarousel
 import com.axiel7.moelist.screens.magic.MagicPickerContext
 import com.axiel7.moelist.screens.magic.RandomMagicControls
 import com.axiel7.moelist.ui.base.model.ListStatus.Companion.toBo
@@ -83,7 +83,7 @@ fun HomeView(
     val editRevision = LocalMediaQuickEdit.current?.revision ?: 0
     LaunchedEffect(editRevision) {
         if (isLoggedIn && editRevision > 0) {
-            viewModel.reloadMangaSection(HomeMangaSection.READING)
+            viewModel.refreshPersonalSections()
         }
     }
 
@@ -137,18 +137,15 @@ private fun HomeViewContent(
             section = section,
             entries = when (section) {
                 HomeMangaSection.READING -> uiState.readingManga
-                HomeMangaSection.POPULAR -> uiState.popularManga
-                HomeMangaSection.TOP_RATED -> uiState.topRatedManga
+                HomeMangaSection.RECOMMENDED -> uiState.recommendedManga
             },
             isLoading = when (section) {
                 HomeMangaSection.READING -> uiState.isLoadingReadingManga
-                HomeMangaSection.POPULAR -> uiState.isLoadingPopularManga
-                HomeMangaSection.TOP_RATED -> uiState.isLoadingTopRatedManga
+                HomeMangaSection.RECOMMENDED -> uiState.isLoadingRecommendedManga
             },
             hasError = when (section) {
                 HomeMangaSection.READING -> uiState.readingMangaError
-                HomeMangaSection.POPULAR -> uiState.popularMangaError
-                HomeMangaSection.TOP_RATED -> uiState.topRatedMangaError
+                HomeMangaSection.RECOMMENDED -> uiState.recommendedMangaError
             },
             preferredTitle = uiState.preferredTitle,
             hideScore = uiState.hideScore,
@@ -156,14 +153,7 @@ private fun HomeViewContent(
             onOpenAll = dropUnlessResumed {
                 when (section) {
                     HomeMangaSection.READING -> navActionManager.toReadingManga()
-                    HomeMangaSection.POPULAR -> navActionManager.toMediaRanking(
-                        MediaType.MANGA,
-                        RankingType.POPULARITY,
-                    )
-                    HomeMangaSection.TOP_RATED -> navActionManager.toMediaRanking(
-                        MediaType.MANGA,
-                        RankingType.SCORE,
-                    )
+                    HomeMangaSection.RECOMMENDED -> navActionManager.toMangaRecommendations()
                 }
             },
             onRetry = { event?.reloadMangaSection(section) },
@@ -242,7 +232,18 @@ private fun HomeViewContent(
             }
         }
 
-        if (isLoggedIn) MangaSection(HomeMangaSection.READING)
+        if (isLoggedIn) {
+            RecentWatchingCarousel(
+                entries = uiState.recentWatchingAnime,
+                isLoading = uiState.isLoadingRecentWatching,
+                hasError = uiState.recentWatchingError,
+                preferredTitle = uiState.preferredTitle,
+                navActionManager = navActionManager,
+                onRetry = { event?.reloadRecentWatching() },
+            )
+            MangaSection(HomeMangaSection.READING)
+            MangaSection(HomeMangaSection.RECOMMENDED)
+        }
 
         // Airing
         HeaderHorizontalList(
@@ -433,9 +434,6 @@ imageUrl = it.node.mainPicture?.large,
 
             PlatformHorizontalScrollbar(scrollState = recommendListState)
         }
-
-        MangaSection(HomeMangaSection.POPULAR)
-        MangaSection(HomeMangaSection.TOP_RATED)
 
         Column(
             modifier = Modifier

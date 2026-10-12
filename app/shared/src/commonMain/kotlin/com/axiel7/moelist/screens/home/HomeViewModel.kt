@@ -32,20 +32,30 @@ class HomeViewModel(
 
     private var lastIsLoggedIn: Boolean? = null
     private var animeRequestJob: Job? = null
+    private var watchingJob: Job? = null
+    private var watchingLoaded = false
     private val mangaJobs = mutableMapOf<HomeMangaSection, Job>()
     private val loadedMangaSections = mutableSetOf<HomeMangaSection>()
 
     override fun initRequestChain(isLoggedIn: Boolean) {
         lastIsLoggedIn = isLoggedIn
         if (!isLoggedIn) {
-            mangaJobs[HomeMangaSection.READING]?.cancel()
-            loadedMangaSections.remove(HomeMangaSection.READING)
+            mangaJobs.values.forEach { it.cancel() }
+            loadedMangaSections.clear()
+            watchingJob?.cancel()
+            watchingLoaded = false
             mutableUiState.update {
-                it.copy(readingManga = emptyList(), recommendedAnimes = emptyList(),
-                    isLoadingReadingManga = false, readingMangaError = false)
+                it.copy(
+                    readingManga = emptyList(), recommendedManga = emptyList(),
+                    recentWatchingAnime = emptyList(), recommendedAnimes = emptyList(),
+                    isLoadingReadingManga = false, readingMangaError = false,
+                    isLoadingRecommendedManga = false, recommendedMangaError = false,
+                    isLoadingRecentWatching = false, recentWatchingError = false,
+                )
             }
         }
         HomeMangaSection.entries.forEach { loadMangaSection(it) }
+        loadRecentWatching()
         animeRequestJob?.cancel()
         animeRequestJob = viewModelScope.launch {
             mutableUiState.update { it.copy(isLoading = true) }
@@ -62,8 +72,42 @@ class HomeViewModel(
         loadMangaSection(section, force = true)
     }
 
+    override fun reloadRecentWatching() {
+        loadRecentWatching(force = true)
+    }
+
+    override fun refreshPersonalSections() {
+        HomeMangaSection.entries.forEach { loadMangaSection(it, force = true) }
+        loadRecentWatching(force = true)
+    }
+
+    private fun loadRecentWatching(force: Boolean = false) {
+        if (lastIsLoggedIn != true) return
+        if (!force && (watchingJob?.isActive == true || watchingLoaded)) return
+        watchingJob?.cancel()
+        watchingJob = viewModelScope.launch {
+            mutableUiState.update {
+                it.copy(isLoadingRecentWatching = true, recentWatchingError = false)
+            }
+            val response = animeRepository.getUserAnimeList(ListStatusDto.WATCHING, MediaSort.UPDATED)
+            currentCoroutineContext().ensureActive()
+            val entries = response.data
+            if (entries != null) {
+                watchingLoaded = true
+                mutableUiState.update {
+                    it.copy(recentWatchingAnime = entries.distinctBy { entry -> entry.node.id }.take(25),
+                        isLoadingRecentWatching = false, recentWatchingError = false)
+                }
+            } else {
+                mutableUiState.update {
+                    it.copy(isLoadingRecentWatching = false, recentWatchingError = true)
+                }
+            }
+        }
+    }
+
     private fun loadMangaSection(section: HomeMangaSection, force: Boolean = false) {
-        if (section == HomeMangaSection.READING && lastIsLoggedIn != true) return
+        if (lastIsLoggedIn != true) return
         if (!force && (mangaJobs[section]?.isActive == true || section in loadedMangaSections)) return
         mangaJobs[section]?.cancel()
         mangaJobs[section] = viewModelScope.launch {
@@ -73,12 +117,8 @@ class HomeViewModel(
                     status = ListStatusDto.READING,
                     sort = MediaSort.UPDATED,
                 ).data?.map { HomeMangaItem(it.node, it.listStatus) }
-                HomeMangaSection.POPULAR, HomeMangaSection.TOP_RATED ->
-                    mangaRepository.getMangaRanking(
-                        rankingType = if (section == HomeMangaSection.POPULAR)
-                            RankingType.POPULARITY else RankingType.SCORE,
-                        limit = 25,
-                    ).data?.map { HomeMangaItem(it.node) }
+                HomeMangaSection.RECOMMENDED -> mangaRepository.getRecommendedManga(limit = 25)
+                    .data?.map { HomeMangaItem(it.node) }
             }
             currentCoroutineContext().ensureActive()
             if (entries != null) {
@@ -103,13 +143,9 @@ class HomeViewModel(
                     readingManga = data ?: it.readingManga,
                     isLoadingReadingManga = loading, readingMangaError = error,
                 )
-                HomeMangaSection.POPULAR -> it.copy(
-                    popularManga = data ?: it.popularManga,
-                    isLoadingPopularManga = loading, popularMangaError = error,
-                )
-                HomeMangaSection.TOP_RATED -> it.copy(
-                    topRatedManga = data ?: it.topRatedManga,
-                    isLoadingTopRatedManga = loading, topRatedMangaError = error,
+                HomeMangaSection.RECOMMENDED -> it.copy(
+                    recommendedManga = data ?: it.recommendedManga,
+                    isLoadingRecommendedManga = loading, recommendedMangaError = error,
                 )
             }
         }
@@ -169,10 +205,12 @@ class HomeViewModel(
             .onEach {
                 mangaJobs.values.forEach { job -> job.cancel() }
                 loadedMangaSections.clear()
+                watchingJob?.cancel()
+                watchingLoaded = false
                 mutableUiState.update { state ->
                     state.copy(todayAnimes = emptyList(), seasonAnimes = emptyList(),
                         recommendedAnimes = emptyList(), readingManga = emptyList(),
-                        popularManga = emptyList(), topRatedManga = emptyList())
+                        recommendedManga = emptyList(), recentWatchingAnime = emptyList())
                 }
                 lastIsLoggedIn?.let(::initRequestChain)
             }

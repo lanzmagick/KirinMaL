@@ -9,7 +9,7 @@
 - Track anime and manga with your MyAnimeList account.
 - Anime and Manga list controls: title-initial filter for A–Z, 1–0 and symbols beside Sort, with MAL status colors on the status badges and floating selector.
 - Random and Magic for both anime and manga: keep the default list picker, or reveal a surprise in a popup inspired by Netflix Kids' Mystery Box. Home has separate Anime and Manga controls.
-- Home manga carousels: Reading Manga with chapter/volume progress, Popular Manga by MAL Members, and Top Rated Manga by MAL score. Each section opens its matching full list.
+- Home personal carousels: Recent Watching Anime with episode progress, Reading Manga with chapter/volume progress, and Recommended Manga based on the user's Reading or Completed titles. Each section opens its matching list.
 - Anime Menu and Manga Menu: MAL rankings plus one bento Genres tab with full MAL category names and AniList discovery. Only MAL-linked titles open the MAL editor, so tracking remains in MyAnimeList.
 - Seasonal anime, calendar and recommendations, with a pinned Home search bar.
 - Anime & Manga Stats inspired by KirinNime, including progress and reading/watching totals.
@@ -27,6 +27,8 @@
 **Latest published signed APK: [v1.0.4](https://github.com/lanzmagick/KirinMaL/releases/tag/v1.0.4).** It adds title-initial filtering beside Sort, MAL-colored status badges, three manga carousels on Home, and Magic surprise pickers for anime and manga. Shuffle-bag tests, Android compilation and release-signature/manifest audits passed before publication. See [v1.0.4 release notes](docs/releases/v1.0.4.md).
 
 Direct APK downloads: [ARM64](https://github.com/lanzmagick/KirinMaL/releases/download/v1.0.4/KirinMaL-1.0.4-arm64-v8a-release.apk) · [Universal](https://github.com/lanzmagick/KirinMaL/releases/download/v1.0.4/KirinMaL-1.0.4-universal-release.apk). Other ABI variants are available on the release page.
+
+**Pending patches on main:** Sort : All / Sort : A labels, the replacement Home carousels, and the refreshed MAL login button await the next Android build. They are not included in the published v1.0.4 APK. See [unreleased changes](docs/UNRELEASED.md).
 
 The Android application ID is `com.lanzmagick.kirinmal`, separate from MoeList and KirinMaL v1.0.0 (`com.axiel7.moelist`). Versions v1.0.1 and later share the KirinMaL package ID and update the same installation when signed with the same release key. Signed APKs are distributed through GitHub Releases. See [v1.0.3 release notes](docs/releases/v1.0.3.md).
 
@@ -52,6 +54,10 @@ To publish **signed** APKs, set the four GitHub Actions signing secrets `KEYSTOR
 - **Empty lists and failures:** an empty result or failed request shows a message and allows another attempt. Closing the popup cancels its pending request. Choosing a surprise only opens its Anime/Manga Info page; list edits use the existing MAL editor.
 
 Shuffle-bag tests cover unique turns, duplicate IDs, refill repeats, pool replacement, and empty/single-title pools. The signed release workflow runs these tests before building and auditing the APKs.
+
+## Home personal discovery
+
+Home's Recommended Manga rail merges MAL title recommendations from up to three recently updated Reading manga, falling back to Completed manga when Reading is empty. It sums recommendation votes, removes duplicate IDs and titles already in any of the user's manga lists, and respects NSFW visibility. Home shows up to 25 results; its full grid shows up to 100. Recent Watching Anime reads the user's Watching list in updated order. These personal sections refresh after Quick Edit and clear on logout.
 
 ## KirinMaL MyAnimeList Client ID (Android)
 

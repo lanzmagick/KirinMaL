@@ -35,6 +35,12 @@ sealed interface Route : NavKey {
     data object ReadingManga : Route
 
     @Serializable
+    data object WatchingAnime : Route
+
+    @Serializable
+    data object MangaRecommendations : Route
+
+    @Serializable
     @Stable
     data class MediaDetails(
         val mediaType: MediaType,
