@@ -53,6 +53,7 @@ fun RandomMagicControls(
     homeStyle: Boolean = false,
     onDefaultRandom: (() -> Unit)? = null,
     modifier: Modifier = Modifier,
+    showRandomButton: Boolean = true,
 ) {
     var presentation by remember(context) { mutableStateOf<Presentation?>(null) }
     @Composable
@@ -75,14 +76,17 @@ fun RandomMagicControls(
             horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            PickerButton(
-                stringResource(UiRes.string.random),
-                UiRes.drawable.ic_round_casino_24,
-                onClick = {
-                    if (onDefaultRandom != null) onDefaultRandom()
-                    else presentation = Presentation.DIRECT
-                },
-            )
+            // The existing setting controls Random only; Magic stays available.
+            if (showRandomButton) {
+                PickerButton(
+                    stringResource(UiRes.string.random),
+                    UiRes.drawable.ic_round_casino_24,
+                    onClick = {
+                        if (onDefaultRandom != null) onDefaultRandom()
+                        else presentation = Presentation.DIRECT
+                    },
+                )
+            }
             PickerButton(
                 stringResource(UiRes.string.magic),
                 UiRes.drawable.ic_magic_sparkles_24,

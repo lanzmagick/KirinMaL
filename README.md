@@ -8,7 +8,7 @@
 
 - Track anime and manga with your MyAnimeList account.
 - Anime and Manga list controls: title-initial filter for A–Z, 1–0 and symbols beside Sort, with MAL status colors on the status badges and floating selector.
-- Random and Magic for both anime and manga lists: keep the default list picker, or reveal a surprise in a popup inspired by Netflix Kids' Mystery Box. Home offers Magic Anime and Magic Manga in an equal-size shortcut bento.
+- Random and Magic for both anime and manga lists: keep the default list picker, or reveal a surprise in a popup inspired by Netflix Kids' Mystery Box. Magic stays visible when the Random button is disabled in Settings. Home offers Magic Anime and Magic Manga in an equal-size shortcut bento.
 - Home personal carousels: Recent Watching Anime with episode progress, Reading Manga with chapter/volume progress, and Recommended Manga based on the user's Reading or Completed titles. Each section opens its matching list.
 - Anime Menu and Manga Menu: MAL rankings plus one bento Genres tab with full MAL category names and AniList discovery. Only MAL-linked titles open the MAL editor, so tracking remains in MyAnimeList.
 - Seasonal anime, calendar and recommendations, with a pinned Home search bar.
@@ -28,7 +28,7 @@
 
 Direct APK downloads: [ARM64](https://github.com/lanzmagick/KirinMaL/releases/download/v1.0.4/KirinMaL-1.0.4-arm64-v8a-release.apk) · [Universal](https://github.com/lanzmagick/KirinMaL/releases/download/v1.0.4/KirinMaL-1.0.4-universal-release.apk). Other ABI variants are available on the release page.
 
-**Pending patches on main:** Sort : All / Sort : A labels, the replacement Home carousels, the refreshed MAL login button, and a Home bento with only Magic Anime / Magic Manga await the next Android build. They are not included in the published v1.0.4 APK. See [unreleased changes](docs/UNRELEASED.md).
+**Pending patches on main:** Sort : All / Sort : A labels, the replacement Home carousels, the refreshed MAL login button, a Home bento with only Magic Anime / Magic Manga, and list Magic independent of the Random toggle await the next Android build. They are not included in the published v1.0.4 APK. See [unreleased changes](docs/UNRELEASED.md).
 
 The Android application ID is `com.lanzmagick.kirinmal`, separate from MoeList and KirinMaL v1.0.0 (`com.axiel7.moelist`). Versions v1.0.1 and later share the KirinMaL package ID and update the same installation when signed with the same release key. Signed APKs are distributed through GitHub Releases. See [v1.0.3 release notes](docs/releases/v1.0.3.md).
 
@@ -47,7 +47,7 @@ To publish **signed** APKs, set the four GitHub Actions signing secrets `KEYSTOR
 
 **UI inspiration: Netflix Kids' [Mystery Box](https://about.netflix.com/en/news/surprise-delight-and-discover-your-next-favorite-with-the-new-kids-mystery).** Credit to Netflix for the sparkling box and surprise-reveal concept. KirinMaL's popup uses its own gradient, vector sparkles and animation, then shows one title with **Open info** and **Surprise me again**. This is an independent implementation; it does not use Netflix's assets or recommendation engine.
 
-- **Anime and Manga lists:** Magic sits immediately beside the existing Random button. The toolbar order is Sort → title-initial filter → Random → Magic, with horizontal scrolling on narrow screens. The default Random behavior is preserved. Magic reads every MAL page of the selected list status, then applies the current A–Z, 1–0 or symbols filter using the user's preferred title language.
+- **Anime and Manga lists:** Magic sits immediately beside the existing Random button. The toolbar order is Sort → title-initial filter → Random → Magic, with horizontal scrolling on narrow screens. The existing Settings toggle controls only Random; disabling it leaves Sort → title-initial filter → Magic. The default Random behavior and saved preference are preserved. Magic reads every MAL page of the selected list status, then applies the current A–Z, 1–0 or symbols filter using the user's preferred title language.
 - **Home:** Magic Anime and Magic Manga share the shortcut bento with Anime Menu, Manga Menu, Seasonal Chart and Calendar. The six cards have equal widths and an 84 dp height, with two columns on compact screens and three on larger screens. Home's two direct Random buttons have been removed. Each Magic type requests the first 100 Popularity results and the first 100 Score results, then merges them by MAL ID. This is a discovery sample of up to 200 unique titles, not the entire MAL catalog. Magic reveals the chosen title in the popup first.
 - **Selection:** invalid IDs and blank titles are removed. A shuffled bag gives each unique candidate one turn before refilling. With two or more candidates, it avoids choosing the same title immediately at refill or after reloading; a one-title pool necessarily repeats.
 - **Freshness:** opening a picker reloads its MAL candidates. Within the popup, **Surprise me again** reuses the bag; changing title language or NSFW visibility causes a reload on the next pick. The repositories apply the user's NSFW preference.

@@ -6,6 +6,11 @@ APK signed terbaru kekal **v1.0.4 (411)**. Perubahan berikut sudah disediakan pa
 
 - Anime dan Manga menggunakan **Sort : All**, **Sort : A**, **Sort : 1** atau **Sort : #**, mengikut pilihan permulaan tajuk.
 
+## Magic dalam list
+
+- Magic sentiasa muncul pada toolbar Anime dan Manga walaupun toggle **Random button on anime/manga list** dimatikan.
+- Toggle tersebut hanya mengawal butang Random asal. Pilihan yang disimpan dan logik Random dikekalkan; pengguna boleh mematikannya sendiri untuk menggunakan Magic sahaja.
+
 ## Home
 
 - Buang butang Random Anime dan Random Manga daripada Home; kekalkan Magic Anime dan Magic Manga dengan popup sedia ada.

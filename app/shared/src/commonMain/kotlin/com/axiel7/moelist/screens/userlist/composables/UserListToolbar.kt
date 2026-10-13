@@ -30,17 +30,16 @@ fun UserListToolbar(
     ) {
         SortChip(uiState, event)
         TitleInitialFilterChip(uiState, event)
-        if (uiState.showRandomButton) {
-            RandomMagicControls(
-                context = MagicPickerContext(
-                    mediaType = uiState.mediaType,
-                    listStatus = uiState.listStatus ?: if (uiState.mediaType == MediaType.ANIME)
-                        ListStatus.WATCHING else ListStatus.READING,
-                    titleInitial = uiState.titleInitial,
-                ),
-                onDefaultRandom = { event?.getRandomIdOfList() },
-                onOpen = { navActionManager.toMediaDetails(uiState.mediaType, it.id) },
-            )
-        }
+        RandomMagicControls(
+            context = MagicPickerContext(
+                mediaType = uiState.mediaType,
+                listStatus = uiState.listStatus ?: if (uiState.mediaType == MediaType.ANIME)
+                    ListStatus.WATCHING else ListStatus.READING,
+                titleInitial = uiState.titleInitial,
+            ),
+            showRandomButton = uiState.showRandomButton,
+            onDefaultRandom = { event?.getRandomIdOfList() },
+            onOpen = { navActionManager.toMediaDetails(uiState.mediaType, it.id) },
+        )
     }
 }
