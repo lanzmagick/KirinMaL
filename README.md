@@ -7,7 +7,7 @@
 ## Features
 
 - Track anime and manga with your MyAnimeList account.
-- Anime and Manga list controls: title-initial filter for A–Z, 1–0 and symbols beside Sort, with MAL status colors on the status badges and floating selector.
+- Anime and Manga list controls: title-initial filter for A–Z, 1–0 and symbols beside Sort, with MAL status colors on the status badges and floating selector. The selected floating status has a bright random RGB border that changes when switching status; the MAL fills and text/icon colors are preserved.
 - Random and Magic for both anime and manga lists: keep the default list picker, or reveal a surprise in a popup inspired by Netflix Kids' Mystery Box. Magic stays visible when the Random button is disabled in Settings. Home offers Magic Anime and Magic Manga in an equal-size shortcut bento.
 - Home personal carousels: Recent Watching Anime with episode progress, Reading Manga with chapter/volume progress, and Recommended Manga based on the user's Reading or Completed titles. Each section opens its matching list.
 - Anime Menu and Manga Menu: MAL rankings plus one bento Genres tab with full MAL category names and AniList discovery. Only MAL-linked titles open the MAL editor, so tracking remains in MyAnimeList.
@@ -29,7 +29,7 @@
 
 Direct APK downloads: [ARM64](https://github.com/lanzmagick/KirinMaL/releases/download/v1.0.4/KirinMaL-1.0.4-arm64-v8a-release.apk) · [Universal](https://github.com/lanzmagick/KirinMaL/releases/download/v1.0.4/KirinMaL-1.0.4-universal-release.apk). Other ABI variants are available on the release page.
 
-**Pending patches on main:** Sort : All / Sort : A labels, the replacement Home carousels, the refreshed MAL login button, a Home bento with only Magic Anime / Magic Manga, list Magic independent of the Random toggle, and an optional About menu await the next Android build. They are not included in the published v1.0.4 APK. See [unreleased changes](docs/UNRELEASED.md).
+**Pending patches on main:** Sort : All / Sort : A labels, the replacement Home carousels, the refreshed MAL login button, a Home bento with only Magic Anime / Magic Manga, list Magic independent of the Random toggle, an optional About menu, and random RGB status borders await the next Android build. They are not included in the published v1.0.4 APK. See [unreleased changes](docs/UNRELEASED.md).
 
 The Android application ID is `com.lanzmagick.kirinmal`, separate from MoeList and KirinMaL v1.0.0 (`com.axiel7.moelist`). Versions v1.0.1 and later share the KirinMaL package ID and update the same installation when signed with the same release key. Signed APKs are distributed through GitHub Releases. See [v1.0.3 release notes](docs/releases/v1.0.3.md).
 

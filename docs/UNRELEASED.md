@@ -32,9 +32,14 @@ APK signed terbaru kekal **v1.0.4 (411)**. Perubahan berikut sudah disediakan pa
 
 - Tambah toggle **Settings → Display → Show About menu**, default OFF. Hanya sembunyikan pintasan About dalam More; halaman About, pautan dan Credits asal masih tersedia apabila toggle dihidupkan.
 
+## Border floating status
+
+- Border 1.5 dp pada kotak status yang dipilih menggunakan warna RGB cerah secara rawak, berasingan daripada warna MAL kotak.
+- Bertukar warna setiap kali status Anime atau Manga berubah. Warna baru sekurang-kurangnya 60 darjah hue daripada warna sebelumnya; membuka/tutup menu atau recomposition biasa tidak memilih warna semula.
+- Warna kotak, teks/ikon, bayang dan logik pemilihan status dikekalkan.
+
 ## Semakan
 
-- Floating status Anime/Manga diperiksa sahaja: border 1.5 dp pada status terpilih menggunakan warna teks/ikon, hitam pada Watching/Reading, On Hold dan Plan. Kod floating tidak diubah.
 - Semakan statik sintaks Kotlin, resource XML, sambungan route dan kod login.
 - Endpoint cadangan MAL berjaya memberi respons dengan metadata skor dan NSFW.
 - Unit test pemilihan cadangan ditambah untuk ID berganda, ranking undian, pengecualian list, NSFW, limit dan jumlah undian besar. Workflow build akan menjalankannya bersama ujian Magic.

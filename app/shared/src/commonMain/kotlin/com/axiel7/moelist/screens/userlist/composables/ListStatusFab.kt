@@ -24,12 +24,14 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.animateFloatingActionButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -38,6 +40,7 @@ import com.axiel7.moelist.ui.base.model.ListStatus
 import com.axiel7.moelist.ui.base.model.ListStatus.Companion.listStatusValues
 import com.axiel7.moelist.ui.generated.resources.UiRes
 import com.axiel7.moelist.ui.generated.resources.round_close_24
+import kotlin.random.Random
 import org.jetbrains.compose.resources.painterResource
 
 /** Floating bento: no enclosing card; the fifth status spans both columns. */
@@ -52,6 +55,13 @@ fun ListStatusFab(
 ) {
     var expanded by remember(mediaType) { mutableStateOf(false) }
     val options = remember(mediaType) { listStatusValues(mediaType).toList() }
+    var borderHue by remember(mediaType) { mutableStateOf(Random.nextFloat() * 360f) }
+
+    // Change only on a new status, keeping a visible gap from the previous hue.
+    LaunchedEffect(mediaType, status) {
+        borderHue = (borderHue + 60f + Random.nextFloat() * 240f) % 360f
+    }
+    val selectedBorderColor = Color.hsv(hue = borderHue, saturation = 0.9f, value = 1f)
 
     Column(
         modifier = modifier,
@@ -89,7 +99,7 @@ fun ListStatusFab(
                                 shadowElevation = 2.dp,
                                 border = if (selected) BorderStroke(
                                     width = 1.5.dp,
-                                    color = contentColor,
+                                    color = selectedBorderColor,
                                 ) else null,
                             ) {
                                 if (isLastWideRow) {
