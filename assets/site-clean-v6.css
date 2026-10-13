@@ -27,6 +27,7 @@ a{color:inherit;text-decoration:none}img,svg{display:block;max-width:100%}a:focu
 .btn-ghost:hover{background:rgba(255,255,255,.11)}
 .hero-meta{display:flex;gap:12px 19px;flex-wrap:wrap;margin-top:30px;font-size:11px;color:#a1a2bf;font-weight:600}
 .hero-meta span{white-space:nowrap}.hero-meta .check{color:#8ad7c7;font-size:13px;margin-right:4px}
+.platform-note{display:flex;align-items:center;flex-wrap:wrap;gap:5px 8px;color:#a9a6c7;font-size:11px;margin:14px 0 0}.platform-note>span:last-child{color:#d3c4ff}
 .hero-art{position:relative;display:grid;place-items:center;height:490px;min-width:0;isolation:isolate}
 .hero-glow{position:absolute;inset:12%;z-index:-1;border-radius:50%;background:radial-gradient(circle,rgba(130,111,255,.27),rgba(98,73,191,.1) 44%,transparent 72%);filter:blur(30px)}
 .hero-art img{width:min(100%,385px);height:auto;object-fit:contain;border:0;background:transparent;border-radius:0;clip-path:none;filter:drop-shadow(0 22px 42px rgba(0,0,0,.24))}
@@ -73,6 +74,15 @@ a{color:inherit;text-decoration:none}img,svg{display:block;max-width:100%}a:focu
 .download-buttons{margin-top:23px}.btn-download{background:#f6f2ff;color:#34305c}.btn-download-outline{background:rgba(255,255,255,.035);border:1px solid rgba(209,202,255,.27);color:white}
 .all-releases{display:inline-block;color:#cfbeff;font-size:12px;margin-top:17px;font-weight:730}.all-releases:hover{text-decoration:underline}
 .download-text .download-disclaimer{font-size:11px;color:#a5a1bd;margin-top:20px}
+.platform-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:16px}
+.platform-card{min-width:0;display:flex;flex-direction:column;padding:26px;border:1px solid #e6e2f4;border-radius:23px;background:linear-gradient(135deg,#fff,#f4f1ff)}
+.platform-card-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.platform-icon{display:grid;place-items:center;width:46px;height:46px;flex:none;border-radius:14px;background:#eae5ff;color:#6c58b0}.platform-icon svg{width:25px;height:25px}
+.platform-status{display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border-radius:30px;background:#eee8ff;color:#5d4b9b;font-size:11px;font-weight:750;white-space:nowrap}
+.platform-status>span{font-size:15px;line-height:1}
+.platform-card h3{font-size:24px;font-weight:800;letter-spacing:-.6px;line-height:1.25;margin:20px 0 9px}
+.platform-card p{font-size:13px;line-height:1.75;color:#676a81;max-width:400px;margin:0 0 22px}
+.platform-footnote{display:block;font-size:11px;color:#69647f;margin-top:auto;padding-top:15px;border-top:1px solid #e8e2f5}
 .footer{background:#0c0d20;color:white;padding:33px 0 28px}
 .footer-top{display:flex;gap:20px;align-items:center;justify-content:space-between}
 .footer-brand .site-brand-icon{width:36px;height:36px}.footer-brand .site-brand-name{font-size:17px}
@@ -89,6 +99,7 @@ a{color:inherit;text-decoration:none}img,svg{display:block;max-width:100%}a:focu
 .hero{grid-template-columns:1fr;gap:6px;min-height:0;padding:56px 0 76px}.hero-copy{text-align:center}.pill{margin-inline:auto;justify-content:center}
 .hero h1{font-size:clamp(2.65rem,9.4vw,4.15rem);white-space:normal}.hero-description{font-size:14px;margin-inline:auto}
 .hero-actions,.hero-meta{justify-content:center}.hero-meta{font-size:10px;margin-top:24px}
+.platform-note{justify-content:center}
 .hero-art{height:300px}.hero-art img{width:min(74%,275px)}
 .hero-bottom{bottom:21px}.hero-bottom>span:first-child{display:none}.scroll-indicator{margin-left:auto}
 .section{padding:71px 0}.section-head{display:block;text-align:center}.section-head h2{font-size:clamp(2rem,7vw,3rem)}
@@ -110,6 +121,7 @@ a{color:inherit;text-decoration:none}img,svg{display:block;max-width:100%}a:focu
 .feature-main,.feature-discover,.feature-editor,.feature-seasons{grid-column:auto;min-height:0}.feature-main{min-height:420px}
 .download-panel{padding:30px 22px;border-radius:23px}
 .download-buttons{flex-direction:column}.download-buttons .btn{width:100%}
+.platform-cards{grid-template-columns:1fr}.platform-card{padding:22px}
 .footer-links{gap:14px}
 }
 @media(max-width:345px){.hero h1{font-size:2.4rem}.hero-art{height:202px}.hero-art img{width:175px}.site-brand-icon{width:36px;height:36px}}
