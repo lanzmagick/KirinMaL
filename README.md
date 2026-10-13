@@ -25,11 +25,11 @@
 
 **[KirinMaL Stable Releases](https://github.com/lanzmagick/KirinMaL/releases)**
 
-**Latest published signed APK: [v1.0.5](https://github.com/lanzmagick/KirinMaL/releases/tag/v1.0.5).** It adds the equal-size Home bento, Recent Watching Anime and Recommended Manga, Magic independent of the list Random toggle, refreshed MAL login UI, the default-off About menu toggle, and random RGB borders on the selected floating status. Magic and manga recommendation tests, Android compilation, and release-signature/manifest audits passed before publication. See [v1.0.5 release notes](docs/releases/v1.0.5.md).
+**Latest published signed APK: [v1.0.6](https://github.com/lanzmagick/KirinMaL/releases/tag/v1.0.6).** It makes all six Home shortcut cards more compact: 60 dp height, smaller padding and icons, with the same text size and two-column phone layout. All v1.0.5 features remain available. Magic and manga recommendation tests, Android compilation, and release-signature/manifest audits passed before publication. See [v1.0.6 release notes](docs/releases/v1.0.6.md).
 
-Direct APK downloads: [ARM64](https://github.com/lanzmagick/KirinMaL/releases/download/v1.0.5/KirinMaL-1.0.5-arm64-v8a-release.apk) · [Universal](https://github.com/lanzmagick/KirinMaL/releases/download/v1.0.5/KirinMaL-1.0.5-universal-release.apk). Other ABI variants are available on the release page.
+Direct APK downloads: [ARM64](https://github.com/lanzmagick/KirinMaL/releases/download/v1.0.6/KirinMaL-1.0.6-arm64-v8a-release.apk) · [Universal](https://github.com/lanzmagick/KirinMaL/releases/download/v1.0.6/KirinMaL-1.0.6-universal-release.apk). Other ABI variants are available on the release page.
 
-**Next Android build: v1.0.6 (413).** The six Home shortcut cards are being reduced from 84 dp to 60 dp, with smaller padding and icons. This size change is not included in the published v1.0.5 APK. iOS and Desktop downloads remain **Coming soon**. See [build status](docs/UNRELEASED.md).
+The compact Home patch is included in v1.0.6 (413). iOS and Desktop downloads remain **Coming soon**. See [build status](docs/UNRELEASED.md).
 
 The Android application ID is `com.lanzmagick.kirinmal`, separate from MoeList and KirinMaL v1.0.0 (`com.axiel7.moelist`). Versions v1.0.1 and later share the KirinMaL package ID and update the same installation when signed with the same release key. Signed APKs are distributed through GitHub Releases. See [v1.0.3 release notes](docs/releases/v1.0.3.md).
 
