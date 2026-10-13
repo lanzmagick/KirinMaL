@@ -28,6 +28,7 @@ data class SettingsUiState(
     val startTab: StartTab = StartTab.LAST_USED,
     val tabletMode: TabletMode = TabletMode.AUTO,
     val pinnedNavBar: Boolean = false,
+    val showAboutMenu: Boolean = false,
     val titleLanguage: TitleLanguage = TitleLanguage.ROMAJI,
     val useListTabs: Boolean = false,
     val loadCharacters: Boolean = false,

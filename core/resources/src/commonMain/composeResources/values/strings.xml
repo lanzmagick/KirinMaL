@@ -243,6 +243,8 @@
     <string name="anime_manga_news"><![CDATA[Anime & Manga News]]></string>
     <string name="mal_announcements">MyAnimeList Announcements</string>
     <string name="about">About</string>
+    <string name="show_about_menu">Show About menu</string>
+    <string name="show_about_menu_summary">Display About in More.</string>
     <string name="mal_announcements_summary">Updates, changes, and additions to MAL.</string>
     <string name="news_summary">Latest information about the industry.</string>
     <string name="more">More</string>

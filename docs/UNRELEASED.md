@@ -28,8 +28,13 @@ APK signed terbaru kekal **v1.0.4 (411)**. Perubahan berikut sudah disediakan pa
 - Tambah tajuk MyAnimeList, ikon buku, butang biru MAL yang lebih lebar, label **Continue with MyAnimeList**, monogram MAL dan ikon anak panah.
 - Callback `event?.openLogin(browserHandler)`, `continueLogin()`, LoginViewModel, OAuthService, redirect, Client ID dan token handling dikekalkan.
 
+## About
+
+- Tambah toggle **Settings → Display → Show About menu**, default OFF. Hanya sembunyikan pintasan About dalam More; halaman About, pautan dan Credits asal masih tersedia apabila toggle dihidupkan.
+
 ## Semakan
 
+- Floating status Anime/Manga diperiksa sahaja: border 1.5 dp pada status terpilih menggunakan warna teks/ikon, hitam pada Watching/Reading, On Hold dan Plan. Kod floating tidak diubah.
 - Semakan statik sintaks Kotlin, resource XML, sambungan route dan kod login.
 - Endpoint cadangan MAL berjaya memberi respons dengan metadata skor dan NSFW.
 - Unit test pemilihan cadangan ditambah untuk ID berganda, ranking undian, pengecualian list, NSFW, limit dan jumlah undian besar. Workflow build akan menjalankannya bersama ujian Magic.

@@ -64,6 +64,7 @@ import com.axiel7.moelist.ui.generated.resources.hide_scores
 import com.axiel7.moelist.ui.generated.resources.ic_round_color_lens_24
 import com.axiel7.moelist.ui.generated.resources.ic_round_details_star_24
 import com.axiel7.moelist.ui.generated.resources.ic_round_home_24
+import com.axiel7.moelist.ui.generated.resources.ic_info
 import com.axiel7.moelist.ui.generated.resources.ic_round_language_24
 import com.axiel7.moelist.ui.generated.resources.items_per_row
 import com.axiel7.moelist.ui.generated.resources.language
@@ -78,6 +79,8 @@ import com.axiel7.moelist.ui.generated.resources.round_grid_view_24
 import com.axiel7.moelist.ui.generated.resources.round_title_24
 import com.axiel7.moelist.ui.generated.resources.settings
 import com.axiel7.moelist.ui.generated.resources.show_nsfw
+import com.axiel7.moelist.ui.generated.resources.show_about_menu
+import com.axiel7.moelist.ui.generated.resources.show_about_menu_summary
 import com.axiel7.moelist.ui.generated.resources.tablet_android_24
 import com.axiel7.moelist.ui.generated.resources.tablet_mode
 import com.axiel7.moelist.ui.generated.resources.theme
@@ -202,6 +205,14 @@ private fun SettingsViewContent(
                 title = stringResource(UiRes.string.pinned_navigation_bar),
                 value = uiState.pinnedNavBar,
                 onValueChange = { event?.setPinnedNavBar(it) }
+            )
+
+            SwitchPreferenceView(
+                title = stringResource(UiRes.string.show_about_menu),
+                subtitle = stringResource(UiRes.string.show_about_menu_summary),
+                value = uiState.showAboutMenu,
+                icon = UiRes.drawable.ic_info,
+                onValueChange = { event?.setShowAboutMenu(it) }
             )
 
             ListPreferenceView(

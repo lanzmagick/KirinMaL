@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.compose.dropUnlessResumed
 import com.axiel7.moelist.data.utils.MAL_ANNOUNCEMENTS_URL
 import com.axiel7.moelist.data.utils.MAL_NEWS_URL
@@ -67,9 +68,11 @@ fun MoreView(
     padding: PaddingValues,
 ) {
     val viewModel: MoreViewModel = koinViewModel()
+    val showAboutMenu by viewModel.showAboutMenu.collectAsStateWithLifecycle()
 
     MoreViewContent(
         event = viewModel,
+        showAboutMenu = showAboutMenu,
         navActionManager = navActionManager,
         topBarHeightPx = topBarHeightPx,
         topBarOffsetY = topBarOffsetY,
@@ -85,6 +88,7 @@ private fun MoreViewContent(
     isLoggedIn: Boolean,
     event: MoreEvent?,
     navActionManager: NavActionManager,
+    showAboutMenu: Boolean = false,
     topBarHeightPx: Float = 0f,
     topBarOffsetY: Float = 0f,
     topBarAnimateTo: suspend (Float) -> Unit = {},
@@ -170,11 +174,13 @@ private fun MoreViewContent(
             onClick = dropUnlessResumed { navActionManager.toSettings() }
         )
 
-        MoreItem(
-            title = stringResource(UiRes.string.about),
-            icon = UiRes.drawable.ic_info,
-            onClick = dropUnlessResumed { navActionManager.toAbout() }
-        )
+        if (showAboutMenu) {
+            MoreItem(
+                title = stringResource(UiRes.string.about),
+                icon = UiRes.drawable.ic_info,
+                onClick = dropUnlessResumed { navActionManager.toAbout() }
+            )
+        }
 
         MoreItem(
             title = stringResource(UiRes.string.feedback),

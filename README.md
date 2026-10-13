@@ -15,6 +15,7 @@
 - Anime & Manga Stats inspired by KirinNime, including progress and reading/watching totals.
 - Optional NSFW visibility (enabled by default for new installs; switch it off in Settings).
 - KirinMaL icons and branding across platforms.
+- Optional About menu in More, hidden by default and enabled under Settings → Display → Show About menu. The About page and upstream credits remain intact.
 
 ## Website
 
@@ -28,7 +29,7 @@
 
 Direct APK downloads: [ARM64](https://github.com/lanzmagick/KirinMaL/releases/download/v1.0.4/KirinMaL-1.0.4-arm64-v8a-release.apk) · [Universal](https://github.com/lanzmagick/KirinMaL/releases/download/v1.0.4/KirinMaL-1.0.4-universal-release.apk). Other ABI variants are available on the release page.
 
-**Pending patches on main:** Sort : All / Sort : A labels, the replacement Home carousels, the refreshed MAL login button, a Home bento with only Magic Anime / Magic Manga, and list Magic independent of the Random toggle await the next Android build. They are not included in the published v1.0.4 APK. See [unreleased changes](docs/UNRELEASED.md).
+**Pending patches on main:** Sort : All / Sort : A labels, the replacement Home carousels, the refreshed MAL login button, a Home bento with only Magic Anime / Magic Manga, list Magic independent of the Random toggle, and an optional About menu await the next Android build. They are not included in the published v1.0.4 APK. See [unreleased changes](docs/UNRELEASED.md).
 
 The Android application ID is `com.lanzmagick.kirinmal`, separate from MoeList and KirinMaL v1.0.0 (`com.axiel7.moelist`). Versions v1.0.1 and later share the KirinMaL package ID and update the same installation when signed with the same release key. Signed APKs are distributed through GitHub Releases. See [v1.0.3 release notes](docs/releases/v1.0.3.md).
 

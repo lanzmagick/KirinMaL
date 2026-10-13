@@ -28,6 +28,7 @@ interface SettingsEvent : UiEvent {
     fun setStartTab(value: StartTab)
     fun setTabletMode(value: TabletMode)
     fun setPinnedNavBar(value: Boolean)
+    fun setShowAboutMenu(value: Boolean)
     fun setTitleLanguage(value: TitleLanguage)
     fun setUseListTabs(value: Boolean)
     fun setLoadCharacters(value: Boolean)

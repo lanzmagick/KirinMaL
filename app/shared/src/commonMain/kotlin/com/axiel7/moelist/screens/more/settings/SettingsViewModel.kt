@@ -113,6 +113,12 @@ class SettingsViewModel(
         }
     }
 
+    override fun setShowAboutMenu(value: Boolean) {
+        viewModelScope.launch {
+            defaultPreferencesRepository.setShowAboutMenu(value)
+        }
+    }
+
     override fun setTitleLanguage(value: TitleLanguage) {
         viewModelScope.launch {
             defaultPreferencesRepository.setTitleLang(value)
@@ -220,6 +226,12 @@ class SettingsViewModel(
         defaultPreferencesRepository.pinnedNavBar
             .onEach { value ->
                 mutableUiState.update { it.copy(pinnedNavBar = value) }
+            }
+            .launchIn(viewModelScope)
+
+        defaultPreferencesRepository.showAboutMenu
+            .onEach { value ->
+                mutableUiState.update { it.copy(showAboutMenu = value) }
             }
             .launchIn(viewModelScope)
 

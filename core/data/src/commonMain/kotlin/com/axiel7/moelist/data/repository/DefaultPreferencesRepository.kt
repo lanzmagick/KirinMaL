@@ -101,6 +101,11 @@ class DefaultPreferencesRepository(
         dataStore.setValue(PINNED_NAV_BAR_KEY, value)
     }
 
+    val showAboutMenu = dataStore.getValue(SHOW_ABOUT_MENU_KEY, false)
+    suspend fun setShowAboutMenu(value: Boolean) {
+        dataStore.setValue(SHOW_ABOUT_MENU_KEY, value)
+    }
+
     val profilePicture = dataStore.getValue(PROFILE_PICTURE_KEY)
     suspend fun setProfilePicture(value: String?) {
         if (value != null) dataStore.setValue(PROFILE_PICTURE_KEY, value)
@@ -283,6 +288,7 @@ class DefaultPreferencesRepository(
         private val PALETTE_STYLE_KEY = stringPreferencesKey("palette_style")
         private val LAST_TAB_KEY = intPreferencesKey("last_tab")
         private val PINNED_NAV_BAR_KEY = booleanPreferencesKey("pinned_nav_bar")
+        private val SHOW_ABOUT_MENU_KEY = booleanPreferencesKey("show_about_menu")
         private val PROFILE_PICTURE_KEY = stringPreferencesKey("profile_picture")
 
         private val ANIME_LIST_STATUS_KEY = stringPreferencesKey("anime_list_status")
