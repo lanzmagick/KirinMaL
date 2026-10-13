@@ -27,13 +27,13 @@ fun HomeCard(
 ) {
     Card(
         onClick = onClick,
-        modifier = modifier.height(84.dp),
-        shape = RoundedCornerShape(22.dp),
+        modifier = modifier.height(60.dp),
+        shape = RoundedCornerShape(18.dp),
     ) {
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(14.dp),
+                .padding(horizontal = 12.dp, vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
@@ -41,7 +41,7 @@ fun HomeCard(
                 contentDescription = null,
                 modifier = Modifier
                     .padding(end = 8.dp)
-                    .size(22.dp),
+                    .size(20.dp),
             )
             Text(
                 text = text,

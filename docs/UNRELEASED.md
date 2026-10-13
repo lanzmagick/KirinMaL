@@ -1,12 +1,11 @@
-# KirinMaL — status build
+# KirinMaL — v1.0.6 sedang dibina
 
-APK signed terbaru ialah **v1.0.5 (412)**, diterbitkan pada **13 Oktober 2026, 08:51:44 MYT**.
+APK signed yang telah diterbitkan kekal **v1.0.5 (412)**. Patch berikut disediakan untuk **v1.0.6 (413)**.
 
-Semua patch Android yang tertangguh sudah termasuk dalam release ini. Butiran perubahan tersedia dalam [release notes v1.0.5](releases/v1.0.5.md).
+- Enam menu Home dikecilkan daripada tinggi 84 dp kepada 60 dp.
+- Kurangkan padding kepada 12 dp mendatar / 8 dp menegak, ikon kepada 20 dp dan sudut kepada 18 dp.
+- Kekalkan saiz teks, dua kolum pada telefon, tiga kolum pada skrin besar dan semua fungsi menu.
 
-- Ujian Magic shuffle bag dan pemilihan Recommended Manga lulus.
-- Build Android signed dan build pengesahan Android lulus.
-- Kelima-lima APK lulus semakan tandatangan, package ID, manifest dan permissions.
-- Signing certificate sama seperti v1.0.4; APK boleh digunakan untuk mengemas kini pemasangan KirinMaL sedia ada.
+Release notes tersedia dalam [v1.0.6](releases/v1.0.6.md). Status ujian, build signed dan audit APK akan dikemas kini selepas workflow selesai.
 
-**iOS dan Desktop kekal Coming soon.** Build untuk kedua-dua platform tersebut belum dijalankan.
+**iOS dan Desktop kekal Coming soon.**
