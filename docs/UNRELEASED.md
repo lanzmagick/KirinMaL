@@ -1,6 +1,6 @@
 # KirinMaL — patch belum dibina
 
-APK signed terbaru kekal **v1.0.4 (411)**. Perubahan berikut sudah disediakan pada source dan menunggu arahan build.
+APK signed terbaru kekal **v1.0.4 (411)**. Perubahan berikut disediakan untuk build **v1.0.5 (412)** yang diminta pengguna. Release notes tersedia dalam [v1.0.5](releases/v1.0.5.md); status akan dikemas kini selepas build dan pengesahan selesai.
 
 ## Label filter list
 
