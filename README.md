@@ -19,17 +19,17 @@
 
 ## Website
 
-**[KirinMaL Website](https://lanzmagick.github.io/KirinMaL/)** — responsive, screenshot-free landing page with KirinMaL branding, features and direct APK download links.
+**[KirinMaL Website](https://lanzmagick.github.io/KirinMaL/)** — responsive, screenshot-free landing page with KirinMaL branding, Android downloads, and Coming soon cards for iOS and Desktop.
 
 ## Download
 
 **[KirinMaL Stable Releases](https://github.com/lanzmagick/KirinMaL/releases)**
 
-**Latest published signed APK: [v1.0.4](https://github.com/lanzmagick/KirinMaL/releases/tag/v1.0.4).** It adds title-initial filtering beside Sort, MAL-colored status badges, three manga carousels on Home, and Magic surprise pickers for anime and manga. Shuffle-bag tests, Android compilation and release-signature/manifest audits passed before publication. See [v1.0.4 release notes](docs/releases/v1.0.4.md).
+**Latest published signed APK: [v1.0.5](https://github.com/lanzmagick/KirinMaL/releases/tag/v1.0.5).** It adds the equal-size Home bento, Recent Watching Anime and Recommended Manga, Magic independent of the list Random toggle, refreshed MAL login UI, the default-off About menu toggle, and random RGB borders on the selected floating status. Magic and manga recommendation tests, Android compilation, and release-signature/manifest audits passed before publication. See [v1.0.5 release notes](docs/releases/v1.0.5.md).
 
-Direct APK downloads: [ARM64](https://github.com/lanzmagick/KirinMaL/releases/download/v1.0.4/KirinMaL-1.0.4-arm64-v8a-release.apk) · [Universal](https://github.com/lanzmagick/KirinMaL/releases/download/v1.0.4/KirinMaL-1.0.4-universal-release.apk). Other ABI variants are available on the release page.
+Direct APK downloads: [ARM64](https://github.com/lanzmagick/KirinMaL/releases/download/v1.0.5/KirinMaL-1.0.5-arm64-v8a-release.apk) · [Universal](https://github.com/lanzmagick/KirinMaL/releases/download/v1.0.5/KirinMaL-1.0.5-universal-release.apk). Other ABI variants are available on the release page.
 
-**Pending patches on main:** Sort : All / Sort : A labels, the replacement Home carousels, the refreshed MAL login button, a Home bento with only Magic Anime / Magic Manga, list Magic independent of the Random toggle, an optional About menu, and random RGB status borders await the next Android build. They are not included in the published v1.0.4 APK. See [unreleased changes](docs/UNRELEASED.md).
+All pending Android patches are included in v1.0.5 (412). iOS and Desktop downloads remain **Coming soon**. See [build status](docs/UNRELEASED.md).
 
 The Android application ID is `com.lanzmagick.kirinmal`, separate from MoeList and KirinMaL v1.0.0 (`com.axiel7.moelist`). Versions v1.0.1 and later share the KirinMaL package ID and update the same installation when signed with the same release key. Signed APKs are distributed through GitHub Releases. See [v1.0.3 release notes](docs/releases/v1.0.3.md).
 
