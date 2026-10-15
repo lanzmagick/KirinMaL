@@ -32,7 +32,7 @@ import com.axiel7.moelist.data.model.media.RankingType.Companion.rankingAnimeVal
 import com.axiel7.moelist.data.model.media.RankingType.Companion.rankingMangaValues
 import com.axiel7.moelist.data.network.JikanApi
 import com.axiel7.moelist.data.repository.DefaultPreferencesRepository
-import com.axiel7.moelist.screens.ranking.list.AniListGenreBentoView
+import com.axiel7.moelist.screens.ranking.list.MalGenreBentoView
 import com.axiel7.moelist.screens.ranking.list.MediaRankingListView
 import com.axiel7.moelist.ui.base.navigation.NavActionManager
 import com.axiel7.moelist.ui.base.navigation.Route
@@ -57,7 +57,7 @@ fun MediaRankingView(
     val snackbar = remember { SnackbarHostState() }
     val api: JikanApi = koinInject()
     val preferences: DefaultPreferencesRepository = koinInject()
-    val showAdult by preferences.nsfw.collectAsStateWithLifecycle(initialValue = true)
+    val showAdult by preferences.nsfw.collectAsStateWithLifecycle(initialValue = false)
     val rankings = remember(type) {
         if (type == MediaType.ANIME) rankingAnimeValues.toList()
         else rankingMangaValues.toList()
@@ -121,7 +121,7 @@ fun MediaRankingView(
                         navActionManager = navActionManager,
                     )
                 } else {
-                    AniListGenreBentoView(
+                    MalGenreBentoView(
                         type = type,
                         showAdult = showAdult,
                         api = api,
