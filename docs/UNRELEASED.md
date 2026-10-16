@@ -4,6 +4,13 @@ APK signed terbaru ialah **v1.0.10 (417)**, diterbitkan pada **17 Oktober 2026, 
 
 Release signed, ujian dan audit v1.0.10 sudah selesai. Lihat [release notes v1.0.10](releases/v1.0.10.md) dan [muat turun APK](https://github.com/lanzmagick/KirinMaL/releases/tag/v1.0.10).
 
+## Patch selepas v1.0.10 — belum dibina
+
+- Kawalan dropdown di kanan search bar Anime/Manga kini menggunakan ikon tiga garis sahaja, mengikut susunan ikon pada [list AniHyou](https://github.com/axiel7/AniHyou-android/blob/master/feature/usermedialist/src/main/java/com/axiel7/anihyou/feature/usermedialist/search/TopSearchBar.kt).
+- Ikon 24 dp berada dalam kawasan sentuh 48 dp, tanpa label pilihan atau bingkai chip pada bar atas. Pilihan seperti Last updated dan tanda pilihan semasa tersedia apabila menu dibuka; pembaca skrin masih menerima nama pilihan.
+- Padanan tab yang dibetulkan dalam v1.0.10, simpanan sort, penapis A–Z, Random dan Magic dikekalkan.
+- Semakan sintaks dan diff dibuat untuk patch ini. Version name/code masih **1.0.10 (417)**; APK baharu belum dibina.
+
 ## Patch yang sudah termasuk dalam APK v1.0.10
 
 - Dropdown asal list Anime/Manga dipulihkan di kanan search bar dengan label pilihan semasa seperti **Last updated**.

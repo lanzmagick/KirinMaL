@@ -3,11 +3,12 @@ package com.axiel7.moelist.screens.userlist.composables
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.requiredSizeIn
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.widthIn
-import androidx.compose.material3.AssistChip
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -19,7 +20,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalWindowInfo
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.axiel7.moelist.data.model.media.MediaSort
@@ -34,6 +34,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun UserListSortButton(mediaType: MediaType) {
     val preferences: DefaultPreferencesRepository = koinInject()
@@ -57,25 +58,18 @@ fun UserListSortButton(mediaType: MediaType) {
         }
 
         Box {
-            AssistChip(
-                onClick = { menuOpened = true },
+            IconButton(
+                onClick = { menuOpened = !menuOpened },
                 enabled = selectedSort != null,
-                modifier = Modifier.widthIn(max = 152.dp),
-                label = {
-                    Text(
-                        text = currentLabel ?: sortLabel,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                },
-                leadingIcon = {
-                    Icon(
-                        painter = painterResource(UiRes.drawable.ic_round_sort_24),
-                        contentDescription = sortLabel,
-                        modifier = Modifier.size(20.dp),
-                    )
-                },
-            )
+                modifier = Modifier.size(48.dp),
+                shapes = IconButtonDefaults.shapes(),
+            ) {
+                Icon(
+                    painter = painterResource(UiRes.drawable.ic_round_sort_24),
+                    contentDescription = currentLabel?.let { "$sortLabel: $it" } ?: sortLabel,
+                    modifier = Modifier.size(24.dp),
+                )
+            }
             DropdownMenu(
                 expanded = menuOpened,
                 onDismissRequest = { menuOpened = false },
