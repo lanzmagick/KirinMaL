@@ -1,15 +1,23 @@
 # KirinMaL — status build
 
-APK signed terbaru ialah **v1.0.10 (417)**, diterbitkan pada **17 Oktober 2026, 01:32:09 MYT**.
+APK signed terbaru ialah **v1.0.11 (418)**, diterbitkan pada **17 Oktober 2026, 02:24:42 MYT**.
 
-Release signed, ujian dan audit v1.0.10 sudah selesai. Lihat [release notes v1.0.10](releases/v1.0.10.md) dan [muat turun APK](https://github.com/lanzmagick/KirinMaL/releases/tag/v1.0.10).
+Release signed, ujian dan audit v1.0.11 sudah selesai. Lihat [release notes v1.0.11](releases/v1.0.11.md) dan [muat turun APK](https://github.com/lanzmagick/KirinMaL/releases/tag/v1.0.11).
 
-## Patch selepas v1.0.10 — belum dibina
+## Patch yang sudah termasuk dalam APK v1.0.11
 
-- Kawalan dropdown di kanan search bar Anime/Manga kini menggunakan ikon tiga garis sahaja, mengikut susunan ikon pada [list AniHyou](https://github.com/axiel7/AniHyou-android/blob/master/feature/usermedialist/src/main/java/com/axiel7/anihyou/feature/usermedialist/search/TopSearchBar.kt).
+- Kawalan dropdown di kanan search bar Anime/Manga menggunakan ikon tiga garis sahaja, mengikut susunan ikon pada [list AniHyou](https://github.com/axiel7/AniHyou-android/blob/master/feature/usermedialist/src/main/java/com/axiel7/anihyou/feature/usermedialist/search/TopSearchBar.kt).
 - Ikon 24 dp berada dalam kawasan sentuh 48 dp, tanpa label pilihan atau bingkai chip pada bar atas. Pilihan seperti Last updated dan tanda pilihan semasa tersedia apabila menu dibuka; pembaca skrin masih menerima nama pilihan.
 - Padanan tab yang dibetulkan dalam v1.0.10, simpanan sort, penapis A–Z, Random dan Magic dikekalkan.
-- Semakan sintaks dan diff dibuat untuk patch ini. Version name/code masih **1.0.10 (417)**; APK baharu belum dibina.
+
+## Pengesahan v1.0.11
+
+- Ujian regresi dropdown/tab, Magic shuffle, simpanan tetapan Magic dan Recommended Manga serta kedua-dua build Android lulus.
+- Semua lima APK lulus audit tandatangan v2, manifest, permission dan identiti app. Hash SHA-256 aset GitHub Release sepadan dengan log audit.
+- Sijil signing sama seperti v1.0.10; APK boleh dipasang sebagai kemas kini pada versi itu.
+- Sumber APK: commit `ca0baeecc60ec3aff1d0c61fc3a987b6949ab695`.
+- [Workflow signed](https://github.com/lanzmagick/KirinMaL/actions/runs/38946418045) · [Workflow pengesahan](https://github.com/lanzmagick/KirinMaL/actions/runs/38946418092).
+- Belum diuji pada peranti fizikal.
 
 ## Patch yang sudah termasuk dalam APK v1.0.10
 
