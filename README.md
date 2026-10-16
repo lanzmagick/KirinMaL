@@ -25,11 +25,11 @@
 
 **[KirinMaL Stable Releases](https://github.com/lanzmagick/KirinMaL/releases)**
 
-**Latest published signed APK: [v1.0.8](https://github.com/lanzmagick/KirinMaL/releases/tag/v1.0.8).** The shared Magic popup now has particle borders, glass reflections and poster reveal effects. Three saved Magic switches control availability, list buttons and effects. The Genres browser has been removed while Anime/Manga Info genre badges remain. Magic shuffle, settings persistence and manga recommendation tests, both Android builds, and release-signature/manifest audits passed. See [v1.0.8 release notes](docs/releases/v1.0.8.md).
+**Latest published signed APK: [v1.0.9](https://github.com/lanzmagick/KirinMaL/releases/tag/v1.0.9).** Anime and Manga list sorting now opens beside the phone search bar, with separate saved choices and synchronized list/status-tab refreshes. Magic shuffle, settings persistence and manga recommendation tests, both Android builds, and release-signature/manifest audits passed. See [v1.0.9 release notes](docs/releases/v1.0.9.md).
 
-Direct APK downloads: [ARM64](https://github.com/lanzmagick/KirinMaL/releases/download/v1.0.8/KirinMaL-1.0.8-arm64-v8a-release.apk) · [Universal](https://github.com/lanzmagick/KirinMaL/releases/download/v1.0.8/KirinMaL-1.0.8-universal-release.apk). Other ABI variants are available on the release page.
+Direct APK downloads: [ARM64](https://github.com/lanzmagick/KirinMaL/releases/download/v1.0.9/KirinMaL-1.0.9-arm64-v8a-release.apk) · [Universal](https://github.com/lanzmagick/KirinMaL/releases/download/v1.0.9/KirinMaL-1.0.9-universal-release.apk). Other ABI variants are available on the release page.
 
-The v1.0.8 (415) APK includes the Magic popup effects, three settings switches and genre browser removal, signed with the same release key as v1.0.7. Home shortcuts retain their compact, equal 60 dp height. iOS and Desktop downloads remain **Coming soon**. See [build status](docs/UNRELEASED.md).
+The v1.0.9 (416) APK uses the same release signing certificate as v1.0.8 and supports updating that installation. It retains the Magic popup effects, three saved Magic switches and genre badges on Anime/Manga Info. Home shortcuts retain their compact, equal 60 dp height. iOS and Desktop downloads remain **Coming soon**. See [build status](docs/UNRELEASED.md).
 
 The Android application ID is `com.lanzmagick.kirinmal`, separate from MoeList and KirinMaL v1.0.0 (`com.axiel7.moelist`). Versions v1.0.1 and later share the KirinMaL package ID and update the same installation when signed with the same release key. Signed APKs are distributed through GitHub Releases. See [v1.0.3 release notes](docs/releases/v1.0.3.md).
 

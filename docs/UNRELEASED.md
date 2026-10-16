@@ -1,8 +1,26 @@
 # KirinMaL — status build
 
-APK signed terbaru ialah **v1.0.8 (415)**, diterbitkan pada **16 Oktober 2026, 13:21:46 MYT**.
+APK signed terbaru ialah **v1.0.9 (416)**, diterbitkan pada **17 Oktober 2026, 00:32:02 MYT**.
 
-Release signed, ujian dan audit v1.0.8 sudah selesai. Lihat [release notes v1.0.8](releases/v1.0.8.md) dan [muat turun APK](https://github.com/lanzmagick/KirinMaL/releases/tag/v1.0.8).
+Release signed, ujian dan audit v1.0.9 sudah selesai. Lihat [release notes v1.0.9](releases/v1.0.9.md) dan [muat turun APK](https://github.com/lanzmagick/KirinMaL/releases/tag/v1.0.9).
+
+## Patch yang sudah termasuk dalam APK v1.0.9
+
+- Menu sort Anime dan Manga pada tampilan telefon dipindahkan ke ikon di kanan search bar. Pilihan Last updated, Title, Score dan Start date kekal tersedia dengan tanda pilihan semasa.
+- Search bar menyesuaikan lebar; avatar profil dan kawasan sentuh sort 56 dp dikekalkan.
+- Anime dan Manga menggunakan tetapan sort tersimpan yang berasingan. List aktif dan tab status yang disimpan memuat semula pilihan tersebut tanpa menukar status atau penapis huruf.
+- Sort pada toolbar lama disembunyikan apabila kawalan search bar digunakan. Senarai pada tampilan lebar serta halaman tanpa search bar mengekalkan kawalan sort sedia ada.
+- Helper source **KIRINMAL-PASSWORD.cmd** menjana signing key dengan alias dan butiran sijil yang sudah diisi; pengguna hanya memasukkan password.
+
+## Pengesahan v1.0.9
+
+- Ujian shuffle Magic, pilihan Magic dalam DataStore dan pemilihan Recommended Manga lulus.
+- Build signed dan build pengesahan Android lulus. Ini mengesahkan compile yang sebelumnya tersekat oleh sambungan dependency tempatan.
+- Semua lima APK lulus audit tandatangan v2, package ID, manifest dan permissions. Hash SHA-256 aset GitHub Release sepadan dengan log audit.
+- Sijil signing build ini **sama seperti v1.0.8**, berdasarkan audit APK sebenar. Key baharu yang dijana secara tempatan belum digunakan dalam APK ini.
+- Sumber APK: commit `8848582f0cead17545069d7706a91eab7f73f1b5`.
+- [Workflow signed](https://github.com/lanzmagick/KirinMaL/actions/runs/38931959172) · [Workflow pengesahan](https://github.com/lanzmagick/KirinMaL/actions/runs/38931959150).
+- Patch sort belum diuji pada peranti fizikal; render paparan tempatan tidak diselesaikan kerana sambungan dependency terputus. Audit build tidak menentukan klasifikasi Google Play Protect.
 
 ## Patch yang sudah termasuk dalam APK v1.0.8
 
