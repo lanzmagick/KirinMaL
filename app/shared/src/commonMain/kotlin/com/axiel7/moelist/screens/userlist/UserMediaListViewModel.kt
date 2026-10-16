@@ -78,17 +78,9 @@ class UserMediaListViewModel(
 
     override fun onChangeSort(value: MediaSort) {
         viewModelScope.launch {
-            mutableUiState.update {
-                when (it.mediaType) {
-                    MediaType.ANIME -> defaultPreferencesRepository.setAnimeListSort(value)
-                    MediaType.MANGA -> defaultPreferencesRepository.setMangaListSort(value)
-                }
-                it.mediaList.clear()
-                it.copy(
-                    listSort = value,
-                    nextPage = null,
-                    loadMore = true
-                )
+            when (mutableUiState.value.mediaType) {
+                MediaType.ANIME -> defaultPreferencesRepository.setAnimeListSort(value)
+                MediaType.MANGA -> defaultPreferencesRepository.setMangaListSort(value)
             }
         }
     }
@@ -318,16 +310,23 @@ class UserMediaListViewModel(
             }
         }
 
-        // sort
+        // The search-bar menu and toolbar share saved sort preferences. Observe
+        // changes so the active list and retained status tabs reload together.
         val listSortFlow = when (mediaType) {
             MediaType.ANIME -> defaultPreferencesRepository.animeListSort
             MediaType.MANGA -> defaultPreferencesRepository.mangaListSort
         }
-        viewModelScope.launch {
-            mutableUiState.update {
-                it.copy(listSort = listSortFlow.first())
+        listSortFlow
+            .distinctUntilChanged()
+            .onEach { value ->
+                mutableUiState.update {
+                    if (it.listSort == value) it else {
+                        it.mediaList.clear()
+                        it.copy(listSort = value, nextPage = null, loadMore = true)
+                    }
+                }
             }
-        }
+            .launchIn(viewModelScope)
 
         // list styles
         combine(

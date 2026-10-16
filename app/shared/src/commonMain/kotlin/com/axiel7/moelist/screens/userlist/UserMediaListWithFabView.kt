@@ -56,6 +56,7 @@ fun UserMediaListWithFabView(
     topBarSnapTo: suspend (Float) -> Unit,
     padding: PaddingValues,
     initialListStatus: ListStatus? = null,
+    showSortInToolbar: Boolean = true,
 ) {
     val viewModel: UserMediaListViewModel = koinViewModel {
         parametersOf(mediaType, initialListStatus)
@@ -66,6 +67,7 @@ fun UserMediaListWithFabView(
     LaunchedEffect(editRevision) { if (editRevision > 0) viewModel.refreshList() }
 
     UserMediaListWithFabViewContent(
+        showSortInToolbar = showSortInToolbar,
         uiState = uiState,
         event = viewModel,
         navActionManager = navActionManager,
@@ -90,6 +92,7 @@ private fun UserMediaListWithFabViewContent(
     topBarAnimateTo: suspend (Float) -> Unit= {},
     topBarSnapTo: suspend (Float) -> Unit = {},
     padding: PaddingValues = PaddingValues(),
+    showSortInToolbar: Boolean = true,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
@@ -177,6 +180,7 @@ private fun UserMediaListWithFabViewContent(
     ) { childPadding ->
         if (uiState.listSort != null) {
             UserMediaListView(
+                showSortInToolbar = showSortInToolbar,
                 uiState = uiState,
                 event = event,
                 navActionManager = navActionManager,

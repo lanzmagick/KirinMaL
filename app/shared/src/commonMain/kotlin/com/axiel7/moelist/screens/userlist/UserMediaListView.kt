@@ -74,6 +74,7 @@ fun UserMediaListView(
     navActionManager: NavActionManager,
     isCompactScreen: Boolean,
     modifier: Modifier = Modifier,
+    showSortInToolbar: Boolean = true,
     nestedScrollConnection: NestedScrollConnection? = null,
     topBarHeightPx: Float = 0f,
     topBarOffsetY: Float = 0f,
@@ -238,6 +239,7 @@ fun UserMediaListView(
                     span = { GridItemSpan(maxCurrentLineSpan) }
                 ) {
                     UserListToolbar(
+                        showSort = showSortInToolbar,
                         uiState = uiState,
                         event = event,
                         navActionManager = navActionManager,
@@ -307,6 +309,7 @@ fun UserMediaListView(
             ) {
                 item {
                     UserListToolbar(
+                        showSort = showSortInToolbar,
                         uiState = uiState,
                         event = event,
                         navActionManager = navActionManager,
@@ -389,6 +392,7 @@ fun UserMediaListView(
                     span = { GridItemSpan(maxLineSpan) }
                 ) {
                     UserListToolbar(
+                        showSort = showSortInToolbar,
                         uiState = uiState,
                         event = event,
                         navActionManager = navActionManager,

@@ -24,6 +24,7 @@ fun UserListToolbar(
     event: UserMediaListEvent?,
     navActionManager: NavActionManager,
     modifier: Modifier = Modifier,
+    showSort: Boolean = true,
 ) {
     val magicPreferences by magicPreferencesState()
     Row(
@@ -31,7 +32,7 @@ fun UserListToolbar(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        SortChip(uiState, event)
+        if (showSort) SortChip(uiState, event)
         TitleInitialFilterChip(uiState, event)
         RandomMagicControls(
             context = MagicPickerContext(

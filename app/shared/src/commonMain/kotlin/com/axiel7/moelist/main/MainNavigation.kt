@@ -109,6 +109,7 @@ fun MainNavigation(
                 if (useListTabs) {
                     UserMediaListWithTabsView(
                         mediaType = MediaType.ANIME,
+                        showSortInToolbar = !isCompactScreen,
                         isCompactScreen = isCompactScreen,
                         navActionManager = navActionManager,
                         padding = padding
@@ -116,6 +117,7 @@ fun MainNavigation(
                 } else {
                     UserMediaListWithFabView(
                         mediaType = MediaType.ANIME,
+                        showSortInToolbar = !isCompactScreen,
                         isCompactScreen = isCompactScreen,
                         navActionManager = navActionManager,
                         topBarHeightPx = topBarHeightPx,
@@ -137,6 +139,7 @@ fun MainNavigation(
                 if (useListTabs) {
                     UserMediaListWithTabsView(
                         mediaType = MediaType.MANGA,
+                        showSortInToolbar = !isCompactScreen,
                         isCompactScreen = isCompactScreen,
                         navActionManager = navActionManager,
                         padding = padding
@@ -144,6 +147,7 @@ fun MainNavigation(
                 } else {
                     UserMediaListWithFabView(
                         mediaType = MediaType.MANGA,
+                        showSortInToolbar = !isCompactScreen,
                         isCompactScreen = isCompactScreen,
                         navActionManager = navActionManager,
                         topBarHeightPx = topBarHeightPx,

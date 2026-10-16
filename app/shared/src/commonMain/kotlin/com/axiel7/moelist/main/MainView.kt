@@ -16,11 +16,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.dp
+import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.ui.base.navigation.Navigator
 import com.axiel7.moelist.main.composables.MainBottomNavBar
 import com.axiel7.moelist.main.composables.MainNavigationRail
 import com.axiel7.moelist.main.composables.MainTopAppBar
 import com.axiel7.moelist.ui.base.navigation.NavActionManager
+import com.axiel7.moelist.ui.base.navigation.Route
 
 @Composable
 fun MainView(
@@ -34,6 +36,11 @@ fun MainView(
     pinnedNavBar: Boolean,
     profilePicture: String?,
 ) {
+    val listMediaType = if (isLoggedIn) when (navigator.state.getCurrentRoute()) {
+        Route.Tab.Anime -> MediaType.ANIME
+        Route.Tab.Manga -> MediaType.MANGA
+        else -> null
+    } else null
     // axiel7's search bar remains in Scaffold.topBar; no scroll translation.
     Scaffold(
         topBar = {
@@ -42,6 +49,7 @@ fun MainView(
                     profilePicture = profilePicture,
                     isVisible = isBottomDestination,
                     navActionManager = navActionManager,
+                    listMediaType = listMediaType,
                 )
             }
         },

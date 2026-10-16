@@ -42,6 +42,7 @@ fun UserMediaListWithTabsView(
     isCompactScreen: Boolean,
     navActionManager: NavActionManager,
     padding: PaddingValues,
+    showSortInToolbar: Boolean = true,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
@@ -127,6 +128,7 @@ fun UserMediaListWithTabsView(
 
             if (uiState.listSort != null) {
                 UserMediaListView(
+                    showSortInToolbar = showSortInToolbar,
                     uiState = uiState,
                     event = viewModel,
                     navActionManager = navActionManager,
