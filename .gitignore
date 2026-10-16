@@ -31,3 +31,6 @@ appimage-build
 *.p12
 *.pfx
 signing-secrets*.txt
+GitHub-Secrets-4-Kunci.txt
+KirinMaL-4-Kunci-Release*.zip
+signing-private/

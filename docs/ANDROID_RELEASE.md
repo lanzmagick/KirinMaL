@@ -13,6 +13,32 @@ The owner must add these values under **Settings → Secrets and variables → A
 
 These values come from the owner's privately provided **KirinMaL-4-Kunci-Release.zip** file and **must never be committed to the repository** or published as an artifact.
 
+## Windows: paste one command
+
+The private bundle includes **SETUP-KIRINMAL.bat** and **setup-signing.ps1** beside the existing keystore and secrets file. Extract the ZIP, open Windows Terminal in the extracted folder, then paste:
+
+```powershell
+.\SETUP-KIRINMAL.bat
+```
+
+The helper checks the original keystore's SHA-256 and verifies that `KEYSTORE_FILE` decodes to the same file before doing anything online. It uses GitHub CLI to set the four existing secret names on **lanzmagick/KirinMaL**. If needed, it installs GitHub CLI through WinGet and starts GitHub's browser login. Sign in with the account that can manage this repository's Actions secrets. Without WinGet, install [GitHub CLI](https://cli.github.com/) first and run the same command again.
+
+Secret values are read from the private file and passed through stdin, without appearing in terminal output or process arguments. The helper does not generate a new key, change `MAL_CLIENT_ID`, or start a build. If an upload fails partway through, rerun it to finish setting the same four values.
+
+To check the local bundle without installing software, logging in or uploading anything:
+
+```powershell
+.\SETUP-KIRINMAL.bat -CheckOnly
+```
+
+The public helper also lives under `tools/signing/`. From a repository checkout, point it at the extracted private bundle:
+
+```powershell
+.\tools\signing\SETUP-KIRINMAL.bat -BundlePath "C:\path\to\KirinMaL-4-Kunci-Release"
+```
+
+Keep the two helper files together. The helper runs with Windows PowerShell 5.1 or later; Java is not required. The signing key is the same one used by the existing KirinMaL releases, so APK update compatibility is preserved.
+
 ## MyAnimeList Client ID
 
 Signed builds also require the owner's **`MAL_CLIENT_ID`** repository secret. Register the MAL API application with the exact redirect `kirinmal://oauth/mal`, then copy its Client ID into this secret. See [MAL Client ID instructions](MAL_CLIENT_ID.md).

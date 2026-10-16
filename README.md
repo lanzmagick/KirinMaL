@@ -42,7 +42,7 @@ CLIENT_SECRET=""
 MAL_CLIENT_ID=your-own-mal-client-id
 ```
 
-To publish **signed** APKs, set the four GitHub Actions signing secrets `KEYSTORE_FILE` (base64-encoded keystore), `KEYSTORE_PASSWORD`, `KEY_ALIAS` and `KEY_PASSWORD`, plus your own **`MAL_CLIENT_ID`**. Then use **Actions → KirinMaL Signed Release → Run workflow → main**. Keep the keystore safely offline for future updates; do not commit signing credentials.
+To publish **signed** APKs, set the four GitHub Actions signing secrets `KEYSTORE_FILE` (base64-encoded keystore), `KEYSTORE_PASSWORD`, `KEY_ALIAS` and `KEY_PASSWORD`, plus your own **`MAL_CLIENT_ID`**. Windows users can extract the private signing bundle and run **`.\SETUP-KIRINMAL.bat`** to upload its four existing values automatically; see [one-command signing setup](docs/ANDROID_RELEASE.md#windows-paste-one-command). Then use **Actions → KirinMaL Signed Release → Run workflow → main**. Keep the keystore safely offline for future updates; do not commit signing credentials.
 
 ## Magic discovery: inspiration and picker logic
 
