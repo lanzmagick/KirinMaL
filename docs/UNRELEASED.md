@@ -2,7 +2,9 @@
 
 APK signed terbaru ialah **v1.0.7 (414)**, diterbitkan pada **16 Oktober 2026, 10:29:23 MYT**.
 
-## Patch terbaru — belum dibuild sebagai APK
+Build signed **v1.0.8 (415)** sedang dijalankan. Pautan APK terbaru kekal v1.0.7 sehingga ujian, build dan audit release baharu selesai.
+
+## Patch untuk APK v1.0.8 — sedang dibuild
 
 - Tab **Genres** dibuang daripada Anime Menu dan Manga Menu, bersama bento kategori, hasil carian, cache, permintaan API genre, model khusus serta pengendali Back pada semua platform.
 - Ujian dan dependency ujian yang hanya digunakan oleh browse genre turut dibuang. Tab ranking MAL menggunakan bilangan halaman asal tanpa halaman genre tambahan.
@@ -21,7 +23,7 @@ APK signed terbaru ialah **v1.0.7 (414)**, diterbitkan pada **16 Oktober 2026, 1
 - Komponen sebenar berjaya dicompile dengan Compose. Semakan visual offscreen merangkumi kedua-dua tema dan jenis media, termasuk loading, empty, error, teks besar serta reveal, menggunakan data/poster ujian.
 - Tiga ujian DataStore lulus dalam harness JVM, termasuk pilihan yang kekal selepas store dibuka semula, kebebasan daripada Random, serta pengekalan pilihan selepas Magic utama OFF/ON. Workflow release turut menjalankan ujian ini pada build seterusnya.
 - Semakan visual ON/OFF meliputi Home, popup loading/hasil dan bahagian Settings pada kedua-dua tema; sepuluh perbandingan OFF kekal sama pada dua fasa animasi berbeza.
-- Logik shuffle, sumber calon, tetapan Random asal, OAuth/login MAL dan version code dikekalkan. Pembuangan browse genre, patch popup serta tetapan Magic ini belum termasuk dalam APK v1.0.7.
+- Logik shuffle, sumber calon, tetapan Random asal dan OAuth/login MAL dikekalkan. Pembuangan browse genre, patch popup serta tetapan Magic ini dibawa ke v1.0.8 (415), dan belum termasuk dalam APK v1.0.7.
 
 ## Patch yang sudah termasuk dalam APK v1.0.7
 
