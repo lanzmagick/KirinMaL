@@ -1,10 +1,29 @@
 # KirinMaL — status build
 
-APK signed terbaru ialah **v1.0.9 (416)**, diterbitkan pada **17 Oktober 2026, 00:32:02 MYT**.
+APK signed terbaru ialah **v1.0.10 (417)**, diterbitkan pada **17 Oktober 2026, 01:32:09 MYT**.
 
-Release signed, ujian dan audit v1.0.9 sudah selesai. Lihat [release notes v1.0.9](releases/v1.0.9.md) dan [muat turun APK](https://github.com/lanzmagick/KirinMaL/releases/tag/v1.0.9).
+Release signed, ujian dan audit v1.0.10 sudah selesai. Lihat [release notes v1.0.10](releases/v1.0.10.md) dan [muat turun APK](https://github.com/lanzmagick/KirinMaL/releases/tag/v1.0.10).
+
+## Patch yang sudah termasuk dalam APK v1.0.10
+
+- Dropdown asal list Anime/Manga dipulihkan di kanan search bar dengan label pilihan semasa seperti **Last updated**.
+- Padanan tab kini mengenal pasti instans tab Anime/Manga dengan betul. Ini membetulkan dropdown yang hilang dalam v1.0.9 selepas kawalan lama dipindahkan.
+- Bentuk butang berlabel dipulihkan. Menu Title, Score, Last updated dan Start date serta simpanan pilihan berasingan dikekalkan.
+- Penapis huruf Sort: All/A–Z, Random asal dan Magic kekal di toolbar senarai. OAuth/login MAL, permission dan dependency runtime dikekalkan.
+
+## Pengesahan v1.0.10
+
+- Empat ujian regresi meliputi tab Anime/Manga sebenar, instans tab yang dipulihkan, keadaan belum login dan halaman lain; semuanya lulus dalam workflow release.
+- Ujian Magic shuffle, tetapan Magic dan Recommended Manga serta kedua-dua build Android lulus.
+- Kelima-lima APK lulus audit tandatangan v2, manifest, permission dan identiti app. Hash SHA-256 aset GitHub Release sepadan dengan log audit.
+- Sijil signing sama seperti v1.0.9; APK boleh dipasang sebagai kemas kini pada versi itu.
+- Sumber APK: commit `060836e365a77db7a27243fced3c96ee9e6b053a`.
+- [Workflow signed](https://github.com/lanzmagick/KirinMaL/actions/runs/38939983232) · [Workflow pengesahan](https://github.com/lanzmagick/KirinMaL/actions/runs/38939983483).
+- Belum diuji pada peranti fizikal. Ujian regresi mengesahkan logik tab sebenar; semakan build tidak menggantikan ujian paparan pada telefon.
 
 ## Patch yang sudah termasuk dalam APK v1.0.9
+
+**Isu yang disahkan:** dropdown tidak muncul kerana padanan tab tersilap. Gunakan **v1.0.10** untuk pembetulan.
 
 - Menu sort Anime dan Manga pada tampilan telefon dipindahkan ke ikon di kanan search bar. Pilihan Last updated, Title, Score dan Start date kekal tersedia dengan tanda pilihan semasa.
 - Search bar menyesuaikan lebar; avatar profil dan kawasan sentuh sort 56 dp dikekalkan.
