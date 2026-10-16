@@ -21,13 +21,13 @@ Download **[JANA-KEY-KIRINMAL.cmd](../tools/signing/JANA-KEY-KIRINMAL.cmd)** dan
 .\JANA-KEY-KIRINMAL.cmd
 ```
 
-Java JDK perlu tersedia melalui `JAVA_HOME` atau `PATH`. Pilih alias, kemudian isi password keystore, butiran pemilik dan password key apabila `keytool` bertanya. Password ditaip terus ke `keytool`, tanpa dipaparkan atau disimpan oleh skrip. Tekan Enter pada soalan password key jika mahu menggunakan password keystore yang sama.
+Java JDK perlu tersedia melalui `JAVA_HOME` atau `PATH`. Alias **kirinmal** dan butiran sijil **Lanz Magick / KirinMaL** sudah diisi dalam CMD. Kau hanya memasukkan password keystore dan pengesahannya; tekan Enter pada soalan password key jika mahu menggunakan password yang sama. Password ditaip terus ke `keytool`, tanpa dipaparkan atau disimpan oleh skrip. Tiada soalan nama, alamat, bandar, negeri atau negara.
 
 Skrip menghasilkan folder **KirinMaL-key-sendiri** di sebelah CMD:
 
 - **KirinMaL-release.jks** — private keystore.
 - **KEYSTORE_FILE.txt** — base64 pada satu baris untuk secret `KEYSTORE_FILE`.
-- **KEY_ALIAS.txt** — alias yang dipilih.
+- **KEY_ALIAS.txt** — alias tetap `kirinmal`.
 - **CARA-ISI-SECRETS.txt** — panduan empat secret, menggunakan password yang dipilih sendiri.
 
 Masukkan empat nilai itu sendiri ke **Settings → Secrets and variables → Actions**. Skrip ini tidak memasang GitHub CLI, meminta login GitHub, mengupload secret atau memulakan build. Fail JKS yang sudah wujud tidak ditimpa.

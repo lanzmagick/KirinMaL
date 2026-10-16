@@ -8,7 +8,7 @@ echo KirinMaL - Jana key sendiri
 echo.
 echo Skrip ini menjana KEY BAHARU dalam folder KirinMaL-key-sendiri.
 echo Key baharu tidak boleh update APK yang menggunakan signing key lama.
-echo Password dan butiran pemilik akan ditanya terus oleh keytool.
+echo Alias dan butiran sijil sudah diisi. Kau hanya masukkan password.
 echo.
 
 set "KIRINMAL_KEYTOOL=keytool.exe"
@@ -27,23 +27,16 @@ set "KIRINMAL_JKS=%KIRINMAL_OUTPUT%\KirinMaL-release.jks"
 set "KIRINMAL_BASE64=%KIRINMAL_OUTPUT%\KEYSTORE_FILE.txt"
 if exist "%KIRINMAL_JKS%" goto already_exists
 
-:choose_alias
 set "KIRINMAL_ALIAS=kirinmal"
-set /p "KIRINMAL_ALIAS=Alias key [kirinmal]: "
-set KIRINMAL_ALIAS | findstr.exe /r /i /x /c:"KIRINMAL_ALIAS=[A-Za-z0-9_-][A-Za-z0-9_-]*" >nul
-if errorlevel 1 (
-    echo Alias hanya boleh mengandungi huruf, nombor, underscore atau tanda -.
-    goto choose_alias
-)
 
 if not exist "%KIRINMAL_OUTPUT%" mkdir "%KIRINMAL_OUTPUT%"
 if not exist "%KIRINMAL_OUTPUT%" goto output_failed
 echo.
-echo Isi password keystore, butiran pemilik dan password key apabila ditanya.
+echo Isi password keystore dan ulang untuk pengesahan.
 echo Password tidak dipaparkan ketika ditaip. Gunakan sekurang-kurangnya 6 aksara.
 echo Tekan Enter pada soalan password key jika mahu sama dengan password keystore.
 echo.
-"%KIRINMAL_KEYTOOL%" -genkeypair -v -storetype JKS -keystore "%KIRINMAL_JKS%" -alias "%KIRINMAL_ALIAS%" -keyalg RSA -keysize 4096 -validity 10000
+"%KIRINMAL_KEYTOOL%" -genkeypair -v -storetype JKS -keystore "%KIRINMAL_JKS%" -alias "%KIRINMAL_ALIAS%" -dname "CN=Lanz Magick, OU=KirinMaL, O=KirinMaL" -keyalg RSA -keysize 4096 -validity 10000
 if errorlevel 1 goto generation_failed
 
 rem Paths use environment variables, without interpolating them into PowerShell.
