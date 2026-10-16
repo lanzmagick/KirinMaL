@@ -79,9 +79,9 @@ a:focus-visible{outline:3px solid #9f96ff;outline-offset:4px}
 .feature-discover{grid-column:span 2;min-height:230px;background:linear-gradient(125deg,#fff,#f9f6ff)}
 .feature-discover .round-icon{position:absolute;top:22px;right:24px;margin:0}
 .feature-discover p{max-width:470px}
-.genre-pills{display:flex;gap:7px;flex-wrap:wrap;margin-top:20px}
-.genre-pills span{border-radius:8px;background:#f0eafe;color:#7063aa;padding:6px 10px;font-size:10px;font-weight:750}
-.genre-pills span:nth-child(2n){background:#eaf2ff;color:#677fa9}
+.ranking-pills{display:flex;gap:7px;flex-wrap:wrap;margin-top:20px}
+.ranking-pills span{border-radius:8px;background:#f0eafe;color:#7063aa;padding:6px 10px;font-size:10px;font-weight:750}
+.ranking-pills span:nth-child(2n){background:#eaf2ff;color:#677fa9}
 .feature-editor{background:#f7fcff}
 .feature-editor .round-icon{background:#e4f4ff;color:#5987be}
 .feature-editor h3{font-size:19px}

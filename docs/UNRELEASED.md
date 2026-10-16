@@ -4,6 +4,11 @@ APK signed terbaru ialah **v1.0.7 (414)**, diterbitkan pada **16 Oktober 2026, 1
 
 ## Patch terbaru — belum dibuild sebagai APK
 
+- Tab **Genres** dibuang daripada Anime Menu dan Manga Menu, bersama bento kategori, hasil carian, cache, permintaan API genre, model khusus serta pengendali Back pada semua platform.
+- Ujian dan dependency ujian yang hanya digunakan oleh browse genre turut dibuang. Tab ranking MAL menggunakan bilangan halaman asal tanpa halaman genre tambahan.
+- Genre pada **Anime Info dan Manga Info** dikekalkan sepenuhnya: field MAL, model, nama terjemahan serta badge paparan tidak diubah. NSFW, Magic, login dan penyuntingan senarai tidak diubah oleh pembuangan genre.
+- Pages dan README dikemas kini untuk menerangkan ranking serta genre pada Info, tanpa menjanjikan browse genre.
+- Komponen menu ranking berjaya dicompile dan disemak secara offscreen pada kedua-dua tema untuk 18 keadaan ranking awal, termasuk fallback. Senarai ranking dan pembalut navigasi menggunakan data ujian; kod Info dan permintaan MAL disahkan kekal sama.
 - **More → Settings → Magic** kini menyediakan tiga toggle tersimpan: **Enable Magic**, **Magic on Anime/Manga lists**, dan **Magic effects**. Default ketiga-tiganya ON.
 - Magic utama OFF menyembunyikan dua slot Home serta Magic pada kedua-dua senarai. Dua pilihan lain disimpan dan menjadi tidak aktif sehingga Magic dihidupkan semula.
 - Toggle senarai hanya mengawal butang Magic di Anime/Manga; Home kekal tersedia jika Magic utama ON. Toggle Random asal kekal berasingan.
@@ -16,7 +21,7 @@ APK signed terbaru ialah **v1.0.7 (414)**, diterbitkan pada **16 Oktober 2026, 1
 - Komponen sebenar berjaya dicompile dengan Compose. Semakan visual offscreen merangkumi kedua-dua tema dan jenis media, termasuk loading, empty, error, teks besar serta reveal, menggunakan data/poster ujian.
 - Tiga ujian DataStore lulus dalam harness JVM, termasuk pilihan yang kekal selepas store dibuka semula, kebebasan daripada Random, serta pengekalan pilihan selepas Magic utama OFF/ON. Workflow release turut menjalankan ujian ini pada build seterusnya.
 - Semakan visual ON/OFF meliputi Home, popup loading/hasil dan bahagian Settings pada kedua-dua tema; sepuluh perbandingan OFF kekal sama pada dua fasa animasi berbeza.
-- Logik shuffle, sumber calon, tetapan Random asal, OAuth/login MAL dan version code dikekalkan. Patch popup serta tetapan Magic ini belum termasuk dalam APK v1.0.7.
+- Logik shuffle, sumber calon, tetapan Random asal, OAuth/login MAL dan version code dikekalkan. Pembuangan browse genre, patch popup serta tetapan Magic ini belum termasuk dalam APK v1.0.7.
 
 ## Patch yang sudah termasuk dalam APK v1.0.7
 

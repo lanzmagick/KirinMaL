@@ -233,7 +233,6 @@ fun MainNavigation(
             MediaRankingView(
                 arguments = it,
                 isCompactScreen = isCompactScreen,
-                isCurrentRoute = navigator.state.getCurrentRoute() == it,
                 navActionManager = navActionManager,
             )
         }

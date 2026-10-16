@@ -111,10 +111,10 @@ jobs:
           grep -Fq 'android:targetPackage="com.lanzmagick.kirinmal"' app/androidApp/src/main/res/xml-v25/shortcuts.xml
           echo "KirinMaL has its own Android package ID."
 
-      - name: Test Home recommendations, Magic settings and Jikan genre contracts
+      - name: Test Home recommendations and Magic settings
         env:
           MAL_CLIENT_ID: ${{ secrets.MAL_CLIENT_ID }}
-        run: ./gradlew :app:shared:jvmTest --tests '*ShuffleBagTest' --tests '*MagicPreferencesTest' --tests '*MangaRecommendationSelectorTest' --tests '*JikanCatalogApiTest' --no-daemon --no-configuration-cache --stacktrace
+        run: ./gradlew :app:shared:jvmTest --tests '*ShuffleBagTest' --tests '*MagicPreferencesTest' --tests '*MangaRecommendationSelectorTest' --no-daemon --no-configuration-cache --stacktrace
 
       - name: Build signed production APKs
         env:
