@@ -1,6 +1,8 @@
 package com.axiel7.moelist.screens.magic
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
@@ -65,14 +67,15 @@ import kotlin.math.sin
 fun MagicPickerDialog(
     type: MediaType,
     state: MagicPickerUiState,
+    effectsEnabled: Boolean = true,
     onAgain: () -> Unit,
     onOpen: (BaseMediaNode) -> Unit,
     onClose: () -> Unit,
 ) {
     val palette = magicDialogPalette(type)
-    val motion = rememberMagicDialogMotion(type, state.selection?.id)
+    val motion = rememberMagicDialogMotion(type, state.selection?.id, effectsEnabled)
     Dialog(onDismissRequest = onClose) {
-        MagicPickerContent(type, state, palette, motion, onAgain, onOpen, onClose)
+        MagicPickerContent(type, state, palette, motion, onAgain, onOpen, onClose, effectsEnabled)
     }
 }
 
@@ -85,14 +88,16 @@ internal fun MagicPickerContent(
     onAgain: () -> Unit,
     onOpen: (BaseMediaNode) -> Unit,
     onClose: () -> Unit,
+    effectsEnabled: Boolean = true,
 ) {
     Surface(
         shape = RoundedCornerShape(32.dp),
         modifier = Modifier.widthIn(max = 360.dp).heightIn(max = 620.dp),
-        color = Color.Transparent,
+        color = if (effectsEnabled) Color.Transparent else MaterialTheme.colorScheme.surface,
         contentColor = MaterialTheme.colorScheme.onSurface,
+        tonalElevation = if (effectsEnabled) 0.dp else 8.dp,
     ) {
-        Box(Modifier.magicDialogGlass(palette, motion.orbit, 32.dp)) {
+        Box(Modifier.magicDialogGlass(palette, motion.orbit, 32.dp, enabled = effectsEnabled)) {
             Column(
                 modifier = Modifier.verticalScroll(rememberScrollState()).padding(24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -117,20 +122,23 @@ internal fun MagicPickerContent(
                     targetState = state.selection,
                     label = "magic-reveal",
                     transitionSpec = {
-                        (fadeIn(tween(420)) + scaleIn(tween(420), initialScale = 0.92f))
+                        if (effectsEnabled) (fadeIn(tween(420)) + scaleIn(tween(420), initialScale = 0.92f))
                             .togetherWith(fadeOut(tween(180)))
+                        else EnterTransition.None.togetherWith(ExitTransition.None).using(null)
                     },
                 ) { selection ->
                     if (selection == null) {
-                        MysteryBox(state.isLoading, palette, motion)
+                        MysteryBox(state.isLoading, palette, motion, effectsEnabled)
                     } else {
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.spacedBy(12.dp),
                         ) {
-                            Box(Modifier.size(140.dp, 196.dp).magicPosterHalo(palette, motion)) {
+                            Box(Modifier.size(140.dp, 196.dp)
+                                .magicPosterHalo(palette, motion, enabled = effectsEnabled)) {
                                 Box(Modifier.matchParentSize().clip(RoundedCornerShape(18.dp))
-                                    .magicDialogGlass(palette, motion.orbit, 18.dp, overPoster = true)) {
+                                    .magicDialogGlass(palette, motion.orbit, 18.dp,
+                                        overPoster = true, enabled = effectsEnabled)) {
                                     MediaPoster(
                                         url = selection.mainPicture?.large ?: selection.mainPicture?.medium,
                                         modifier = Modifier.matchParentSize(),
@@ -183,16 +191,22 @@ internal fun MagicPickerContent(
 }
 
 @Composable
-private fun MysteryBox(isLoading: Boolean, palette: MagicDialogPalette, motion: MagicDialogMotion) {
+private fun MysteryBox(
+    isLoading: Boolean,
+    palette: MagicDialogPalette,
+    motion: MagicDialogMotion,
+    effectsEnabled: Boolean,
+) {
     Box(
         modifier = Modifier.size(196.dp).graphicsLayer {
             val pulse = 0.97f + 0.03f * sin(motion.orbit.value * 8f * PI).toFloat()
-            scaleX = if (isLoading) pulse else 1f
-            scaleY = if (isLoading) pulse else 1f
+            scaleX = if (isLoading && effectsEnabled) pulse else 1f
+            scaleY = if (isLoading && effectsEnabled) pulse else 1f
         }.clip(RoundedCornerShape(30.dp)).background(
             Brush.linearGradient(listOf(lerp(palette.first, Color.White, 0.6f),
                 lerp(palette.second, Color.White, 0.64f)))
-        ).magicDialogGlass(palette, motion.orbit, 30.dp, overPoster = true),
+        ).magicDialogGlass(palette, motion.orbit, 30.dp,
+            overPoster = true, enabled = effectsEnabled),
         contentAlignment = Alignment.Center,
     ) {
         Text("?", fontSize = 80.sp, fontWeight = FontWeight.Black, color = Color(0xFF362147))

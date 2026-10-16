@@ -274,6 +274,8 @@ private fun SettingsViewContent(
 
             OpenByDefaultSettingsButton()
 
+            MagicSettingsSection(preferences = uiState.magic, event = event)
+
             SettingsTitle(text = stringResource(UiRes.string.experimental))
 
             SwitchPreferenceView(

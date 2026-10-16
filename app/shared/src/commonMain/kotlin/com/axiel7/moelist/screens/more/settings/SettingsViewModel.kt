@@ -143,6 +143,18 @@ class SettingsViewModel(
         }
     }
 
+    override fun setMagicEnabled(value: Boolean) {
+        viewModelScope.launch { defaultPreferencesRepository.setMagicEnabled(value) }
+    }
+
+    override fun setMagicOnLists(value: Boolean) {
+        viewModelScope.launch { defaultPreferencesRepository.setMagicOnLists(value) }
+    }
+
+    override fun setMagicEffectsEnabled(value: Boolean) {
+        viewModelScope.launch { defaultPreferencesRepository.setMagicEffectsEnabled(value) }
+    }
+
     init {
         defaultPreferencesRepository.lang
             .onEach { value ->
@@ -257,6 +269,10 @@ class SettingsViewModel(
             .onEach { value ->
                 mutableUiState.update { it.copy(randomListEntryEnabled = value) }
             }
+            .launchIn(viewModelScope)
+
+        defaultPreferencesRepository.magicPreferences
+            .onEach { value -> mutableUiState.update { it.copy(magic = value) } }
             .launchIn(viewModelScope)
     }
 }

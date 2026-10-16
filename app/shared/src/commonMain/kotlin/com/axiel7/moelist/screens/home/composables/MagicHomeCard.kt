@@ -53,10 +53,11 @@ fun MagicHomeCard(
     icon: Painter,
     mediaType: MediaType,
     modifier: Modifier = Modifier,
+    effectsEnabled: Boolean = true,
     onClick: () -> Unit,
 ) {
     val lifecycleState by LocalLifecycleOwner.current.lifecycle.currentStateAsState()
-    val phase: State<Float> = if (lifecycleState.isAtLeast(Lifecycle.State.RESUMED)) {
+    val phase: State<Float> = if (effectsEnabled && lifecycleState.isAtLeast(Lifecycle.State.RESUMED)) {
         val transition = rememberInfiniteTransition(label = "magic-home-rim")
         transition.animateFloat(
             initialValue = 0f,
@@ -70,7 +71,8 @@ fun MagicHomeCard(
         // No continuous frame work while this navigation entry is in the background.
         remember { mutableStateOf(0f) }
     }
-    MagicHomeCardSurface(text, icon, mediaType, phase, modifier, onClick)
+    MagicHomeCardSurface(text, icon, mediaType, phase, modifier,
+        effectsEnabled = effectsEnabled, onClick = onClick)
 }
 
 @Composable
@@ -80,6 +82,7 @@ internal fun MagicHomeCardSurface(
     mediaType: MediaType,
     phase: State<Float>,
     modifier: Modifier = Modifier,
+    effectsEnabled: Boolean = true,
     onClick: () -> Unit,
 ) {
     val scheme = MaterialTheme.colorScheme
@@ -111,6 +114,9 @@ internal fun MagicHomeCardSurface(
                 .fillMaxSize()
                 .drawWithCache {
                     val corner = min(18.dp.toPx(), size.minDimension / 2f)
+                    if (!effectsEnabled) return@drawWithCache onDrawBehind {
+                        drawRoundRect(base, cornerRadius = CornerRadius(corner))
+                    }
                     val inset = min(1.25.dp.toPx(), size.minDimension / 4f)
                     val rim = Path().apply {
                         addRoundRect(RoundRect(
@@ -220,7 +226,8 @@ internal fun MagicHomeCardSurface(
             Icon(
                 painter = icon,
                 contentDescription = null,
-                tint = if (dark) first else lerp(scheme.onSurface, first, 0.65f),
+                tint = if (!effectsEnabled) scheme.onSurfaceVariant
+                    else if (dark) first else lerp(scheme.onSurface, first, 0.65f),
                 modifier = Modifier.padding(end = 8.dp).size(20.dp),
             )
             Text(

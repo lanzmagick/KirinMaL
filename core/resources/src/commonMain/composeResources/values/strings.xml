@@ -404,6 +404,12 @@
     <string name="enable_list_tabs_subtitle">Use tabs in Anime/Manga list instead of Floating Action Button</string>
     <string name="always_load_characters">Always load characters</string>
     <string name="random_button_on_list">Random button on anime/manga list</string>
+    <string name="magic_enabled">Enable Magic</string>
+    <string name="magic_enabled_summary">Show Magic shortcuts on Home and enable Magic pickers.</string>
+    <string name="magic_on_lists">Magic on Anime/Manga lists</string>
+    <string name="magic_on_lists_summary">Show the Magic button on both lists, separately from Random.</string>
+    <string name="magic_effects">Magic effects</string>
+    <string name="magic_effects_summary">Particles, moving borders, glass shine and reveal animation on Magic cards and popups.</string>
     <string name="new_anime">New</string>
     <string name="continuing_anime">Continuing</string>
     <string name="previous_season">Previous</string>

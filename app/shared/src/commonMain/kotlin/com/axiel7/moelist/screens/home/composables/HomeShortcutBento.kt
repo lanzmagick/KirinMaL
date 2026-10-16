@@ -3,9 +3,11 @@ package com.axiel7.moelist.screens.home.composables
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -14,6 +16,7 @@ import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.utils.SeasonCalendar
 import com.axiel7.moelist.screens.magic.MagicPickerContext
 import com.axiel7.moelist.screens.magic.RandomMagicControls
+import com.axiel7.moelist.screens.magic.magicPreferencesState
 import com.axiel7.moelist.ui.base.navigation.NavActionManager
 import com.axiel7.moelist.ui.generated.resources.UiRes
 import com.axiel7.moelist.ui.generated.resources.anime_menu
@@ -35,14 +38,18 @@ fun HomeShortcutBento(
     navActionManager: NavActionManager,
     modifier: Modifier = Modifier,
 ) {
+    val magicPreferences by magicPreferencesState()
     val columns = if (isCompactScreen) 2 else 3
+    val visibleShortcuts = HomeShortcut.entries.filter {
+        magicPreferences.enabled || it != HomeShortcut.MAGIC_ANIME && it != HomeShortcut.MAGIC_MANGA
+    }
     Column(
         modifier = modifier
             .fillMaxWidth()
             .padding(start = 16.dp, end = 16.dp, top = 10.dp, bottom = 8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        HomeShortcut.entries.chunked(columns).forEach { shortcuts ->
+        visibleShortcuts.chunked(columns).forEach { shortcuts ->
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -84,6 +91,7 @@ fun HomeShortcutBento(
                                     MediaType.ANIME else MediaType.MANGA
                                 RandomMagicControls(
                                     context = MagicPickerContext(type),
+                                    magicPreferences = magicPreferences,
                                     homeStyle = true,
                                     modifier = cardModifier,
                                     onOpen = { navActionManager.toMediaDetails(type, it.id) },
@@ -92,6 +100,7 @@ fun HomeShortcutBento(
                         }
                     }
                 }
+                repeat(columns - shortcuts.size) { Spacer(Modifier.weight(1f)) }
             }
         }
     }

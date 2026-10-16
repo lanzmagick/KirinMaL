@@ -4,12 +4,19 @@ APK signed terbaru ialah **v1.0.7 (414)**, diterbitkan pada **16 Oktober 2026, 1
 
 ## Patch terbaru — belum dibuild sebagai APK
 
+- **More → Settings → Magic** kini menyediakan tiga toggle tersimpan: **Enable Magic**, **Magic on Anime/Manga lists**, dan **Magic effects**. Default ketiga-tiganya ON.
+- Magic utama OFF menyembunyikan dua slot Home serta Magic pada kedua-dua senarai. Dua pilihan lain disimpan dan menjadi tidak aktif sehingga Magic dihidupkan semula.
+- Toggle senarai hanya mengawal butang Magic di Anime/Manga; Home kekal tersedia jika Magic utama ON. Toggle Random asal kekal berasingan.
+- Efek OFF mengekalkan fungsi Magic dengan rupa statik: tiada partikel, border bergerak, kilauan kaca, halo, denyutan kotak misteri, transisi reveal atau delay kosmetik pemilihan.
+- Pilihan tersimpan dibaca sebelum Magic atau animasinya dipaparkan. Bento membuang slot Magic yang dimatikan dan mengekalkan saiz kad lain, termasuk pada skrin tiga kolum.
 - Popup **Magic Anime dan Magic Manga** mendapat partikel yang bergerak di border, jejak cahaya, pantulan kaca, halo poster dan percikan bintang ringkas ketika tajuk muncul.
 - Anime menggunakan ungu–biru; Manga merah jambu–emas. Kotak misteri serta butang ikut palet yang sama dalam tema cerah/gelap.
 - Popup dikongsi oleh Home serta kedua-dua senarai. Saiz maksimum, scrolling dan tindakan Open info, Surprise me again, Cancel serta dismiss dikekalkan.
 - Efek dilukis tanpa recomposition atau layout pada setiap frame; animasi berterusan berhenti apabila entri navigasi tidak aktif. Tiada dependency atau permission baharu.
 - Komponen sebenar berjaya dicompile dengan Compose. Semakan visual offscreen merangkumi kedua-dua tema dan jenis media, termasuk loading, empty, error, teks besar serta reveal, menggunakan data/poster ujian.
-- Logik shuffle, sumber calon, tetapan Random, Home bento, OAuth/login MAL dan version code tidak berubah. Patch popup ini belum termasuk dalam APK v1.0.7.
+- Tiga ujian DataStore lulus dalam harness JVM, termasuk pilihan yang kekal selepas store dibuka semula, kebebasan daripada Random, serta pengekalan pilihan selepas Magic utama OFF/ON. Workflow release turut menjalankan ujian ini pada build seterusnya.
+- Semakan visual ON/OFF meliputi Home, popup loading/hasil dan bahagian Settings pada kedua-dua tema; sepuluh perbandingan OFF kekal sama pada dua fasa animasi berbeza.
+- Logik shuffle, sumber calon, tetapan Random asal, OAuth/login MAL dan version code dikekalkan. Patch popup serta tetapan Magic ini belum termasuk dalam APK v1.0.7.
 
 ## Patch yang sudah termasuk dalam APK v1.0.7
 

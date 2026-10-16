@@ -6,6 +6,7 @@ import com.axiel7.moelist.data.model.media.TitleLanguage
 import com.axiel7.moelist.data.model.ui.AppLanguage
 import com.axiel7.moelist.data.model.ui.ItemsPerRow
 import com.axiel7.moelist.data.model.ui.ListStyle
+import com.axiel7.moelist.data.model.ui.MagicPreferences
 import com.axiel7.moelist.data.model.ui.StartTab
 import com.axiel7.moelist.data.model.ui.TabletMode
 import com.axiel7.moelist.data.model.ui.ThemeStyle
@@ -33,6 +34,7 @@ data class SettingsUiState(
     val useListTabs: Boolean = false,
     val loadCharacters: Boolean = false,
     val randomListEntryEnabled: Boolean = false,
+    val magic: MagicPreferences = MagicPreferences(),
     override val isLoading: Boolean = false,
     override val message: String? = null
 ) : UiState() {

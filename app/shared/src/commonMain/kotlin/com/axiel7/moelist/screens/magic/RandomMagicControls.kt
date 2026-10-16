@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.axiel7.moelist.data.model.media.BaseMediaNode
 import com.axiel7.moelist.data.model.media.MediaType
+import com.axiel7.moelist.data.model.ui.MagicPreferences
 import com.axiel7.moelist.screens.home.composables.MagicHomeCard
 import com.axiel7.moelist.ui.composables.LoadingDialog
 import com.axiel7.moelist.ui.generated.resources.UiRes
@@ -49,6 +50,7 @@ private enum class Presentation { DIRECT, MAGIC }
 @Composable
 fun RandomMagicControls(
     context: MagicPickerContext,
+    magicPreferences: MagicPreferences,
     onOpen: (BaseMediaNode) -> Unit,
     homeStyle: Boolean = false,
     onDefaultRandom: (() -> Unit)? = null,
@@ -56,6 +58,7 @@ fun RandomMagicControls(
     showRandomButton: Boolean = true,
 ) {
     var presentation by remember(context) { mutableStateOf<Presentation?>(null) }
+    val showMagic = if (homeStyle) magicPreferences.enabled else magicPreferences.visibleOnLists
     @Composable
     fun PickerButton(label: String, icon: DrawableResource, onClick: () -> Unit) {
         AssistChip(onClick = onClick, label = { Text(label) }, leadingIcon = {
@@ -63,11 +66,12 @@ fun RandomMagicControls(
         })
     }
     if (homeStyle) {
-        MagicHomeCard(
+        if (showMagic) MagicHomeCard(
             text = stringResource(if (context.mediaType == MediaType.ANIME)
                 UiRes.string.magic_anime else UiRes.string.magic_manga),
             icon = painterResource(UiRes.drawable.ic_magic_sparkles_24),
             mediaType = context.mediaType,
+            effectsEnabled = magicPreferences.effectsEnabled,
             modifier = modifier,
             onClick = { presentation = Presentation.MAGIC },
         )
@@ -77,7 +81,7 @@ fun RandomMagicControls(
             horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            // The existing setting controls Random only; Magic stays available.
+            // Random keeps its own setting, independently of the Magic preferences.
             if (showRandomButton) {
                 PickerButton(
                     stringResource(UiRes.string.random),
@@ -88,7 +92,7 @@ fun RandomMagicControls(
                     },
                 )
             }
-            PickerButton(
+            if (showMagic) PickerButton(
                 stringResource(UiRes.string.magic),
                 UiRes.drawable.ic_magic_sparkles_24,
                 onClick = { presentation = Presentation.MAGIC },
@@ -96,6 +100,12 @@ fun RandomMagicControls(
         }
     }
     val mode = presentation ?: return
+    if (mode == Presentation.MAGIC && !showMagic) {
+        LaunchedEffect(Unit) {
+            if (presentation == Presentation.MAGIC) presentation = null
+        }
+        return
+    }
     val viewModel: MagicPickerViewModel = koinViewModel(
         key = "magic-${context.mediaType}-${context.listStatus}-${context.titleInitial}",
     ) { parametersOf(context) }
@@ -105,7 +115,10 @@ fun RandomMagicControls(
         viewModel.close()
     }
     DisposableEffect(viewModel) { onDispose { viewModel.close() } }
-    LaunchedEffect(mode) { viewModel.pick(refresh = true, animate = mode == Presentation.MAGIC) }
+    LaunchedEffect(mode) {
+        viewModel.pick(refresh = true,
+            animate = mode == Presentation.MAGIC && magicPreferences.effectsEnabled)
+    }
     LaunchedEffect(mode, state.selection) {
         if (mode == Presentation.DIRECT) state.selection?.let { selection ->
             close()
@@ -115,8 +128,10 @@ fun RandomMagicControls(
     if (mode == Presentation.MAGIC) {
         MagicPickerDialog(
             type = context.mediaType,
+            effectsEnabled = magicPreferences.effectsEnabled,
             state = state,
-            onAgain = { viewModel.pick(refresh = state.error != null) },
+            onAgain = { viewModel.pick(refresh = state.error != null,
+                animate = magicPreferences.effectsEnabled) },
             onOpen = { selection -> close(); onOpen(selection) },
             onClose = ::close,
         )

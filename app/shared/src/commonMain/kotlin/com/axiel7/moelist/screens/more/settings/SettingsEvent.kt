@@ -33,4 +33,7 @@ interface SettingsEvent : UiEvent {
     fun setUseListTabs(value: Boolean)
     fun setLoadCharacters(value: Boolean)
     fun setRandomListEntryEnabled(value: Boolean)
+    fun setMagicEnabled(value: Boolean)
+    fun setMagicOnLists(value: Boolean)
+    fun setMagicEffectsEnabled(value: Boolean)
 }

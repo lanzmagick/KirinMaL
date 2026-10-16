@@ -5,12 +5,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.screens.magic.MagicPickerContext
 import com.axiel7.moelist.screens.magic.RandomMagicControls
+import com.axiel7.moelist.screens.magic.magicPreferencesState
 import com.axiel7.moelist.screens.userlist.UserMediaListEvent
 import com.axiel7.moelist.screens.userlist.UserMediaListUiState
 import com.axiel7.moelist.ui.base.model.ListStatus
@@ -23,6 +25,7 @@ fun UserListToolbar(
     navActionManager: NavActionManager,
     modifier: Modifier = Modifier,
 ) {
+    val magicPreferences by magicPreferencesState()
     Row(
         modifier = modifier.horizontalScroll(rememberScrollState()),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -38,6 +41,7 @@ fun UserListToolbar(
                 titleInitial = uiState.titleInitial,
             ),
             showRandomButton = uiState.showRandomButton,
+            magicPreferences = magicPreferences,
             onDefaultRandom = { event?.getRandomIdOfList() },
             onOpen = { navActionManager.toMediaDetails(uiState.mediaType, it.id) },
         )

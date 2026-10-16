@@ -77,9 +77,13 @@ internal fun magicDialogPalette(type: MediaType): MagicDialogPalette {
 }
 
 @Composable
-internal fun rememberMagicDialogMotion(type: MediaType, selectionId: Int?): MagicDialogMotion {
+internal fun rememberMagicDialogMotion(
+    type: MediaType,
+    selectionId: Int?,
+    effectsEnabled: Boolean = true,
+): MagicDialogMotion {
     val lifecycleState by LocalLifecycleOwner.current.lifecycle.currentStateAsState()
-    val active = lifecycleState.isAtLeast(Lifecycle.State.RESUMED)
+    val active = effectsEnabled && lifecycleState.isAtLeast(Lifecycle.State.RESUMED)
     val orbit = if (active) {
         val transition = rememberInfiniteTransition(label = "magic-dialog-orbit")
         transition.animateFloat(
@@ -107,7 +111,8 @@ internal fun Modifier.magicDialogGlass(
     orbit: State<Float>,
     corner: Dp,
     overPoster: Boolean = false,
-): Modifier = drawWithCache {
+    enabled: Boolean = true,
+): Modifier = if (!enabled) this else drawWithCache {
     val radius = min(corner.toPx(), size.minDimension / 2f)
     val inset = min(1.5.dp.toPx(), size.minDimension / 4f)
     val rim = Path().apply {
@@ -204,7 +209,8 @@ internal fun Modifier.magicDialogGlass(
 internal fun Modifier.magicPosterHalo(
     palette: MagicDialogPalette,
     motion: MagicDialogMotion,
-): Modifier = drawWithCache {
+    enabled: Boolean = true,
+): Modifier = if (!enabled) this else drawWithCache {
     val center = Offset(size.width / 2f, size.height / 2f)
     val haloRadius = size.maxDimension * 0.72f
     val halo = Brush.radialGradient(

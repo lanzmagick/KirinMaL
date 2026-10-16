@@ -30,12 +30,13 @@ fun SwitchPreferenceView(
     icon: DrawableResource? = null,
     iconTint: Color = MaterialTheme.colorScheme.primary,
     iconPadding: PaddingValues = PaddingValues(16.dp),
+    enabled: Boolean = true,
     onValueChange: (Boolean) -> Unit
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clickable {
+            .clickable(enabled = enabled) {
                 onValueChange(!value)
             },
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -51,7 +52,7 @@ fun SwitchPreferenceView(
                     painter = painterResource(icon),
                     contentDescription = "",
                     modifier = Modifier.padding(iconPadding),
-                    tint = iconTint
+                    tint = if (enabled) iconTint else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f)
                 )
             } else {
                 Spacer(
@@ -68,14 +69,14 @@ fun SwitchPreferenceView(
             ) {
                 Text(
                     text = title,
-                    color = MaterialTheme.colorScheme.onSurface,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = if (enabled) 1f else 0.38f),
                     style = MaterialTheme.typography.bodyLarge,
                 )
 
                 if (subtitle != null) {
                     Text(
                         text = subtitle,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = if (enabled) 1f else 0.38f),
                         style = MaterialTheme.typography.bodyMedium,
                     )
                 }
@@ -84,6 +85,7 @@ fun SwitchPreferenceView(
 
         Switch(
             checked = value,
+            enabled = enabled,
             onCheckedChange = {
                 onValueChange(it)
             },

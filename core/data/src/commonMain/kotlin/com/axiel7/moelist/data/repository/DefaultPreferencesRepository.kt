@@ -14,6 +14,7 @@ import com.axiel7.moelist.data.model.media.TitleLanguage
 import com.axiel7.moelist.data.model.ui.AppLanguage
 import com.axiel7.moelist.data.model.ui.ItemsPerRow
 import com.axiel7.moelist.data.model.ui.ListStyle
+import com.axiel7.moelist.data.model.ui.MagicPreferences
 import com.axiel7.moelist.data.model.ui.StartTab
 import com.axiel7.moelist.data.model.ui.TabletMode
 import com.axiel7.moelist.data.model.ui.ThemeStyle
@@ -21,6 +22,7 @@ import com.axiel7.moelist.data.utils.getValue
 import com.axiel7.moelist.data.utils.setValue
 import com.materialkolor.PaletteStyle
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 
@@ -174,6 +176,26 @@ class DefaultPreferencesRepository(
         dataStore.setValue(RANDOM_LIST_ENTRY_KEY, value)
     }
 
+    val magicPreferences = dataStore.data.map {
+        MagicPreferences(
+            enabled = it[MAGIC_ENABLED_KEY] ?: true,
+            showOnLists = it[MAGIC_ON_LISTS_KEY] ?: true,
+            effectsEnabled = it[MAGIC_EFFECTS_KEY] ?: true,
+        )
+    }.distinctUntilChanged()
+
+    suspend fun setMagicEnabled(value: Boolean) {
+        dataStore.setValue(MAGIC_ENABLED_KEY, value)
+    }
+
+    suspend fun setMagicOnLists(value: Boolean) {
+        dataStore.setValue(MAGIC_ON_LISTS_KEY, value)
+    }
+
+    suspend fun setMagicEffectsEnabled(value: Boolean) {
+        dataStore.setValue(MAGIC_EFFECTS_KEY, value)
+    }
+
     val generalListStyle = dataStore.getValue(GENERAL_LIST_STYLE_KEY, ListStyle.STANDARD.name)
         .map { ListStyle.valueOfOrNull(it) ?: ListStyle.STANDARD }
 
@@ -302,6 +324,9 @@ class DefaultPreferencesRepository(
         private val USE_LIST_TABS_KEY = booleanPreferencesKey("use_list_tabs")
         private val LOAD_CHARACTERS_KEY = booleanPreferencesKey("load_characters")
         private val RANDOM_LIST_ENTRY_KEY = booleanPreferencesKey("random_list_entry_enabled")
+        private val MAGIC_ENABLED_KEY = booleanPreferencesKey("magic_enabled")
+        private val MAGIC_ON_LISTS_KEY = booleanPreferencesKey("magic_on_lists")
+        private val MAGIC_EFFECTS_KEY = booleanPreferencesKey("magic_effects_enabled")
 
         private val GENERAL_LIST_STYLE_KEY = stringPreferencesKey("list_display_mode")
         private val USE_GENERAL_LIST_STYLE_KEY = booleanPreferencesKey("use_general_list_style")
