@@ -6,7 +6,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
 #>
 [CmdletBinding()]
 param(
-    [string] $BundlePath = $PSScriptRoot,
+    [string] $BundlePath,
+    [string] $LauncherDirectory,
     [switch] $CheckOnly
 )
 
@@ -137,6 +138,24 @@ function Invoke-GhPrivate {
 try {
     Write-Host 'KirinMaL - setup existing Android release key'
     Write-Host "Target: $Repository"
+    # Resolve after parameter binding. The BAT supplies its directory explicitly
+    # so Windows PowerShell does not need a default evaluated from PSScriptRoot.
+    if ([string]::IsNullOrWhiteSpace($BundlePath)) {
+        if (-not [string]::IsNullOrWhiteSpace($LauncherDirectory)) {
+            $BundlePath = $LauncherDirectory
+        } elseif (-not [string]::IsNullOrWhiteSpace($PSScriptRoot)) {
+            $BundlePath = $PSScriptRoot
+        } elseif (-not [string]::IsNullOrWhiteSpace($MyInvocation.MyCommand.Path)) {
+            $BundlePath = Split-Path -Parent $MyInvocation.MyCommand.Path
+        } else {
+            throw 'Cannot locate the private bundle folder. Run the BAT with -BundlePath "C:\path\to\folder".'
+        }
+    }
+    if (-not (Test-Path -LiteralPath $BundlePath -PathType Container)) {
+        throw 'The private bundle folder does not exist. Check the -BundlePath value.'
+    }
+    # Canonicalize relative and literal paths before using .NET file APIs.
+    $BundlePath = (Get-Item -LiteralPath $BundlePath -Force).FullName
     $values = Read-SigningBundle -Directory $BundlePath
     Write-Host 'Original KirinMaL keystore and all four local entries verified.'
     if ($CheckOnly) {

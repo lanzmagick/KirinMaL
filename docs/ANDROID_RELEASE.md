@@ -39,6 +39,14 @@ The public helper also lives under `tools/signing/`. From a repository checkout,
 
 Keep the two helper files together. The helper runs with Windows PowerShell 5.1 or later; Java is not required. The signing key is the same one used by the existing KirinMaL releases, so APK update compatibility is preserved.
 
+If an older bundle reports **Cannot bind argument to parameter 'Path' because it is an empty string**, run this from the extracted folder:
+
+```powershell
+.\SETUP-KIRINMAL.bat -BundlePath "$($PWD.Path)"
+```
+
+The updated BAT passes its own folder explicitly and the PowerShell helper resolves it after parameter binding. An explicit `-BundlePath` still takes precedence, including relative paths and folder names with spaces.
+
 ## MyAnimeList Client ID
 
 Signed builds also require the owner's **`MAL_CLIENT_ID`** repository secret. Register the MAL API application with the exact redirect `kirinmal://oauth/mal`, then copy its Client ID into this secret. See [MAL Client ID instructions](MAL_CLIENT_ID.md).
