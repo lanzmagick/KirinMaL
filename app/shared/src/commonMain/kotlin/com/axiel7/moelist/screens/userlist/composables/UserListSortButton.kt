@@ -3,13 +3,11 @@ package com.axiel7.moelist.screens.userlist.composables
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.requiredSizeIn
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.material3.AssistChip
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButtonDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -21,6 +19,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalWindowInfo
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.axiel7.moelist.data.model.media.MediaSort
@@ -58,21 +57,25 @@ fun UserListSortButton(mediaType: MediaType) {
         }
 
         Box {
-            FilledTonalIconButton(
+            AssistChip(
                 onClick = { menuOpened = true },
                 enabled = selectedSort != null,
-                modifier = Modifier.size(56.dp),
-                shape = RoundedCornerShape(50),
-                colors = IconButtonDefaults.filledTonalIconButtonColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-                    contentColor = MaterialTheme.colorScheme.onSurface,
-                ),
-            ) {
-                Icon(
-                    painter = painterResource(UiRes.drawable.ic_round_sort_24),
-                    contentDescription = currentLabel?.let { "$sortLabel: $it" } ?: sortLabel,
-                )
-            }
+                modifier = Modifier.widthIn(max = 152.dp),
+                label = {
+                    Text(
+                        text = currentLabel ?: sortLabel,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                },
+                leadingIcon = {
+                    Icon(
+                        painter = painterResource(UiRes.drawable.ic_round_sort_24),
+                        contentDescription = sortLabel,
+                        modifier = Modifier.size(20.dp),
+                    )
+                },
+            )
             DropdownMenu(
                 expanded = menuOpened,
                 onDismissRequest = { menuOpened = false },
