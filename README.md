@@ -10,7 +10,7 @@
 - Anime and Manga list controls: title-initial filter for A–Z, 1–0 and symbols beside Sort, with MAL status colors on the status badges and floating selector. The selected floating status has a bright random RGB border that changes when switching status; the MAL fills and text/icon colors are preserved.
 - Random and Magic for both anime and manga lists: keep the default list picker, or reveal a surprise in a popup inspired by Netflix Kids' Mystery Box. Magic has separate visibility settings from Random. Home offers Magic Anime and Magic Manga in an equal-size shortcut bento.
 - Home personal carousels: Recent Watching Anime with episode progress, Reading Manga with chapter/volume progress, and Recommended Manga based on the user's Reading or Completed titles. Each section opens its matching list.
-- Anime Menu and Manga Menu: MAL rankings for Score, Popularity and Favorite, plus Upcoming for Anime. Genre badges remain on Anime Info and Manga Info. Genre browsing has been removed in source for the next APK.
+- Anime Menu and Manga Menu: MAL rankings for Score, Popularity and Favorite, plus Upcoming for Anime. Genre badges remain on Anime Info and Manga Info; genre browsing has been removed.
 - Seasonal anime, calendar and recommendations, with a pinned Home search bar.
 - Anime & Manga Stats inspired by KirinNime, including progress and reading/watching totals.
 - Optional NSFW visibility (enabled by default for new installs; switch it off in Settings).
@@ -25,11 +25,11 @@
 
 **[KirinMaL Stable Releases](https://github.com/lanzmagick/KirinMaL/releases)**
 
-**Latest published signed APK: [v1.0.7](https://github.com/lanzmagick/KirinMaL/releases/tag/v1.0.7).** Home's two Magic cards now have moving particle borders and a glass reflection, while Anime and Manga Genres use the original MAL categories through Jikan. The six Home shortcuts retain their compact, equal 60 dp height. Magic, manga recommendation and Jikan contract tests, Android compilation, and release-signature/manifest audits passed before publication. See [v1.0.7 release notes](docs/releases/v1.0.7.md).
+**Latest published signed APK: [v1.0.8](https://github.com/lanzmagick/KirinMaL/releases/tag/v1.0.8).** The shared Magic popup now has particle borders, glass reflections and poster reveal effects. Three saved Magic switches control availability, list buttons and effects. The Genres browser has been removed while Anime/Manga Info genre badges remain. Magic shuffle, settings persistence and manga recommendation tests, both Android builds, and release-signature/manifest audits passed. See [v1.0.8 release notes](docs/releases/v1.0.8.md).
 
-Direct APK downloads: [ARM64](https://github.com/lanzmagick/KirinMaL/releases/download/v1.0.7/KirinMaL-1.0.7-arm64-v8a-release.apk) · [Universal](https://github.com/lanzmagick/KirinMaL/releases/download/v1.0.7/KirinMaL-1.0.7-universal-release.apk). Other ABI variants are available on the release page.
+Direct APK downloads: [ARM64](https://github.com/lanzmagick/KirinMaL/releases/download/v1.0.8/KirinMaL-1.0.8-arm64-v8a-release.apk) · [Universal](https://github.com/lanzmagick/KirinMaL/releases/download/v1.0.8/KirinMaL-1.0.8-universal-release.apk). Other ABI variants are available on the release page.
 
-The glass Magic Home cards and older Jikan genre browser are included in v1.0.7 (414), signed with the same release key as v1.0.6. The next source version removes the Genres tabs and their API/search logic while retaining genres on Anime Info and Manga Info. iOS and Desktop downloads remain **Coming soon**. See [build status](docs/UNRELEASED.md).
+The v1.0.8 (415) APK includes the Magic popup effects, three settings switches and genre browser removal, signed with the same release key as v1.0.7. Home shortcuts retain their compact, equal 60 dp height. iOS and Desktop downloads remain **Coming soon**. See [build status](docs/UNRELEASED.md).
 
 The Android application ID is `com.lanzmagick.kirinmal`, separate from MoeList and KirinMaL v1.0.0 (`com.axiel7.moelist`). Versions v1.0.1 and later share the KirinMaL package ID and update the same installation when signed with the same release key. Signed APKs are distributed through GitHub Releases. See [v1.0.3 release notes](docs/releases/v1.0.3.md).
 
@@ -56,11 +56,11 @@ To publish **signed** APKs, set the four GitHub Actions signing secrets `KEYSTOR
 
 Shuffle-bag tests cover unique turns, duplicate IDs, refill repeats, pool replacement, and empty/single-title pools. The signed release workflow runs these tests before building and auditing the APKs.
 
-The two Home Magic shortcuts have a glass finish with a slow diagonal reflection and small particles traveling around their rounded borders: violet/cyan for Anime and pink/gold for Manga. They retain the compact 60 dp bento size, follow light/dark mode, and pause the continuous animation when their navigation entry is not resumed. Included in v1.0.7. List Magic/Random toolbar buttons and the surprise-selection logic are unchanged.
+The two Home Magic shortcuts have a glass finish with a slow diagonal reflection and small particles traveling around their rounded borders: violet/cyan for Anime and pink/gold for Manga. They retain the compact 60 dp bento size, follow light/dark mode, and pause the continuous animation when their navigation entry is not resumed. The effects setting controls both these cards and the shared popup.
 
-**Popup visual patch — awaiting the next APK:** the shared Magic Anime/Manga popup now uses the same color families, with orbiting border particles, a soft glass reflection, a halo and a brief sparkle burst around each revealed poster. The mystery box and action buttons follow the selected media type in light/dark mode. Home and list pickers share this popup. The popup's scrolling, Open info, Surprise me again, Cancel and dismiss callbacks keep their existing behavior; the decorative animation pauses when the navigation entry is inactive. This newer popup appearance is not included in v1.0.7 yet.
+**Popup visual effects:** the shared Magic Anime/Manga popup uses the same color families, with orbiting border particles, a soft glass reflection, a halo and a brief sparkle burst around each revealed poster. The mystery box and action buttons follow the selected media type in light/dark mode. Home and list pickers share this popup. The popup's scrolling, Open info, Surprise me again, Cancel and dismiss callbacks keep their existing behavior; the decorative animation pauses when the navigation entry is inactive.
 
-**Magic settings patch — awaiting the next APK:** **More → Settings → Magic** provides three saved switches, all on by default: **Enable Magic** controls Home shortcuts and all Magic pickers; **Magic on Anime/Manga lists** controls the two list buttons; **Magic effects** controls particles, animated borders, glass shine, poster halos, mystery-box pulsing and reveal transitions on both Home cards and popups. With effects off, Magic remains usable with a static appearance and skips the cosmetic picking delay. Switching Magic off preserves the other two choices; it never changes the original Random setting. The Home bento removes disabled Magic slots and keeps the remaining card widths aligned. Saved choices load before Magic is shown or decorative animations start. These settings are not included in v1.0.7 yet.
+**Magic settings:** **More → Settings → Magic** provides three saved switches, all on by default: **Enable Magic** controls Home shortcuts and all Magic pickers; **Magic on Anime/Manga lists** controls the two list buttons; **Magic effects** controls particles, animated borders, glass shine, poster halos, mystery-box pulsing and reveal transitions on both Home cards and popups. With effects off, Magic remains usable with a static appearance and skips the cosmetic picking delay. Switching Magic off preserves the other two choices; it never changes the original Random setting. The Home bento removes disabled Magic slots and keeps the remaining card widths aligned. Saved choices load before Magic is shown or decorative animations start.
 
 ## Home personal discovery
 
@@ -68,7 +68,7 @@ Home's Recommended Manga rail merges MAL title recommendations from up to three 
 
 ## Anime/Manga menus and genre information
 
-**Source patch — awaiting the next APK:** Anime Menu and Manga Menu contain only the existing MAL ranking tabs. The Genres bento, genre search results, category cache, Jikan genre requests, dedicated genre models, tests and platform Back handlers have been removed. Back uses the normal ranking navigation.
+Anime Menu and Manga Menu contain only the existing MAL ranking tabs. The Genres bento, genre search results, category cache, Jikan genre requests, dedicated genre models, tests and platform Back handlers have been removed. Back uses the normal ranking navigation.
 
 Anime Info and Manga Info continue reading and displaying the original MAL `genres` field, including localized labels. Their detail models, requests and display code are preserved. NSFW visibility, ranking results, Magic, login and list editing retain their existing behavior. No replacement genre service has been added.
 

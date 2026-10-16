@@ -1,10 +1,10 @@
 # KirinMaL — status build
 
-APK signed terbaru ialah **v1.0.7 (414)**, diterbitkan pada **16 Oktober 2026, 10:29:23 MYT**.
+APK signed terbaru ialah **v1.0.8 (415)**, diterbitkan pada **16 Oktober 2026, 13:21:46 MYT**.
 
-Build signed **v1.0.8 (415)** sedang dijalankan. Pautan APK terbaru kekal v1.0.7 sehingga ujian, build dan audit release baharu selesai.
+Release signed, ujian dan audit v1.0.8 sudah selesai. Lihat [release notes v1.0.8](releases/v1.0.8.md) dan [muat turun APK](https://github.com/lanzmagick/KirinMaL/releases/tag/v1.0.8).
 
-## Patch untuk APK v1.0.8 — sedang dibuild
+## Patch yang sudah termasuk dalam APK v1.0.8
 
 - Tab **Genres** dibuang daripada Anime Menu dan Manga Menu, bersama bento kategori, hasil carian, cache, permintaan API genre, model khusus serta pengendali Back pada semua platform.
 - Ujian dan dependency ujian yang hanya digunakan oleh browse genre turut dibuang. Tab ranking MAL menggunakan bilangan halaman asal tanpa halaman genre tambahan.
@@ -21,9 +21,19 @@ Build signed **v1.0.8 (415)** sedang dijalankan. Pautan APK terbaru kekal v1.0.7
 - Popup dikongsi oleh Home serta kedua-dua senarai. Saiz maksimum, scrolling dan tindakan Open info, Surprise me again, Cancel serta dismiss dikekalkan.
 - Efek dilukis tanpa recomposition atau layout pada setiap frame; animasi berterusan berhenti apabila entri navigasi tidak aktif. Tiada dependency atau permission baharu.
 - Komponen sebenar berjaya dicompile dengan Compose. Semakan visual offscreen merangkumi kedua-dua tema dan jenis media, termasuk loading, empty, error, teks besar serta reveal, menggunakan data/poster ujian.
-- Tiga ujian DataStore lulus dalam harness JVM, termasuk pilihan yang kekal selepas store dibuka semula, kebebasan daripada Random, serta pengekalan pilihan selepas Magic utama OFF/ON. Workflow release turut menjalankan ujian ini pada build seterusnya.
+- Tiga ujian DataStore lulus dalam harness JVM, termasuk pilihan yang kekal selepas store dibuka semula, kebebasan daripada Random, serta pengekalan pilihan selepas Magic utama OFF/ON. Suite ini juga lulus dalam workflow release v1.0.8.
 - Semakan visual ON/OFF meliputi Home, popup loading/hasil dan bahagian Settings pada kedua-dua tema; sepuluh perbandingan OFF kekal sama pada dua fasa animasi berbeza.
-- Logik shuffle, sumber calon, tetapan Random asal dan OAuth/login MAL dikekalkan. Pembuangan browse genre, patch popup serta tetapan Magic ini dibawa ke v1.0.8 (415), dan belum termasuk dalam APK v1.0.7.
+- Logik shuffle, sumber calon, tetapan Random asal dan OAuth/login MAL dikekalkan. Pembuangan browse genre, patch popup serta tetapan Magic ini sudah termasuk dalam APK v1.0.8 (415).
+
+## Pengesahan v1.0.8
+
+- Ujian shuffle Magic, pilihan Magic dalam DataStore dan pemilihan Recommended Manga lulus dalam workflow penuh.
+- Build Android signed dan build pengesahan Android lulus.
+- Kelima-lima APK lulus semakan tandatangan v2, package ID, manifest dan permissions sebelum diterbitkan. Semua hash SHA-256 aset release sepadan dengan log audit.
+- Signing certificate sama seperti v1.0.7; APK boleh dipasang sebagai kemas kini.
+- Sumber APK: commit `cf94d673bf967a0fa25d99bc78345dd7e0080977`.
+- [Workflow signed](https://github.com/lanzmagick/KirinMaL/actions/runs/38855000245) · [Workflow pengesahan](https://github.com/lanzmagick/KirinMaL/actions/runs/38855000246).
+- Pengesahan UI terdahulu menggunakan render offscreen dengan data ujian. Release ini belum diuji pada peranti fizikal.
 
 ## Patch yang sudah termasuk dalam APK v1.0.7
 
