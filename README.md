@@ -10,7 +10,7 @@
 - Anime and Manga list controls: title-initial filter for A–Z, 1–0 and symbols beside Sort, with MAL status colors on the status badges and floating selector. The selected floating status has a bright random RGB border that changes when switching status; the MAL fills and text/icon colors are preserved.
 - Random and Magic for both anime and manga lists: keep the default list picker, or reveal a surprise in a popup inspired by Netflix Kids' Mystery Box. Magic stays visible when the Random button is disabled in Settings. Home offers Magic Anime and Magic Manga in an equal-size shortcut bento.
 - Home personal carousels: Recent Watching Anime with episode progress, Reading Manga with chapter/volume progress, and Recommended Manga based on the user's Reading or Completed titles. Each section opens its matching list.
-- Anime Menu and Manga Menu: MAL rankings plus one bento Genres tab using MAL's original categories and titles through Jikan, with separate anime/manga genre IDs. This source patch is awaiting the next APK; tracking and editing remain in MyAnimeList.
+- Anime Menu and Manga Menu: MAL rankings plus one bento Genres tab using MAL's original categories and titles through Jikan, with separate anime/manga genre IDs. Available in v1.0.7; tracking and editing remain in MyAnimeList.
 - Seasonal anime, calendar and recommendations, with a pinned Home search bar.
 - Anime & Manga Stats inspired by KirinNime, including progress and reading/watching totals.
 - Optional NSFW visibility (enabled by default for new installs; switch it off in Settings).
@@ -25,11 +25,11 @@
 
 **[KirinMaL Stable Releases](https://github.com/lanzmagick/KirinMaL/releases)**
 
-**Latest published signed APK: [v1.0.6](https://github.com/lanzmagick/KirinMaL/releases/tag/v1.0.6).** It makes all six Home shortcut cards more compact: 60 dp height, smaller padding and icons, with the same text size and two-column phone layout. All v1.0.5 features remain available. Magic and manga recommendation tests, Android compilation, and release-signature/manifest audits passed before publication. See [v1.0.6 release notes](docs/releases/v1.0.6.md).
+**Latest published signed APK: [v1.0.7](https://github.com/lanzmagick/KirinMaL/releases/tag/v1.0.7).** Home's two Magic cards now have moving particle borders and a glass reflection, while Anime and Manga Genres use the original MAL categories through Jikan. The six Home shortcuts retain their compact, equal 60 dp height. Magic, manga recommendation and Jikan contract tests, Android compilation, and release-signature/manifest audits passed before publication. See [v1.0.7 release notes](docs/releases/v1.0.7.md).
 
-Direct APK downloads: [ARM64](https://github.com/lanzmagick/KirinMaL/releases/download/v1.0.6/KirinMaL-1.0.6-arm64-v8a-release.apk) · [Universal](https://github.com/lanzmagick/KirinMaL/releases/download/v1.0.6/KirinMaL-1.0.6-universal-release.apk). Other ABI variants are available on the release page.
+Direct APK downloads: [ARM64](https://github.com/lanzmagick/KirinMaL/releases/download/v1.0.7/KirinMaL-1.0.7-arm64-v8a-release.apk) · [Universal](https://github.com/lanzmagick/KirinMaL/releases/download/v1.0.7/KirinMaL-1.0.7-universal-release.apk). Other ABI variants are available on the release page.
 
-The compact Home patch is included in v1.0.6 (413). The newer Jikan genre patch is not included in that APK yet. iOS and Desktop downloads remain **Coming soon**. See [build status](docs/UNRELEASED.md).
+The glass Magic Home cards and Jikan genre patch are included in v1.0.7 (414), signed with the same release key as v1.0.6. iOS and Desktop downloads remain **Coming soon**. See [build status](docs/UNRELEASED.md).
 
 The Android application ID is `com.lanzmagick.kirinmal`, separate from MoeList and KirinMaL v1.0.0 (`com.axiel7.moelist`). Versions v1.0.1 and later share the KirinMaL package ID and update the same installation when signed with the same release key. Signed APKs are distributed through GitHub Releases. See [v1.0.3 release notes](docs/releases/v1.0.3.md).
 
@@ -56,13 +56,13 @@ To publish **signed** APKs, set the four GitHub Actions signing secrets `KEYSTOR
 
 Shuffle-bag tests cover unique turns, duplicate IDs, refill repeats, pool replacement, and empty/single-title pools. The signed release workflow runs these tests before building and auditing the APKs.
 
-The two Home Magic shortcuts have a glass finish with a slow diagonal reflection and small particles traveling around their rounded borders: violet/cyan for Anime and pink/gold for Manga. They retain the compact 60 dp bento size, follow light/dark mode, and pause the continuous animation when their navigation entry is not resumed. This visual source patch is awaiting the next APK. List Magic/Random buttons and the surprise picker behavior keep their existing presentation and logic.
+The two Home Magic shortcuts have a glass finish with a slow diagonal reflection and small particles traveling around their rounded borders: violet/cyan for Anime and pink/gold for Manga. They retain the compact 60 dp bento size, follow light/dark mode, and pause the continuous animation when their navigation entry is not resumed. Included in v1.0.7. List Magic/Random buttons and the surprise picker behavior keep their existing presentation and logic.
 
 ## Home personal discovery
 
 Home's Recommended Manga rail merges MAL title recommendations from up to three recently updated Reading manga, falling back to Completed manga when Reading is empty. It sums recommendation votes, removes duplicate IDs and titles already in any of the user's manga lists, and respects NSFW visibility. Home shows up to 25 results; its full grid shows up to 100. Recent Watching Anime reads the user's Watching list in updated order. These personal sections refresh after Quick Edit and clear on logout.
 
-## MyAnimeList genres through Jikan (pending APK)
+## MyAnimeList genres through Jikan
 
 The Genres bento reads the original MAL names and IDs from [Jikan v4](https://docs.api.jikan.moe/), separately for anime and manga. Genres, Themes, Demographics and Explicit Genres use Jikan's own category filters. Selecting a category searches Jikan with its MAL genre ID, ordered by member count; titles open their MAL detail/editor directly and show MAL scores out of 10. AniList genre/tag approximations are no longer used.
 

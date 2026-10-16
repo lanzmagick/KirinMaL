@@ -1,10 +1,10 @@
 # KirinMaL — status build
 
-APK signed terbaru ialah **v1.0.6 (413)**, diterbitkan pada **13 Oktober 2026, 09:27:03 MYT**.
+APK signed terbaru ialah **v1.0.7 (414)**, diterbitkan pada **16 Oktober 2026, 10:29:23 MYT**.
 
-## Build v1.0.7 (414) sedang dijalankan
+## Patch yang sudah termasuk dalam APK v1.0.7
 
-Release ini merangkumi semua patch di bawah. APK v1.0.6 kekal versi terkini sehingga build signed, ujian dan audit v1.0.7 selesai. Lihat [release notes v1.0.7](releases/v1.0.7.md).
+Release signed, ujian dan audit v1.0.7 sudah selesai. Lihat [release notes v1.0.7](releases/v1.0.7.md) dan [muat turun APK](https://github.com/lanzmagick/KirinMaL/releases/tag/v1.0.7).
 
 - Dua butang Magic di Home mendapat border bercahaya dengan partikel berputar dan pantulan kaca menyerong yang bergerak perlahan: Anime ungu–biru, Manga merah jambu–emas.
 - Saiz bento kekal **60 dp** dengan rupa yang menyesuaikan tema cerah/gelap. Animasi berterusan berhenti apabila entri navigasi tidak aktif; butang Magic/Random di senarai dan logik popup dikekalkan.
@@ -13,7 +13,17 @@ Release ini merangkumi semua patch di bawah. APK v1.0.6 kekal versi terkini sehi
 - Nama kategori diambil daripada API; katalog lengkap yang berjaya dimuat disimpan dalam cache memori selama enam jam.
 - Paging, retry bagi halaman gagal, penyingkiran ID berulang dan filter NSFW dikekalkan. Skor hasil menggunakan skala MAL **/10**.
 - Susunan bento, navigasi Back, callback login dan penyuntingan senarai MAL dikekalkan.
-- APK v1.0.7 belum diterbitkan; status akan dikemas kini selepas workflow selesai.
+
+## Pengesahan v1.0.7
+
+- Ujian Magic, pemilihan Recommended Manga dan kontrak genre Jikan lulus dalam workflow penuh.
+- Build Android signed dan build pengesahan Android lulus.
+- Kelima-lima APK lulus semakan tandatangan v2, package ID, manifest dan permissions sebelum diterbitkan.
+- Signing certificate sama seperti v1.0.6; APK boleh dipasang sebagai kemas kini.
+- Sumber APK: commit `142872f4b3f4005dc4b9b4e674594527e04adb83`.
+- [Workflow signed](https://github.com/lanzmagick/KirinMaL/actions/runs/38840148281) · [Workflow pengesahan](https://github.com/lanzmagick/KirinMaL/actions/runs/38840148291).
+
+Tiada patch sumber baharu yang menunggu build APK.
 
 ## APK v1.0.6 yang sudah diterbitkan
 
