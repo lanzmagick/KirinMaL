@@ -5,15 +5,13 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.togetherWith
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
@@ -23,6 +21,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -30,13 +29,13 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -59,6 +58,8 @@ import com.axiel7.moelist.ui.generated.resources.magic_surprise
 import com.axiel7.moelist.ui.generated.resources.magic_unavailable
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import kotlin.math.PI
+import kotlin.math.sin
 
 @Composable
 fun MagicPickerDialog(
@@ -68,45 +69,75 @@ fun MagicPickerDialog(
     onOpen: (BaseMediaNode) -> Unit,
     onClose: () -> Unit,
 ) {
+    val palette = magicDialogPalette(type)
+    val motion = rememberMagicDialogMotion(type, state.selection?.id)
     Dialog(onDismissRequest = onClose) {
-        Surface(
-            shape = RoundedCornerShape(32.dp),
-            modifier = Modifier.widthIn(max = 360.dp).heightIn(max = 620.dp),
-            tonalElevation = 8.dp,
-        ) {
+        MagicPickerContent(type, state, palette, motion, onAgain, onOpen, onClose)
+    }
+}
+
+@Composable
+internal fun MagicPickerContent(
+    type: MediaType,
+    state: MagicPickerUiState,
+    palette: MagicDialogPalette,
+    motion: MagicDialogMotion,
+    onAgain: () -> Unit,
+    onOpen: (BaseMediaNode) -> Unit,
+    onClose: () -> Unit,
+) {
+    Surface(
+        shape = RoundedCornerShape(32.dp),
+        modifier = Modifier.widthIn(max = 360.dp).heightIn(max = 620.dp),
+        color = Color.Transparent,
+        contentColor = MaterialTheme.colorScheme.onSurface,
+    ) {
+        Box(Modifier.magicDialogGlass(palette, motion.orbit, 32.dp)) {
             Column(
                 modifier = Modifier.verticalScroll(rememberScrollState()).padding(24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
-                Text(
-                    stringResource(if (type == MediaType.ANIME)
-                        UiRes.string.magic_anime else UiRes.string.magic_manga),
-                    style = MaterialTheme.typography.headlineSmall,
-                    fontWeight = FontWeight.Bold,
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    Icon(painterResource(UiRes.drawable.ic_magic_sparkles_24),
+                        contentDescription = null, tint = palette.first, modifier = Modifier.size(20.dp))
+                    Text(
+                        stringResource(if (type == MediaType.ANIME)
+                            UiRes.string.magic_anime else UiRes.string.magic_manga),
+                        style = MaterialTheme.typography.headlineSmall,
+                        fontWeight = FontWeight.Bold,
+                    )
+                }
                 Text(stringResource(UiRes.string.magic_surprise),
                     color = MaterialTheme.colorScheme.onSurfaceVariant)
                 AnimatedContent(
                     targetState = state.selection,
                     label = "magic-reveal",
                     transitionSpec = {
-                        (fadeIn(tween(300)) + scaleIn(tween(300), initialScale = 0.88f))
+                        (fadeIn(tween(420)) + scaleIn(tween(420), initialScale = 0.92f))
                             .togetherWith(fadeOut(tween(180)))
                     },
                 ) { selection ->
                     if (selection == null) {
-                        MysteryBox(state.isLoading)
+                        MysteryBox(state.isLoading, palette, motion)
                     } else {
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.spacedBy(12.dp),
                         ) {
-                            MediaPoster(
-                                url = selection.mainPicture?.large ?: selection.mainPicture?.medium,
-                                modifier = Modifier.size(140.dp, 196.dp).clip(RoundedCornerShape(18.dp)),
-                                showShadow = false,
-                            )
+                            Box(Modifier.size(140.dp, 196.dp).magicPosterHalo(palette, motion)) {
+                                Box(Modifier.matchParentSize().clip(RoundedCornerShape(18.dp))
+                                    .magicDialogGlass(palette, motion.orbit, 18.dp, overPoster = true)) {
+                                    MediaPoster(
+                                        url = selection.mainPicture?.large ?: selection.mainPicture?.medium,
+                                        modifier = Modifier.matchParentSize(),
+                                        showShadow = false,
+                                    )
+                                }
+                            }
                             Text(
                                 selection.title(state.preferredTitle),
                                 style = MaterialTheme.typography.titleLarge,
@@ -129,7 +160,9 @@ fun MagicPickerDialog(
                     textAlign = TextAlign.Center,
                 )
                 state.selection?.let { selection ->
-                    Button(onClick = { onOpen(selection) }, modifier = Modifier.fillMaxWidth()) {
+                    Button(onClick = { onOpen(selection) }, modifier = Modifier.fillMaxWidth(),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = palette.first, contentColor = palette.onAccent)) {
                         Text(stringResource(UiRes.string.magic_open))
                     }
                 }
@@ -137,28 +170,29 @@ fun MagicPickerDialog(
                     onClick = onAgain,
                     enabled = !state.isLoading,
                     modifier = Modifier.fillMaxWidth(),
+                    border = BorderStroke(1.dp, palette.first.copy(alpha = if (state.isLoading) 0.18f else 0.5f)),
+                    colors = ButtonDefaults.outlinedButtonColors(contentColor = palette.first),
                 ) { Text(stringResource(UiRes.string.magic_again)) }
-                TextButton(onClick = onClose) { Text(stringResource(UiRes.string.cancel)) }
+                TextButton(onClick = onClose,
+                    colors = ButtonDefaults.textButtonColors(contentColor = palette.first)) {
+                    Text(stringResource(UiRes.string.cancel))
+                }
             }
         }
     }
 }
 
 @Composable
-private fun MysteryBox(isLoading: Boolean) {
-    val transition = rememberInfiniteTransition(label = "magic-sparkle")
-    val pulse by transition.animateFloat(
-        initialValue = 0.94f, targetValue = 1.04f,
-        animationSpec = infiniteRepeatable(tween(850), RepeatMode.Reverse),
-        label = "magic-pulse",
-    )
+private fun MysteryBox(isLoading: Boolean, palette: MagicDialogPalette, motion: MagicDialogMotion) {
     Box(
         modifier = Modifier.size(196.dp).graphicsLayer {
+            val pulse = 0.97f + 0.03f * sin(motion.orbit.value * 8f * PI).toFloat()
             scaleX = if (isLoading) pulse else 1f
             scaleY = if (isLoading) pulse else 1f
         }.clip(RoundedCornerShape(30.dp)).background(
-            Brush.linearGradient(listOf(Color(0xFFB5DFFF), Color(0xFFE2B6FF), Color(0xFFFFDBAD)))
-        ),
+            Brush.linearGradient(listOf(lerp(palette.first, Color.White, 0.6f),
+                lerp(palette.second, Color.White, 0.64f)))
+        ).magicDialogGlass(palette, motion.orbit, 30.dp, overPoster = true),
         contentAlignment = Alignment.Center,
     ) {
         Text("?", fontSize = 80.sp, fontWeight = FontWeight.Black, color = Color(0xFF362147))

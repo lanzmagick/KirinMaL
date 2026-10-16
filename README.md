@@ -56,7 +56,9 @@ To publish **signed** APKs, set the four GitHub Actions signing secrets `KEYSTOR
 
 Shuffle-bag tests cover unique turns, duplicate IDs, refill repeats, pool replacement, and empty/single-title pools. The signed release workflow runs these tests before building and auditing the APKs.
 
-The two Home Magic shortcuts have a glass finish with a slow diagonal reflection and small particles traveling around their rounded borders: violet/cyan for Anime and pink/gold for Manga. They retain the compact 60 dp bento size, follow light/dark mode, and pause the continuous animation when their navigation entry is not resumed. Included in v1.0.7. List Magic/Random buttons and the surprise picker behavior keep their existing presentation and logic.
+The two Home Magic shortcuts have a glass finish with a slow diagonal reflection and small particles traveling around their rounded borders: violet/cyan for Anime and pink/gold for Manga. They retain the compact 60 dp bento size, follow light/dark mode, and pause the continuous animation when their navigation entry is not resumed. Included in v1.0.7. List Magic/Random toolbar buttons and the surprise-selection logic are unchanged.
+
+**Popup visual patch — awaiting the next APK:** the shared Magic Anime/Manga popup now uses the same color families, with orbiting border particles, a soft glass reflection, a halo and a brief sparkle burst around each revealed poster. The mystery box and action buttons follow the selected media type in light/dark mode. Home and list pickers share this popup. The popup's scrolling, Open info, Surprise me again, Cancel and dismiss callbacks keep their existing behavior; the decorative animation pauses when the navigation entry is inactive. This newer popup appearance is not included in v1.0.7 yet.
 
 ## Home personal discovery
 

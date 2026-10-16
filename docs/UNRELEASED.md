@@ -2,6 +2,15 @@
 
 APK signed terbaru ialah **v1.0.7 (414)**, diterbitkan pada **16 Oktober 2026, 10:29:23 MYT**.
 
+## Patch terbaru — belum dibuild sebagai APK
+
+- Popup **Magic Anime dan Magic Manga** mendapat partikel yang bergerak di border, jejak cahaya, pantulan kaca, halo poster dan percikan bintang ringkas ketika tajuk muncul.
+- Anime menggunakan ungu–biru; Manga merah jambu–emas. Kotak misteri serta butang ikut palet yang sama dalam tema cerah/gelap.
+- Popup dikongsi oleh Home serta kedua-dua senarai. Saiz maksimum, scrolling dan tindakan Open info, Surprise me again, Cancel serta dismiss dikekalkan.
+- Efek dilukis tanpa recomposition atau layout pada setiap frame; animasi berterusan berhenti apabila entri navigasi tidak aktif. Tiada dependency atau permission baharu.
+- Komponen sebenar berjaya dicompile dengan Compose. Semakan visual offscreen merangkumi kedua-dua tema dan jenis media, termasuk loading, empty, error, teks besar serta reveal, menggunakan data/poster ujian.
+- Logik shuffle, sumber calon, tetapan Random, Home bento, OAuth/login MAL dan version code tidak berubah. Patch popup ini belum termasuk dalam APK v1.0.7.
+
 ## Patch yang sudah termasuk dalam APK v1.0.7
 
 Release signed, ujian dan audit v1.0.7 sudah selesai. Lihat [release notes v1.0.7](releases/v1.0.7.md) dan [muat turun APK](https://github.com/lanzmagick/KirinMaL/releases/tag/v1.0.7).
@@ -22,8 +31,6 @@ Release signed, ujian dan audit v1.0.7 sudah selesai. Lihat [release notes v1.0.
 - Signing certificate sama seperti v1.0.6; APK boleh dipasang sebagai kemas kini.
 - Sumber APK: commit `142872f4b3f4005dc4b9b4e674594527e04adb83`.
 - [Workflow signed](https://github.com/lanzmagick/KirinMaL/actions/runs/38840148281) · [Workflow pengesahan](https://github.com/lanzmagick/KirinMaL/actions/runs/38840148291).
-
-Tiada patch sumber baharu yang menunggu build APK.
 
 ## APK v1.0.6 yang sudah diterbitkan
 
