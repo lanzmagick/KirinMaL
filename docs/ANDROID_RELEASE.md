@@ -15,10 +15,10 @@ These values come from the owner's privately provided **KirinMaL-4-Kunci-Release
 
 ## Windows: CMD dengan password sendiri
 
-Download **[JANA-KEY-KIRINMAL.cmd](../tools/signing/JANA-KEY-KIRINMAL.cmd)** dan double-click, atau jalankan dari terminal:
+Download **[KIRINMAL-PASSWORD.cmd](../tools/signing/KIRINMAL-PASSWORD.cmd)** dan double-click, atau jalankan dari terminal:
 
 ```powershell
-.\JANA-KEY-KIRINMAL.cmd
+.\KIRINMAL-PASSWORD.cmd
 ```
 
 Java JDK perlu tersedia melalui `JAVA_HOME` atau `PATH`. Alias **kirinmal** dan butiran sijil **Lanz Magick / KirinMaL** sudah diisi dalam CMD. Kau hanya memasukkan password keystore dan pengesahannya; tekan Enter pada soalan password key jika mahu menggunakan password yang sama. Password ditaip terus ke `keytool`, tanpa dipaparkan atau disimpan oleh skrip. Tiada soalan nama, alamat, bandar, negeri atau negara.

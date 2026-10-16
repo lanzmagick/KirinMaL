@@ -2,9 +2,11 @@
 setlocal EnableExtensions DisableDelayedExpansion
 rem KirinMaL - Lanz Magick. Interactive Android signing-key generator.
 rem SPDX-License-Identifier: GPL-3.0-or-later
-title KirinMaL - Jana Signing Key
+title KirinMaL - PASSWORD SAHAJA v2
 
-echo KirinMaL - Jana key sendiri
+echo KirinMaL - PASSWORD SAHAJA v2
+echo Alias: kirinmal
+echo Pemilik sijil: Lanz Magick / KirinMaL
 echo.
 echo Skrip ini menjana KEY BAHARU dalam folder KirinMaL-key-sendiri.
 echo Key baharu tidak boleh update APK yang menggunakan signing key lama.
