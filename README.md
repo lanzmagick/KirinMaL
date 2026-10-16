@@ -56,6 +56,8 @@ To publish **signed** APKs, set the four GitHub Actions signing secrets `KEYSTOR
 
 Shuffle-bag tests cover unique turns, duplicate IDs, refill repeats, pool replacement, and empty/single-title pools. The signed release workflow runs these tests before building and auditing the APKs.
 
+The two Home Magic shortcuts have a glass finish with a slow diagonal reflection and small particles traveling around their rounded borders: violet/cyan for Anime and pink/gold for Manga. They retain the compact 60 dp bento size, follow light/dark mode, and pause the continuous animation when their navigation entry is not resumed. This visual source patch is awaiting the next APK. List Magic/Random buttons and the surprise picker behavior keep their existing presentation and logic.
+
 ## Home personal discovery
 
 Home's Recommended Manga rail merges MAL title recommendations from up to three recently updated Reading manga, falling back to Completed manga when Reading is empty. It sums recommendation votes, removes duplicate IDs and titles already in any of the user's manga lists, and respects NSFW visibility. Home shows up to 25 results; its full grid shows up to 100. Recent Watching Anime reads the user's Watching list in updated order. These personal sections refresh after Quick Edit and clear on logout.

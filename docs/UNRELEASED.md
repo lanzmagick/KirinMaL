@@ -4,6 +4,8 @@ APK signed terbaru ialah **v1.0.6 (413)**, diterbitkan pada **13 Oktober 2026, 0
 
 ## Patch terbaru — belum dibuild sebagai APK
 
+- Dua butang Magic di Home mendapat border bercahaya dengan partikel berputar dan pantulan kaca menyerong yang bergerak perlahan: Anime ungu–biru, Manga merah jambu–emas.
+- Saiz bento kekal **60 dp** dengan rupa yang menyesuaikan tema cerah/gelap. Animasi berterusan berhenti apabila entri navigasi tidak aktif; butang Magic/Random di senarai dan logik popup dikekalkan.
 - Genre anime dan manga kembali menggunakan kategori asal MyAnimeList melalui Jikan v4, termasuk Genres, Themes, Demographics dan Explicit Genres.
 - Hasil genre kini dicari menggunakan ID kategori MAL sebenar, bukan padanan genre/tag AniList. ID anime dan manga diasingkan.
 - Nama kategori diambil daripada API; katalog lengkap yang berjaya dimuat disimpan dalam cache memori selama enam jam.

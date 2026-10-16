@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.axiel7.moelist.data.model.media.BaseMediaNode
 import com.axiel7.moelist.data.model.media.MediaType
-import com.axiel7.moelist.screens.home.composables.HomeCard
+import com.axiel7.moelist.screens.home.composables.MagicHomeCard
 import com.axiel7.moelist.ui.composables.LoadingDialog
 import com.axiel7.moelist.ui.generated.resources.UiRes
 import com.axiel7.moelist.ui.generated.resources.cancel
@@ -63,10 +63,11 @@ fun RandomMagicControls(
         })
     }
     if (homeStyle) {
-        HomeCard(
+        MagicHomeCard(
             text = stringResource(if (context.mediaType == MediaType.ANIME)
                 UiRes.string.magic_anime else UiRes.string.magic_manga),
-            icon = UiRes.drawable.ic_magic_sparkles_24,
+            icon = painterResource(UiRes.drawable.ic_magic_sparkles_24),
+            mediaType = context.mediaType,
             modifier = modifier,
             onClick = { presentation = Presentation.MAGIC },
         )
