@@ -13,39 +13,26 @@ The owner must add these values under **Settings → Secrets and variables → A
 
 These values come from the owner's privately provided **KirinMaL-4-Kunci-Release.zip** file and **must never be committed to the repository** or published as an artifact.
 
-## Windows: paste one command
+## Windows: CMD dengan password sendiri
 
-The private bundle includes **SETUP-KIRINMAL.bat** and **setup-signing.ps1** beside the existing keystore and secrets file. Extract the ZIP, open Windows Terminal in the extracted folder, then paste:
-
-```powershell
-.\SETUP-KIRINMAL.bat
-```
-
-The helper checks the original keystore's SHA-256 and verifies that `KEYSTORE_FILE` decodes to the same file before doing anything online. It uses GitHub CLI to set the four existing secret names on **lanzmagick/KirinMaL**. If needed, it installs GitHub CLI through WinGet and starts GitHub's browser login. Sign in with the account that can manage this repository's Actions secrets. Without WinGet, install [GitHub CLI](https://cli.github.com/) first and run the same command again.
-
-Secret values are read from the private file and passed through stdin, without appearing in terminal output or process arguments. The helper does not generate a new key, change `MAL_CLIENT_ID`, or start a build. If an upload fails partway through, rerun it to finish setting the same four values.
-
-To check the local bundle without installing software, logging in or uploading anything:
+Download **[JANA-KEY-KIRINMAL.cmd](../tools/signing/JANA-KEY-KIRINMAL.cmd)** dan double-click, atau jalankan dari terminal:
 
 ```powershell
-.\SETUP-KIRINMAL.bat -CheckOnly
+.\JANA-KEY-KIRINMAL.cmd
 ```
 
-The public helper also lives under `tools/signing/`. From a repository checkout, point it at the extracted private bundle:
+Java JDK perlu tersedia melalui `JAVA_HOME` atau `PATH`. Pilih alias, kemudian isi password keystore, butiran pemilik dan password key apabila `keytool` bertanya. Password ditaip terus ke `keytool`, tanpa dipaparkan atau disimpan oleh skrip. Tekan Enter pada soalan password key jika mahu menggunakan password keystore yang sama.
 
-```powershell
-.\tools\signing\SETUP-KIRINMAL.bat -BundlePath "C:\path\to\KirinMaL-4-Kunci-Release"
-```
+Skrip menghasilkan folder **KirinMaL-key-sendiri** di sebelah CMD:
 
-Keep the two helper files together. The helper runs with Windows PowerShell 5.1 or later; Java is not required. The signing key is the same one used by the existing KirinMaL releases, so APK update compatibility is preserved.
+- **KirinMaL-release.jks** — private keystore.
+- **KEYSTORE_FILE.txt** — base64 pada satu baris untuk secret `KEYSTORE_FILE`.
+- **KEY_ALIAS.txt** — alias yang dipilih.
+- **CARA-ISI-SECRETS.txt** — panduan empat secret, menggunakan password yang dipilih sendiri.
 
-If an older bundle reports **Cannot bind argument to parameter 'Path' because it is an empty string**, run this from the extracted folder:
+Masukkan empat nilai itu sendiri ke **Settings → Secrets and variables → Actions**. Skrip ini tidak memasang GitHub CLI, meminta login GitHub, mengupload secret atau memulakan build. Fail JKS yang sudah wujud tidak ditimpa.
 
-```powershell
-.\SETUP-KIRINMAL.bat -BundlePath "$($PWD.Path)"
-```
-
-The updated BAT passes its own folder explicitly and the PowerShell helper resolves it after parameter binding. An explicit `-BundlePath` still takes precedence, including relative paths and folder names with spaces.
+**CMD ini menjana key baharu.** Untuk terus mengemas kini pemasangan KirinMaL sedia ada, gunakan keystore release asal; key baharu mempunyai tandatangan berbeza. Pakej asal **KirinMaL-4-Kunci-Release.zip** masih menyimpan keystore asal. Menjalankan CMD ini tidak menukar key atau secret release yang sedang digunakan.
 
 ## MyAnimeList Client ID
 

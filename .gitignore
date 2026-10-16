@@ -34,3 +34,5 @@ signing-secrets*.txt
 GitHub-Secrets-4-Kunci.txt
 KirinMaL-4-Kunci-Release*.zip
 signing-private/
+KirinMaL-key-sendiri/
+KEYSTORE_FILE.txt
