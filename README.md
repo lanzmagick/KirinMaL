@@ -25,11 +25,11 @@
 
 **[KirinMaL Stable Releases](https://github.com/lanzmagick/KirinMaL/releases)**
 
-**Latest published signed APK: [v1.0.11](https://github.com/lanzmagick/KirinMaL/releases/tag/v1.0.11).** The Anime/Manga list dropdown now uses a three-line icon beside the phone search bar, following the AniHyou list layout. The selected label appears inside the menu. Dropdown/tab regression tests, the existing Magic/settings/recommendation tests, both Android builds, and release-signature/manifest audits passed. See [v1.0.11 release notes](docs/releases/v1.0.11.md).
+**Latest published signed APK: [v1.0.12](https://github.com/lanzmagick/KirinMaL/releases/tag/v1.0.12).** The Anime/Manga FAB and selected floating status tile now share a random RGB border, refreshed on every FAB open/close and status-menu press, including the same status. MAL fill colors remain intact. Dropdown/tab regression tests, the existing Magic/settings/recommendation tests, both Android builds, and release-signature/manifest audits passed. See [v1.0.12 release notes](docs/releases/v1.0.12.md).
 
-Direct APK downloads: [ARM64](https://github.com/lanzmagick/KirinMaL/releases/download/v1.0.11/KirinMaL-1.0.11-arm64-v8a-release.apk) · [Universal](https://github.com/lanzmagick/KirinMaL/releases/download/v1.0.11/KirinMaL-1.0.11-universal-release.apk). Other ABI variants are available on the release page.
+Direct APK downloads: [ARM64](https://github.com/lanzmagick/KirinMaL/releases/download/v1.0.12/KirinMaL-1.0.12-arm64-v8a-release.apk) · [Universal](https://github.com/lanzmagick/KirinMaL/releases/download/v1.0.12/KirinMaL-1.0.12-universal-release.apk). Other ABI variants are available on the release page.
 
-The v1.0.11 (418) APK uses the same release signing certificate as v1.0.10 and supports updating that installation. The A–Z filter, original Random button and Magic remain on the list toolbar. It retains the Magic popup effects, three saved Magic switches and genre badges on Anime/Manga Info. iOS and Desktop downloads remain **Coming soon**. See [build status](docs/UNRELEASED.md).
+The v1.0.12 (419) APK uses the same release signing certificate as v1.0.11 and supports updating that installation. The three-line sort icon stays beside search, while the A–Z filter, original Random button and Magic remain on the list toolbar. It retains the Magic popup effects, three saved Magic switches and genre badges on Anime/Manga Info. iOS and Desktop downloads remain **Coming soon**. See [build status](docs/UNRELEASED.md).
 
 The Android application ID is `com.lanzmagick.kirinmal`, separate from MoeList and KirinMaL v1.0.0 (`com.axiel7.moelist`). Versions v1.0.1 and later share the KirinMaL package ID and update the same installation when signed with the same release key. Signed APKs are distributed through GitHub Releases. See [v1.0.3 release notes](docs/releases/v1.0.3.md).
 

@@ -1,15 +1,23 @@
 # KirinMaL — status build
 
-APK signed terbaru ialah **v1.0.11 (418)**, diterbitkan pada **17 Oktober 2026, 02:24:42 MYT**.
+APK signed terbaru ialah **v1.0.12 (419)**, diterbitkan pada **17 Oktober 2026, 23:28:51 MYT**.
 
-Release signed, ujian dan audit v1.0.11 sudah selesai. Lihat [release notes v1.0.11](releases/v1.0.11.md) dan [muat turun APK](https://github.com/lanzmagick/KirinMaL/releases/tag/v1.0.11).
+Release signed, ujian dan audit v1.0.12 sudah selesai. Lihat [release notes v1.0.12](releases/v1.0.12.md) dan [muat turun APK](https://github.com/lanzmagick/KirinMaL/releases/tag/v1.0.12).
 
-## Patch selepas v1.0.11 — belum dibina
+## Patch yang sudah termasuk dalam APK v1.0.12
 
 - FAB pembuka popup status pada list Anime dan Manga mendapat border RGB 1.5 dp, berkongsi warna dengan border kotak status terpilih.
 - Warna border bertukar secara rawak pada setiap tekan FAB untuk buka/tutup menu dan setiap tekan pilihan popup, termasuk status yang sama. Pertukaran status dari luar popup juga menukar border; pemilihan status melalui popup tidak memilih warna dua kali.
 - Setiap perubahan hue berjarak sekurang-kurangnya 60 darjah. Warna isi MAL, teks, ikon, bentuk FAB dan fungsi popup dikekalkan.
-- Semakan sintaks dan diff dibuat untuk patch ini. Version name/code masih **1.0.11 (418)**; APK baharu belum dibina.
+
+## Pengesahan v1.0.12
+
+- Ujian regresi dropdown/tab, Magic shuffle, simpanan tetapan Magic dan Recommended Manga serta kedua-dua build Android lulus.
+- Semua lima APK lulus audit tandatangan v2, manifest, permission dan identiti app. Hash SHA-256 aset GitHub Release sepadan dengan log audit.
+- Sijil signing sama seperti v1.0.11; APK boleh dipasang sebagai kemas kini pada versi itu.
+- Sumber APK: commit `f83060632845c51c182b3592de3b0f4ee9d25422`.
+- [Workflow signed](https://github.com/lanzmagick/KirinMaL/actions/runs/39044898418) · [Workflow pengesahan](https://github.com/lanzmagick/KirinMaL/actions/runs/39044898388).
+- Belum diuji pada peranti fizikal.
 
 ## Patch yang sudah termasuk dalam APK v1.0.11
 
