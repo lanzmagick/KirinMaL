@@ -6,6 +6,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,6 +19,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -56,12 +58,20 @@ fun ListStatusFab(
     var expanded by remember(mediaType) { mutableStateOf(false) }
     val options = remember(mediaType) { listStatusValues(mediaType).toList() }
     var borderHue by remember(mediaType) { mutableStateOf(Random.nextFloat() * 360f) }
+    var borderStatus by remember(mediaType) { mutableStateOf(status) }
 
-    // Change only on a new status, keeping a visible gap from the previous hue.
-    LaunchedEffect(mediaType, status) {
+    fun randomizeBorder(forStatus: ListStatus = status) {
+        // Keep at least a 60-degree gap so every press visibly changes the hue.
         borderHue = (borderHue + 60f + Random.nextFloat() * 240f) % 360f
+        borderStatus = forStatus
     }
-    val selectedBorderColor = Color.hsv(hue = borderHue, saturation = 0.9f, value = 1f)
+
+    // A tile tap already picks the next hue; also handle status changes from outside.
+    LaunchedEffect(mediaType, status) {
+        if (borderStatus != status) randomizeBorder()
+    }
+    val borderColor = Color.hsv(hue = borderHue, saturation = 0.9f, value = 1f)
+    val fabShape = FloatingActionButtonDefaults.shape
 
     Column(
         modifier = modifier,
@@ -89,6 +99,7 @@ fun ListStatusFab(
                             val contentColor = item.onBadgeColor
                             Surface(
                                 onClick = {
+                                    randomizeBorder(forStatus = item)
                                     onStatusChanged(item)
                                     expanded = false
                                 },
@@ -99,7 +110,7 @@ fun ListStatusFab(
                                 shadowElevation = 2.dp,
                                 border = if (selected) BorderStroke(
                                     width = 1.5.dp,
-                                    color = selectedBorderColor,
+                                    color = borderColor,
                                 ) else null,
                             ) {
                                 if (isLastWideRow) {
@@ -150,11 +161,17 @@ fun ListStatusFab(
             }
         }
         FloatingActionButton(
-            onClick = { expanded = !expanded },
-            modifier = Modifier.animateFloatingActionButton(
-                visible = isVisible || expanded,
-                alignment = Alignment.BottomEnd,
-            ),
+            onClick = {
+                randomizeBorder()
+                expanded = !expanded
+            },
+            modifier = Modifier
+                .animateFloatingActionButton(
+                    visible = isVisible || expanded,
+                    alignment = Alignment.BottomEnd,
+                )
+                .border(width = 1.5.dp, color = borderColor, shape = fabShape),
+            shape = fabShape,
             containerColor = status.badgeColor,
             contentColor = status.onBadgeColor,
         ) {

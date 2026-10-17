@@ -7,7 +7,7 @@
 ## Features
 
 - Track anime and manga with your MyAnimeList account.
-- Anime and Manga list controls: title-initial filter for A–Z, 1–0 and symbols beside Sort, with MAL status colors on the status badges and floating selector. The selected floating status has a bright random RGB border that changes when switching status; the MAL fills and text/icon colors are preserved.
+- Anime and Manga list controls: title-initial filter for A–Z, 1–0 and symbols beside Sort, with MAL status colors on the status badges and floating selector. The FAB and selected floating status share a bright random RGB border that refreshes on every FAB open/close, every status-tile tap and external status changes; the MAL fills and text/icon colors are preserved.
 - Random and Magic for both anime and manga lists: keep the default list picker, or reveal a surprise in a popup inspired by Netflix Kids' Mystery Box. Magic has separate visibility settings from Random. Home offers Magic Anime and Magic Manga in an equal-size shortcut bento.
 - Home personal carousels: Recent Watching Anime with episode progress, Reading Manga with chapter/volume progress, and Recommended Manga based on the user's Reading or Completed titles. Each section opens its matching list.
 - Anime Menu and Manga Menu: MAL rankings for Score, Popularity and Favorite, plus Upcoming for Anime. Genre badges remain on Anime Info and Manga Info; genre browsing has been removed.
