@@ -4,7 +4,9 @@ APK signed terbaru ialah **v1.0.12 (419)**, diterbitkan pada **17 Oktober 2026, 
 
 Release signed, ujian dan audit v1.0.12 sudah selesai. Lihat [release notes v1.0.12](releases/v1.0.12.md) dan [muat turun APK](https://github.com/lanzmagick/KirinMaL/releases/tag/v1.0.12).
 
-## Patch selepas v1.0.12 — belum dibina sebagai APK
+## Build v1.0.13 (420) — dalam proses
+
+Build APK baharu sudah diminta untuk pembetulan startup dan search bar di bawah. v1.0.12 kekal release yang telah disahkan sehingga build signed, ujian dan audit v1.0.13 selesai. Lihat [release notes v1.0.13](releases/v1.0.13.md).
 
 - Search bar list Anime/Manga mengekalkan ruang menu sort sepanjang animasi keluar ke halaman Search. Menu tidak lagi dibuang pada frame awal pertukaran route sehingga kad Search tiba-tiba memanjang.
 - Animasi bar hanya bermula apabila ia ditunjukkan/disembunyikan; pertukaran tab Anime/Manga mengemas kini jenis senarai tanpa memulakan animasi bar baharu. Search dari list Manga kini bermula dengan jenis Manga, manakala Home kekal Anime.
@@ -14,7 +16,7 @@ Release signed, ujian dan audit v1.0.12 sudah selesai. Lihat [release notes v1.0
 - Migrasi token lama yang sedia ada diselesaikan sebelum pemerhatian sesi bermula. Callback OAuth, refresh token, penyimpanan token dan logout MAL kekal menggunakan logik asal.
 - Ujian regresi meliputi bacaan sesi lambat, simpanan kosong, migrasi token lama, refresh, logout dan login semula. Workflow release akan menjalankan ujian ini bersama ujian sedia ada pada build seterusnya.
 - Lima ujian aliran sesi lulus secara tempatan melalui Kotlin/JVM dan JUnit. Semakan sintaks Kotlin, YAML workflow dan `git diff --check` turut lulus; build Android penuh dan ujian pada telefon belum dijalankan untuk patch ini.
-- Tiada APK baharu dibina atau diterbitkan untuk patch ini.
+- Keputusan build Android penuh dan audit APK v1.0.13 akan direkodkan selepas workflow selesai; belum diuji pada telefon.
 
 ## Patch yang sudah termasuk dalam APK v1.0.12
 
