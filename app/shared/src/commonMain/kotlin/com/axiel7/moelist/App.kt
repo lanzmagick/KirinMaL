@@ -1,8 +1,9 @@
 package com.axiel7.moelist
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
@@ -13,6 +14,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalUriHandler
@@ -101,8 +103,8 @@ fun App(
 
 
     val quickEditController = remember { MediaQuickEditController() }
-    LaunchedEffect(uiState.isLoggedIn) {
-        if (!uiState.isLoggedIn) {
+    LaunchedEffect(uiState.sessionState) {
+        if (!uiState.isSessionLoading && !uiState.isLoggedIn) {
             quickEditController.resetForLogout()
         }
     }
@@ -123,20 +125,24 @@ fun App(
                 color = backgroundColor
             ) {
                 Box(Modifier.fillMaxSize()) {
-                    MainView(
-                    isCompactScreen = isCompactScreen,
-                    isLoggedIn = uiState.isLoggedIn,
-                    useListTabs = uiState.useListTabs,
-                    isBottomDestination = isBottomDestination,
-                    navigator = navigator,
-                    navActionManager = navActionManager,
-                    saveLastTab = event::saveLastTab,
-                    pinnedNavBar = uiState.pinnedNavBar,
-                    profilePicture = uiState.profilePicture,
-                    )
-                    if (uiState.isLoggedIn) {
-                        MalStatusSync(quickEditController)
-                        GlobalQuickEditHost(quickEditController)
+                    if (uiState.isSessionLoading) {
+                        CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                    } else {
+                        MainView(
+                            isCompactScreen = isCompactScreen,
+                            isLoggedIn = uiState.isLoggedIn,
+                            useListTabs = uiState.useListTabs,
+                            isBottomDestination = isBottomDestination,
+                            navigator = navigator,
+                            navActionManager = navActionManager,
+                            saveLastTab = event::saveLastTab,
+                            pinnedNavBar = uiState.pinnedNavBar,
+                            profilePicture = uiState.profilePicture,
+                        )
+                        if (uiState.isLoggedIn) {
+                            MalStatusSync(quickEditController)
+                            GlobalQuickEditHost(quickEditController)
+                        }
                     }
                 }
             }

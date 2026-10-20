@@ -17,7 +17,7 @@ data class MainUiState(
     val useCustomAppColor: Boolean = false,
     val useBlackColors: Boolean = false,
     val paletteStyle: PaletteStyle = PaletteStyle.TonalSpot,
-    val isLoggedIn: Boolean = false,
+    val sessionState: SessionState = SessionState.LOADING,
     val useListTabs: Boolean = false,
     val profilePicture: String? = null,
     val pinnedNavBar: Boolean = true,
@@ -26,6 +26,9 @@ data class MainUiState(
     override val isLoading: Boolean = false,
     override val message: String? = null,
 ): UiState() {
+    val isLoggedIn: Boolean get() = sessionState == SessionState.LOGGED_IN
+    val isSessionLoading: Boolean get() = sessionState == SessionState.LOADING
+
     override fun setLoading(value: Boolean) = copy(isLoading = value)
     override fun setMessage(value: String?) = copy(message = value)
 }

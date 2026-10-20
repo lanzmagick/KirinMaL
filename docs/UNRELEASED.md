@@ -4,6 +4,15 @@ APK signed terbaru ialah **v1.0.12 (419)**, diterbitkan pada **17 Oktober 2026, 
 
 Release signed, ujian dan audit v1.0.12 sudah selesai. Lihat [release notes v1.0.12](releases/v1.0.12.md) dan [muat turun APK](https://github.com/lanzmagick/KirinMaL/releases/tag/v1.0.12).
 
+## Patch selepas v1.0.12 — belum dibina sebagai APK
+
+- Membezakan sesi yang masih dimuat daripada keadaan benar-benar belum login. Halaman login MAL tidak lagi dirender ketika token tersimpan masih dibaca.
+- Android mengekalkan splash screen sehingga bacaan sesi tempatan selesai, tanpa kelewatan tetap atau menunggu rangkaian. Lapisan UI bersama menggunakan indikator loading sementara sebelum memaparkan navigasi.
+- Migrasi token lama yang sedia ada diselesaikan sebelum pemerhatian sesi bermula. Callback OAuth, refresh token, penyimpanan token dan logout MAL kekal menggunakan logik asal.
+- Ujian regresi meliputi bacaan sesi lambat, simpanan kosong, migrasi token lama, refresh, logout dan login semula. Workflow release akan menjalankan ujian ini bersama ujian sedia ada pada build seterusnya.
+- Lima ujian aliran sesi lulus secara tempatan melalui Kotlin/JVM dan JUnit. Semakan sintaks Kotlin, YAML workflow dan `git diff --check` turut lulus; build Android penuh dan ujian pada telefon belum dijalankan untuk patch ini.
+- Tiada APK baharu dibina atau diterbitkan untuk patch ini.
+
 ## Patch yang sudah termasuk dalam APK v1.0.12
 
 - FAB pembuka popup status pada list Anime dan Manga mendapat border RGB 1.5 dp, berkongsi warna dengan border kotak status terpilih.

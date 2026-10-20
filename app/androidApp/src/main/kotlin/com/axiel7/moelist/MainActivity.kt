@@ -40,13 +40,13 @@ class MainActivity : AppCompatActivity() {
 
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
+        val splashScreen = installSplashScreen()
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
-        installSplashScreen()
+        splashScreen.setKeepOnScreenCondition { viewModel.uiState.value.isSessionLoading }
         (codeAuthFlowFactory as? AndroidCodeAuthFlowFactory)?.registerActivity(this)
         val browserHandler = AndroidBrowserHandler(this)
 
-        viewModel.migrateLegacyData()
         findDeepLink(intent)?.let(viewModel::setDeepLink)
 
         val lastTabOpened = findLastTabOpened()

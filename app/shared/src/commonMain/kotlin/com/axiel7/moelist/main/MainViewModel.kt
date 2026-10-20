@@ -16,7 +16,7 @@ import org.publicvalue.multiplatform.oidc.ExperimentalOpenIdConnect
 @OptIn(ExperimentalOpenIdConnect::class)
 class MainViewModel(
     oAuthService: OAuthService,
-    private val loginRepository: LoginRepository,
+    loginRepository: LoginRepository,
     private val defaultPreferencesRepository: DefaultPreferencesRepository
 ) : BaseViewModel<MainUiState>(), MainEvent {
 
@@ -32,20 +32,15 @@ class MainViewModel(
         }
     }
 
-    fun migrateLegacyData() {
-        viewModelScope.launch {
-            loginRepository.migrateLegacyData()
-        }
-    }
-
     fun setDeepLink(deepLink: DeepLink<*>?) {
         mutableUiState.update { it.copy(deepLink = deepLink) }
     }
 
     init {
         oAuthService.tokenStore.tokenResponseFlow
+            .sessionStates(loginRepository::migrateLegacyData)
             .onEach { value ->
-                mutableUiState.update { it.copy(isLoggedIn = value != null) }
+                mutableUiState.update { it.copy(sessionState = value) }
             }
             .launchIn(viewModelScope)
 
