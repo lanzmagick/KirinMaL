@@ -2,7 +2,8 @@
 
 **KirinMaL** is an unofficial [MyAnimeList](https://myanimelist.net/) client based on [MoeList Multiplatform](https://github.com/axiel7/MoeListKMP), customized for Android. The repository also includes iOS and desktop source code.
 
-**Android identity:** `com.lanzmagick.kirinmal` · custom MAL redirect `kirinmal://oauth/mal` · owner-supplied `MAL_CLIENT_ID` GitHub Action secret. Login requires registering that exact redirect in the owner's MAL API application. The original project remains credited as the upstream source.
+<details>
+<summary><strong>Features</strong></summary>
 
 ## Features
 
@@ -17,6 +18,8 @@
 - KirinMaL icons and branding across platforms.
 - Optional About menu in More, hidden by default and enabled under Settings → Display → Show About menu. The About page and upstream credits remain intact.
 
+</details>
+
 ## Website
 
 **[KirinMaL Website](https://lanzmagick.github.io/KirinMaL/)** — responsive, screenshot-free landing page with KirinMaL branding, Android downloads, and Coming soon cards for iOS and Desktop.
@@ -25,13 +28,23 @@
 
 **[KirinMaL Stable Releases](https://github.com/lanzmagick/KirinMaL/releases)**
 
-**Latest published signed APK: [v1.0.13](https://github.com/lanzmagick/KirinMaL/releases/tag/v1.0.13).** Saved sessions finish loading before the login UI appears. Anime/Manga search bars retain their sort-menu space during the exit animation, and Manga search starts in the correct media type. Session, dropdown/tab, Magic/settings/recommendation tests, both Android builds, and release-signature/manifest audits passed. See [v1.0.13 release notes](docs/releases/v1.0.13.md).
+**Latest published signed APK: [v1.0.13 (420)](https://github.com/lanzmagick/KirinMaL/releases/tag/v1.0.13).**
 
 Direct APK downloads: [ARM64](https://github.com/lanzmagick/KirinMaL/releases/download/v1.0.13/KirinMaL-1.0.13-arm64-v8a-release.apk) · [Universal](https://github.com/lanzmagick/KirinMaL/releases/download/v1.0.13/KirinMaL-1.0.13-universal-release.apk). Other ABI variants are available on the release page.
+
+<details>
+<summary><strong>Release notes &amp; update compatibility</strong></summary>
+
+Saved sessions finish loading before the login UI appears. Anime/Manga search bars retain their sort-menu space during the exit animation, and Manga search starts in the correct media type. Session, dropdown/tab, Magic/settings/recommendation tests, both Android builds, and release-signature/manifest audits passed. See [v1.0.13 release notes](docs/releases/v1.0.13.md).
 
 The v1.0.13 (420) APK uses the same release signing certificate as v1.0.12 and supports updating that installation. The three-line sort icon stays beside search, while the A–Z filter, original Random button and Magic remain on the list toolbar. It retains the RGB FAB/status borders, Magic popup effects, three saved Magic switches and genre badges on Anime/Manga Info. iOS and Desktop downloads remain **Coming soon**. See [build status](docs/UNRELEASED.md).
 
 The Android application ID is `com.lanzmagick.kirinmal`, separate from MoeList and KirinMaL v1.0.0 (`com.axiel7.moelist`). Versions v1.0.1 and later share the KirinMaL package ID and update the same installation when signed with the same release key. Signed APKs are distributed through GitHub Releases. See [v1.0.3 release notes](docs/releases/v1.0.3.md).
+
+</details>
+
+<details>
+<summary><strong>Build &amp; signing (Android)</strong></summary>
 
 ## Build (Android)
 
@@ -43,6 +56,11 @@ MAL_CLIENT_ID=your-own-mal-client-id
 ```
 
 To publish **signed** APKs, set the four GitHub Actions signing secrets `KEYSTORE_FILE` (base64-encoded keystore), `KEYSTORE_PASSWORD`, `KEY_ALIAS` and `KEY_PASSWORD`, plus your own **`MAL_CLIENT_ID`**. Windows users who want to create a new key with their own passwords can run **[KIRINMAL-PASSWORD.cmd](tools/signing/KIRINMAL-PASSWORD.cmd)**; see [interactive CMD signing setup](docs/ANDROID_RELEASE.md#windows-cmd-dengan-password-sendiri). Reuse the existing release keystore to preserve APK update compatibility. Then use **Actions → KirinMaL Signed Release → Run workflow → main**. Keep the keystore safely offline for future updates; do not commit signing credentials.
+
+</details>
+
+<details>
+<summary><strong>Magic: inspiration, picker logic &amp; effects</strong></summary>
 
 ## Magic discovery: inspiration and picker logic
 
@@ -62,9 +80,19 @@ The two Home Magic shortcuts have a glass finish with a slow diagonal reflection
 
 **Magic settings:** **More → Settings → Magic** provides three saved switches, all on by default: **Enable Magic** controls Home shortcuts and all Magic pickers; **Magic on Anime/Manga lists** controls the two list buttons; **Magic effects** controls particles, animated borders, glass shine, poster halos, mystery-box pulsing and reveal transitions on both Home cards and popups. With effects off, Magic remains usable with a static appearance and skips the cosmetic picking delay. Switching Magic off preserves the other two choices; it never changes the original Random setting. The Home bento removes disabled Magic slots and keeps the remaining card widths aligned. Saved choices load before Magic is shown or decorative animations start.
 
+</details>
+
+<details>
+<summary><strong>Home recommendations &amp; personal lists</strong></summary>
+
 ## Home personal discovery
 
 Home's Recommended Manga rail merges MAL title recommendations from up to three recently updated Reading manga, falling back to Completed manga when Reading is empty. It sums recommendation votes, removes duplicate IDs and titles already in any of the user's manga lists, and respects NSFW visibility. Home shows up to 25 results; its full grid shows up to 100. Recent Watching Anime reads the user's Watching list in updated order. These personal sections refresh after Quick Edit and clear on logout.
+
+</details>
+
+<details>
+<summary><strong>Anime/Manga menus &amp; genre information</strong></summary>
 
 ## Anime/Manga menus and genre information
 
@@ -72,13 +100,22 @@ Anime Menu and Manga Menu contain only the existing MAL ranking tabs. The Genres
 
 Anime Info and Manga Info continue reading and displaying the original MAL `genres` field, including localized labels. Their detail models, requests and display code are preserved. NSFW visibility, ranking results, Magic, login and list editing retain their existing behavior. No replacement genre service has been added.
 
+</details>
+
+<details>
+<summary><strong>MyAnimeList Client ID &amp; app identity</strong></summary>
+
 ## KirinMaL MyAnimeList Client ID (Android)
+
+**Android identity:** `com.lanzmagick.kirinmal` · custom MAL redirect `kirinmal://oauth/mal` · owner-supplied `MAL_CLIENT_ID` GitHub Action secret. Login requires registering that exact redirect in the owner's MAL API application. The original project remains credited as the upstream source.
 
 KirinMaL Android no longer embeds the original MoeList OAuth Client ID. Register your **own MAL API application**, using the exact redirect URI `kirinmal://oauth/mal`. Add its **Client ID** (not the client secret) to GitHub Actions repository secret **`MAL_CLIENT_ID`** before publishing a signed APK. The release workflow refuses to publish without the owner's ID. For local builds add `MAL_CLIENT_ID=your-client-id` to the gitignored `private.properties`.
 
 See [MAL Client ID instructions](docs/MAL_CLIENT_ID.md). KirinNime uses the separate redirect `kirinime://oauth/mal`; register KirinMaL with its own redirect.
 
 See [Release signing instructions](docs/ANDROID_RELEASE.md) and [Play Protect diagnosis](docs/PLAY_PROTECT.md). The internal Kotlin namespace remains `com.axiel7.moelist`; Android identifies the installed app by `com.lanzmagick.kirinmal`. Installing this separate package does not inherit local data from MoeList or KirinMaL v1.0.0. Changing the MAL Client ID may require signing in again.
+
+</details>
 
 ## Credits & License
 
