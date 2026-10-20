@@ -2,6 +2,9 @@
 
 **KirinMaL** is an unofficial [MyAnimeList](https://myanimelist.net/) client based on [MoeList Multiplatform](https://github.com/axiel7/MoeListKMP), customized for Android. The repository also includes iOS and desktop source code.
 
+[![Total Downloads](https://img.shields.io/github/downloads/lanzmagick/KirinMaL/total?style=for-the-badge&logo=github&label=Downloads&color=8B7CF8)](https://github.com/lanzmagick/KirinMaL/releases)
+[![GitHub Forks](https://img.shields.io/github/forks/lanzmagick/KirinMaL?style=for-the-badge&logo=github&label=Forks&color=5966CC)](https://github.com/lanzmagick/KirinMaL/forks)
+
 <details>
 <summary><strong>Features</strong></summary>
 
