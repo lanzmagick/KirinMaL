@@ -1,22 +1,26 @@
 # KirinMaL — status build
 
-APK signed terbaru ialah **v1.0.12 (419)**, diterbitkan pada **17 Oktober 2026, 23:28:51 MYT**.
+APK signed terbaru ialah **v1.0.13 (420)**, diterbitkan pada **20 Oktober 2026, 17:21:37 MYT**.
 
-Release signed, ujian dan audit v1.0.12 sudah selesai. Lihat [release notes v1.0.12](releases/v1.0.12.md) dan [muat turun APK](https://github.com/lanzmagick/KirinMaL/releases/tag/v1.0.12).
+Release signed, ujian dan audit v1.0.13 sudah selesai. Lihat [release notes v1.0.13](releases/v1.0.13.md) dan [muat turun APK](https://github.com/lanzmagick/KirinMaL/releases/tag/v1.0.13).
 
-## Build v1.0.13 (420) — dalam proses
-
-Build APK baharu sudah diminta untuk pembetulan startup dan search bar di bawah. v1.0.12 kekal release yang telah disahkan sehingga build signed, ujian dan audit v1.0.13 selesai. Lihat [release notes v1.0.13](releases/v1.0.13.md).
+## Patch yang sudah termasuk dalam APK v1.0.13
 
 - Search bar list Anime/Manga mengekalkan ruang menu sort sepanjang animasi keluar ke halaman Search. Menu tidak lagi dibuang pada frame awal pertukaran route sehingga kad Search tiba-tiba memanjang.
 - Animasi bar hanya bermula apabila ia ditunjukkan/disembunyikan; pertukaran tab Anime/Manga mengemas kini jenis senarai tanpa memulakan animasi bar baharu. Search dari list Manga kini bermula dengan jenis Manga, manakala Home kekal Anime.
-- Patch search bar lulus semakan sintaks Kotlin dan `git diff --check`; paparan pada telefon belum diuji. Halaman hasil Search, menu Last updated, pilihan sort tersimpan dan patch pemulihan sesi di bawah dikekalkan.
+- Halaman hasil Search, menu Last updated dan pilihan sort tersimpan dikekalkan.
 - Membezakan sesi yang masih dimuat daripada keadaan benar-benar belum login. Halaman login MAL tidak lagi dirender ketika token tersimpan masih dibaca.
 - Android mengekalkan splash screen sehingga bacaan sesi tempatan selesai, tanpa kelewatan tetap atau menunggu rangkaian. Lapisan UI bersama menggunakan indikator loading sementara sebelum memaparkan navigasi.
 - Migrasi token lama yang sedia ada diselesaikan sebelum pemerhatian sesi bermula. Callback OAuth, refresh token, penyimpanan token dan logout MAL kekal menggunakan logik asal.
-- Ujian regresi meliputi bacaan sesi lambat, simpanan kosong, migrasi token lama, refresh, logout dan login semula. Workflow release akan menjalankan ujian ini bersama ujian sedia ada pada build seterusnya.
-- Lima ujian aliran sesi lulus secara tempatan melalui Kotlin/JVM dan JUnit. Semakan sintaks Kotlin, YAML workflow dan `git diff --check` turut lulus; build Android penuh dan ujian pada telefon belum dijalankan untuk patch ini.
-- Keputusan build Android penuh dan audit APK v1.0.13 akan direkodkan selepas workflow selesai; belum diuji pada telefon.
+
+## Pengesahan v1.0.13
+
+- Lima ujian aliran sesi meliputi bacaan lambat, simpanan kosong, migrasi token lama, refresh, logout dan login semula lulus dalam workflow release, bersama ujian dropdown/tab, Magic shuffle, tetapan Magic dan Recommended Manga. Kedua-dua build Android lulus.
+- Semua lima APK lulus audit tandatangan v2, manifest, permission dan identiti app. Hash SHA-256 aset GitHub Release sepadan dengan log audit.
+- Sijil signing sama seperti v1.0.12; APK boleh dipasang sebagai kemas kini pada versi itu.
+- Sumber APK: commit `479f78830221bb0da50c028c9c64cd66c01db4b1`.
+- [Workflow signed](https://github.com/lanzmagick/KirinMaL/actions/runs/39399405687) · [Workflow pengesahan](https://github.com/lanzmagick/KirinMaL/actions/runs/39399405443).
+- Belum diuji pada peranti fizikal.
 
 ## Patch yang sudah termasuk dalam APK v1.0.12
 
