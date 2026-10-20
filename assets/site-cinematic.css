@@ -21,3 +21,261 @@
 .explore-card>img{top:18px;bottom:auto}
 @media(max-width:900px){.feature-card>img{top:16px;bottom:auto}.explore-card>img{top:14px;bottom:auto}}
 @media(max-width:650px){.feature-card>img{top:13px;bottom:auto}.explore-card>img{top:15px;bottom:auto}}
+
+/* KirinMaL mobile-first screenshot layout patch.
+   Keep desktop cinematics, but never crop screenshots on smaller devices. */
+@media (max-width:900px) {
+  .hero-art {
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,1.2fr) minmax(0,1fr);
+    align-items:center;
+    justify-items:center;
+    width:min(100%,690px);
+    height:auto;
+    min-height:0;
+    padding:38px 0 24px;
+    margin-inline:auto;
+    overflow:visible;
+  }
+  .phone {
+    position:relative;
+    inset:auto;
+    top:auto;
+    bottom:auto;
+    left:auto;
+    right:auto;
+    width:100%;
+    height:auto;
+    aspect-ratio:674/1536;
+    overflow:hidden;
+  }
+  .phone img {
+    display:block;
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    object-position:center;
+  }
+  .phone-main {
+    position:relative;
+    z-index:3;
+    width:min(100%,222px);
+    margin-inline:auto;
+    transform:none;
+  }
+  .phone-side {
+    width:min(100%,176px);
+    margin-inline:auto;
+  }
+  .phone-left {
+    left:auto;
+    top:auto;
+    transform:rotate(-5deg) translateX(8px);
+  }
+  .phone-right {
+    right:auto;
+    top:auto;
+    transform:rotate(5deg) translateX(-8px);
+  }
+  .hero-art-caption {display:none;}
+  .feature-card,.explore-card {
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(140px,34%);
+    align-items:center;
+    column-gap:20px;
+    min-height:0;
+    padding:28px;
+  }
+  .feature-copy,.explore-copy {
+    width:100%;
+    min-width:0;
+    align-self:center;
+  }
+  .feature-card>img,.explore-card>img,
+  .feature-manga>img,.theme-card>img {
+    position:relative;
+    inset:auto;
+    top:auto;
+    right:auto;
+    bottom:auto;
+    left:auto;
+    display:block;
+    transform:none;
+    width:100%;
+    max-width:100%;
+    height:auto;
+    max-height:470px;
+    object-fit:contain;
+    object-position:center;
+    margin-inline:auto;
+  }
+  .magic-frame img {
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    object-position:center;
+  }
+  .gallery-track {align-items:flex-start;}
+  .gallery-slide {align-self:flex-start;}
+  .gallery-slide img {
+    display:block;
+    width:100%;
+    height:auto;
+    aspect-ratio:auto;
+    object-fit:contain;
+    object-position:center;
+  }
+}
+@media (max-width:650px) {
+  .hero {
+    display:block;
+    min-height:0;
+    padding-top:40px;
+    padding-bottom:30px;
+  }
+  .hero-art {
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,1.25fr) minmax(0,1fr);
+    gap:0;
+    height:auto;
+    min-height:0;
+    padding:32px 0 18px;
+    margin-top:18px;
+  }
+  .phone-main {
+    width:min(48vw,188px);
+    max-width:none;
+    justify-self:center;
+    transform:none;
+  }
+  .phone-side {
+    width:min(34vw,130px);
+    max-width:none;
+    opacity:.94;
+    justify-self:center;
+  }
+  .phone-left {transform:rotate(-5deg) translateX(12px);}
+  .phone-right {transform:rotate(5deg) translateX(-12px);}
+  .hero-art-caption {display:none;}
+  .hero-spark.s1,.hero-spark.s2,.hero-spark.s3 {pointer-events:none;}
+  .feature-card,.explore-card {
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    justify-content:flex-start;
+    gap:20px;
+    min-height:0;
+    padding:24px 19px 23px;
+    overflow:hidden;
+  }
+  .feature-copy,.explore-copy {
+    position:relative;
+    z-index:2;
+    width:100%;
+    max-width:100%;
+    align-self:stretch;
+    align-items:flex-start;
+    justify-content:flex-start;
+  }
+  .feature-card h3 {font-size:clamp(26px,7.5vw,32px);}
+  .explore-card h2 {font-size:clamp(26px,7.5vw,32px);}
+  .feature-card p,.explore-card p {
+    font-size:12.5px;
+    line-height:1.7;
+    max-width:100%;
+  }
+  .feature-card>img,.explore-card>img,
+  .feature-manga>img,.theme-card>img {
+    position:relative;
+    inset:auto;
+    top:auto;
+    left:auto;
+    right:auto;
+    bottom:auto;
+    width:min(61vw,222px);
+    max-width:100%;
+    height:auto;
+    max-height:none;
+    aspect-ratio:auto;
+    transform:none;
+    object-fit:contain;
+    object-position:center;
+    margin:0 auto;
+    border-radius:18px;
+  }
+  .magic-card {
+    display:grid;
+    grid-template-columns:minmax(0,1fr);
+  }
+  .magic-copy {padding:30px 20px 6px;}
+  .magic-preview {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:0;
+    height:auto;
+    padding:18px 15px 30px;
+  }
+  .magic-frame {
+    width:min(61vw,212px);
+    height:auto;
+    aspect-ratio:674/1536;
+    transform:none;
+    overflow:hidden;
+  }
+  .magic-frame img {
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    object-position:center;
+  }
+  .gallery-track {
+    display:flex;
+    align-items:flex-start;
+    overflow-x:auto;
+    overflow-y:hidden;
+    gap:12px;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
+    padding-block:6px 16px;
+  }
+  .gallery-slide {
+    flex:0 0 min(42vw,170px);
+    width:auto;
+    min-width:0;
+    height:auto;
+    align-self:flex-start;
+    scroll-snap-align:start;
+  }
+  .gallery-slide img {
+    width:100%;
+    height:auto;
+    aspect-ratio:auto;
+    max-height:none;
+    object-fit:contain;
+    border-radius:12px;
+  }
+  .gallery-top {gap:10px;}
+  .gallery-controls {flex-shrink:0;}
+  .screenshot-dialog {
+    width:min(96vw,430px);
+    max-width:96vw;
+    max-height:94dvh;
+    padding:12px;
+  }
+  .dialog-img {
+    display:block;
+    width:auto;
+    height:auto;
+    max-width:100%;
+    max-height:calc(94dvh - 82px);
+    object-fit:contain;
+  }
+}
+@media(max-width:380px) {
+  .phone-main {width:min(48vw,175px);}
+  .phone-side {width:min(34vw,120px);}
+  .feature-card>img,.explore-card>img {width:min(61vw,205px);}
+  .gallery-slide {flex-basis:43vw;}
+  .hero-buttons .btn {min-width:0;}
+}
