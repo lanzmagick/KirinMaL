@@ -47,13 +47,17 @@ fun MainTopAppBar(
     listMediaType: MediaType? = null,
 ) {
     AnimatedContent(
-        targetState = isVisible,
+        // Keep the outgoing bar's sort slot until its exit animation finishes.
+        // Reading listMediaType directly below would remove the slot as soon as
+        // navigation changes to Search, stretching the still-visible search card.
+        targetState = isVisible to listMediaType,
+        contentKey = { it.first },
         transitionSpec = {
             slideInVertically(initialOffsetY = { -it }) togetherWith
                     slideOutVertically(targetOffsetY = { -it })
         }
-    ) { isVisible ->
-        if (isVisible) {
+    ) { (barVisible, barMediaType) ->
+        if (barVisible) {
             // An opaque surface covers the edge-to-edge status bar region. Previously
             // the feed posters could be seen behind the search bar when scrolling.
             Surface(
@@ -69,7 +73,9 @@ fun MainTopAppBar(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Card(
-                        onClick = dropUnlessResumed { navActionManager.toSearch(MediaType.ANIME) },
+                        onClick = dropUnlessResumed {
+                            navActionManager.toSearch(barMediaType ?: MediaType.ANIME)
+                        },
                         modifier = Modifier
                             .weight(1f)
                             .height(56.dp),
@@ -108,7 +114,7 @@ fun MainTopAppBar(
                             )
                         }
                     }//:Card
-                    listMediaType?.let { UserListSortButton(mediaType = it) }
+                    barMediaType?.let { UserListSortButton(mediaType = it) }
                 }//:Row
             }//:Surface
         } else {

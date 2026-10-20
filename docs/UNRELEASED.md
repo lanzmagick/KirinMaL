@@ -6,6 +6,9 @@ Release signed, ujian dan audit v1.0.12 sudah selesai. Lihat [release notes v1.0
 
 ## Patch selepas v1.0.12 — belum dibina sebagai APK
 
+- Search bar list Anime/Manga mengekalkan ruang menu sort sepanjang animasi keluar ke halaman Search. Menu tidak lagi dibuang pada frame awal pertukaran route sehingga kad Search tiba-tiba memanjang.
+- Animasi bar hanya bermula apabila ia ditunjukkan/disembunyikan; pertukaran tab Anime/Manga mengemas kini jenis senarai tanpa memulakan animasi bar baharu. Search dari list Manga kini bermula dengan jenis Manga, manakala Home kekal Anime.
+- Patch search bar lulus semakan sintaks Kotlin dan `git diff --check`; paparan pada telefon belum diuji. Halaman hasil Search, menu Last updated, pilihan sort tersimpan dan patch pemulihan sesi di bawah dikekalkan.
 - Membezakan sesi yang masih dimuat daripada keadaan benar-benar belum login. Halaman login MAL tidak lagi dirender ketika token tersimpan masih dibaca.
 - Android mengekalkan splash screen sehingga bacaan sesi tempatan selesai, tanpa kelewatan tetap atau menunggu rangkaian. Lapisan UI bersama menggunakan indikator loading sementara sebelum memaparkan navigasi.
 - Migrasi token lama yang sedia ada diselesaikan sebelum pemerhatian sesi bermula. Callback OAuth, refresh token, penyimpanan token dan logout MAL kekal menggunakan logik asal.
