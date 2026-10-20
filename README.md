@@ -26,11 +26,11 @@
 
 ## Download
 
-**[KirinMaL Stable Releases](https://github.com/lanzmagick/KirinMaL/releases)**
+**Latest published signed APK: v1.0.13 (420).**
 
-**Latest published signed APK: [v1.0.13 (420)](https://github.com/lanzmagick/KirinMaL/releases/tag/v1.0.13).**
-
-Direct APK downloads: [ARM64](https://github.com/lanzmagick/KirinMaL/releases/download/v1.0.13/KirinMaL-1.0.13-arm64-v8a-release.apk) · [Universal](https://github.com/lanzmagick/KirinMaL/releases/download/v1.0.13/KirinMaL-1.0.13-universal-release.apk). Other ABI variants are available on the release page.
+[![Download ARM64](https://img.shields.io/badge/Android-ARM64-3DDC84?style=for-the-badge&logo=android&logoColor=3DDC84)](https://github.com/lanzmagick/KirinMaL/releases/download/v1.0.13/KirinMaL-1.0.13-arm64-v8a-release.apk)
+[![Download Universal](https://img.shields.io/badge/Android-Universal-8B7CF8?style=for-the-badge&logo=android&logoColor=3DDC84)](https://github.com/lanzmagick/KirinMaL/releases/download/v1.0.13/KirinMaL-1.0.13-universal-release.apk)
+[![All releases and APK variants](https://img.shields.io/badge/GitHub-All_Releases-5966CC?style=for-the-badge&logo=github&logoColor=white)](https://github.com/lanzmagick/KirinMaL/releases)
 
 <details>
 <summary><strong>Release notes &amp; update compatibility</strong></summary>
