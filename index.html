@@ -1,145 +1,112 @@
 <!doctype html>
-<html lang="ms">
+<html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta name="theme-color" content="#0b0c1c">
-  <meta name="description" content="KirinMaL — tempat untuk anime dan manga kau. Teroka ranking, ikut musim terkini, dan urus senarai MyAnimeList. Tersedia untuk Android; iOS dan Desktop coming soon.">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0a0a18">
+  <meta name="description" content="KirinMaL — discover, track and manage your anime and manga with MyAnimeList. Download for Android.">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="KirinMaL — Your list. Your world.">
-  <meta property="og:description" content="Discover MAL rankings. Track with MyAnimeList. Available on Android. iOS and Desktop coming soon.">
+  <meta property="og:title" content="KirinMaL — Every Story. One Universe.">
+  <meta property="og:description" content="A beautiful anime & manga companion for MyAnimeList, made for Android.">
   <meta property="og:image" content="https://lanzmagick.github.io/KirinMaL/assets/branding/kirinmal-icon.webp">
   <meta property="og:url" content="https://lanzmagick.github.io/KirinMaL/">
-  <link rel="icon" href="assets/branding/kirinmal-icon.webp?v=4" type="image/webp">
   <link rel="canonical" href="https://lanzmagick.github.io/KirinMaL/">
-  <link rel="stylesheet" href="assets/site-clean-v6.css?v=rankings-1">
-  <title>KirinMaL — Your list. Your world.</title>
+  <link rel="icon" href="assets/kirinmal-favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/site-cinematic.css">
+  <script defer src="assets/site-cinematic.js"></script>
+  <title>KirinMaL — Every Story. One Universe.</title>
 </head>
 <body>
-  <a href="#main" class="skip">Langkau ke kandungan</a>
-  <div class="dark-wrap" id="top">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="site-shell" id="top">
+    <div class="sky-glow" aria-hidden="true"></div>
     <header class="site-header">
-      <div class="container header-inner">
-        <div class="site-brand" aria-label="KirinMaL">
-          <img class="site-brand-icon" src="assets/branding/kirinmal-icon.webp?v=6" width="48" height="48" alt="" decoding="async">
-          <span class="site-brand-name">Kirin<span>MaL</span></span>
+      <div class="wrap header-inner">
+        <a class="brand" href="#top" aria-label="KirinMaL home">
+          <span class="brand-mark" aria-hidden="true">✦</span><span>Kirin<span class="brand-accent">MaL</span></span>
+        </a>
+        <nav id="site-nav" class="main-nav" aria-label="Main navigation">
+          <a href="#features">Features</a><a href="#magic">Magic</a><a href="#gallery">Gallery</a><a href="#download">Downloads</a>
+        </nav>
+        <div class="header-actions">
+          <a class="github-link" href="https://github.com/lanzmagick/KirinMaL" target="_blank" rel="noopener noreferrer" aria-label="KirinMaL GitHub repository" title="Source on GitHub">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .8a11.2 11.2 0 0 0-3.54 21.83c.56.11.76-.24.76-.53v-2.08c-3.1.67-3.76-1.31-3.76-1.31-.5-1.27-1.24-1.6-1.24-1.6-1.01-.7.08-.69.08-.69 1.12.08 1.71 1.15 1.71 1.15 1 .1.65 1.57 2.15 1.98.33-.72.65-1.22 1.18-1.5-2.48-.28-5.09-1.24-5.09-5.53 0-1.22.44-2.22 1.15-3-.12-.28-.5-1.42.1-2.96 0 0 .94-.3 3.07 1.15a10.55 10.55 0 0 1 5.6 0c2.13-1.44 3.07-1.15 3.07-1.15.6 1.54.22 2.68.1 2.96.72.78 1.15 1.78 1.15 3 0 4.3-2.62 5.25-5.12 5.53.67.57 1.27 1.68 1.27 3.39v2.5c0 .3.2.65.77.53A11.2 11.2 0 0 0 12 .8Z"/></svg>
+          </a>
+          <a class="btn btn-primary btn-header" href="https://github.com/lanzmagick/KirinMaL/releases/latest" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">↓</span> Download APK</a>
+          <button class="nav-toggle" type="button" aria-label="Open menu" aria-controls="site-nav" aria-expanded="false"><span></span><span></span><span></span></button>
         </div>
       </div>
     </header>
+
     <main id="main">
-      <section class="hero container">
+      <section class="hero wrap" aria-labelledby="hero-title">
         <div class="hero-copy">
-          <div class="pill"><span class="pill-spark">✦</span> The anime & manga companion <span class="pill-dot"></span> for Android</div>
-          <h1>Every story.<br>One <em>universe.</em></h1>
-          <p class="hero-description">Senarai anime dan manga kau, semuanya dalam satu tempat. Teroka tajuk baharu, ikut progress, dan kekalkan semua rekod dalam <strong>MyAnimeList.</strong></p>
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="#download"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M12 3v12m0 0-4-4m4 4 4-4M4 18v3h16v-3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Download APK <span aria-hidden="true">↗</span></a>
-            <a class="btn btn-ghost" href="#features">Ciri-ciri app <span aria-hidden="true">↗</span></a>
+          <div class="eyebrow"><span class="sparkle">✦</span> YOUR ANIME &amp; MANGA COMPANION <span class="eyebrow-dot"></span> ANDROID</div>
+          <h1 id="hero-title">Every Story.<br><em>One Universe.</em></h1>
+          <p class="hero-lead">Anime yang kau tonton. Manga yang kau baca. Semua dalam satu tempat, dengan MyAnimeList di sisi kau.</p>
+          <div class="hero-buttons">
+            <a class="btn btn-primary" href="https://github.com/lanzmagick/KirinMaL/releases/latest" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">↓</span> Download APK</a>
+            <a class="btn btn-ghost" href="#features">Explore Features <span aria-hidden="true">↗</span></a>
           </div>
-          <div class="hero-meta"><span><span class="check">✓</span> MAL account sync</span><span><span class="check">✓</span> MAL rankings</span><span><span class="check">✓</span> Free & open source</span></div>
-          <p class="platform-note">Android tersedia sekarang <span aria-hidden="true">·</span> <span>iOS &amp; Desktop — Coming soon</span></p>
+          <div class="hero-points"><span>✧ MAL Sync</span><span>✧ Anime &amp; Manga</span><span>✧ Free &amp; Open Source</span></div>
+          <div class="platform-note"><span class="online-dot"></span> Android available <span class="sep">•</span> iOS &amp; Desktop coming soon</div>
         </div>
-        <div class="hero-art" aria-label="Logo KirinMaL">
-          <span class="hero-glow" aria-hidden="true"></span>
-          <img src="assets/branding/kirinmal-icon.webp?v=5" alt="Logo KirinMaL" width="385" height="385" decoding="async">
+        <div class="hero-art" aria-label="Screenshots of KirinMaL home, anime list and manga list">
+          <div class="orbit orbit-one" aria-hidden="true"></div><div class="orbit orbit-two" aria-hidden="true"></div>
+          <div class="hero-spark s1" aria-hidden="true">✧</div><div class="hero-spark s2" aria-hidden="true">✦</div><div class="hero-spark s3" aria-hidden="true">✧</div>
+          <div class="phone phone-side phone-left"><img src="assets/screenshots/anime-list.webp" alt="KirinMaL anime watchlist" width="674" height="1536" loading="eager" decoding="async"></div>
+          <div class="phone phone-main"><img src="assets/screenshots/home.webp" alt="KirinMaL home with anime, manga, seasonal shows and Magic" width="674" height="1536" fetchpriority="high" loading="eager" decoding="async"></div>
+          <div class="phone phone-side phone-right"><img src="assets/screenshots/manga-list.webp" alt="KirinMaL manga reading list" width="674" height="1536" loading="eager" decoding="async"></div>
+          <div class="hero-art-caption caption-left">Explore anime <span>↗</span></div><div class="hero-art-caption caption-right">Read manga <span>↗</span></div>
         </div>
-        <div class="hero-bottom"><span>BUILT AROUND YOUR WATCHLIST</span><span class="scroll-indicator">SCROLL TO EXPLORE <span aria-hidden="true">↓</span></span></div>
       </section>
-    </main>
-  </div>
 
-  <section class="intro-section section" id="features">
-    <div class="container">
-      <div class="section-head">
-        <div><span class="section-kicker"><span></span> EVERYTHING YOU NEED</span><h2>Satu app.<br><span>Semua dunia anime kau.</span></h2></div>
-        <p>Kurang tap, lebih banyak masa untuk tengok anime dan baca manga. Semua fungsi penting di tempat yang sepatutnya.</p>
-      </div>
-      <div class="feature-bento">
-        <article class="feature feature-main">
-          <div class="feature-tag">01 / STAY IN SYNC</div>
-          <div class="feature-copy">
-            <h3>Your list, always with you.</h3>
-            <p>Kemas kini Watching, Reading, Completed, PTW/PTR, On Hold dan Dropped terus ke akaun MyAnimeList kau.</p>
-          </div>
-          <div class="sync-illustration" aria-hidden="true">
-            <div class="sync-row"><span class="mini-cover cover-a"></span><span><b>Currently watching</b><small>Episode progress</small></span><span class="sync-status">Watching</span></div>
-            <div class="sync-row"><span class="mini-cover cover-b"></span><span><b>Continue reading</b><small>Chapter progress</small></span><span class="sync-status purple">Reading</span></div>
-            <div class="sync-row"><span class="mini-cover cover-c"></span><span><b>On your list</b><small>Your MAL collection</small></span><span class="sync-status cyan">Saved</span></div>
-          </div>
-        </article>
-        <article class="feature feature-discover">
-          <div class="feature-tag">02 / DISCOVER</div>
-          <div class="round-icon">✳</div>
-          <h3>Explore the rankings.</h3>
-          <p>Teroka anime dan manga melalui ranking Score, Popularity dan Favorite di MyAnimeList.</p>
-          <div class="ranking-pills" aria-hidden="true"><span>Score</span><span>Popularity</span><span>Favorite</span><span>Upcoming</span><span>Seasonal</span><span>+ More</span></div>
-        </article>
-        <article class="feature feature-editor">
-          <div class="feature-tag">03 / QUICK EDIT</div>
-          <div class="round-icon">↗</div>
-          <h3>Hold. Edit. Done.</h3>
-          <p>Tekan lama pada kad untuk mengubah status, episod, chapter dan skor melalui sheet MAL.</p>
-          <div class="editor-preview" aria-hidden="true"><span>Watching</span><div class="editor-progress"><i></i></div><strong>08 <small>/ 12 Episodes</small></strong></div>
-        </article>
-        <article class="feature feature-seasons">
-          <div class="feature-tag">04 / KEEP EXPLORING</div>
-          <div class="round-icon">◈</div>
-          <h3>What's next?</h3>
-          <p>Musim anime, ranking, recommendations dan statistik tontonan atau bacaan.</p>
-          <div class="season-chip" aria-hidden="true">✦ Seasonal • Rankings • Stats</div>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section class="download-section section" id="download">
-    <div class="container">
-      <div class="download-panel">
-        <div class="download-orb" aria-hidden="true"></div>
-        <div class="download-logo"><img src="assets/branding/kirinmal-icon.webp" width="108" height="108" alt="" loading="lazy"></div>
-        <div class="download-text"><span class="section-kicker">ANDROID · AVAILABLE NOW</span><h2>Start your<br><em>next chapter.</em></h2><p>Muat turun APK Android terus daripada <strong>GitHub Releases</strong>. Pilih ARM64 untuk kebanyakan telefon atau Universal kalau tidak pasti.</p>
-          <div class="download-buttons">
-            <a class="btn btn-download" href="https://github.com/lanzmagick/KirinMaL/releases">Lihat APK Release <span aria-hidden="true">↓</span></a>
-            <a class="btn btn-download-outline" href="https://github.com/lanzmagick/KirinMaL/releases">Semua Versi <span aria-hidden="true">↓</span></a>
-          </div>
-          <a class="all-releases" href="https://github.com/lanzmagick/KirinMaL/releases">Semua APK & release notes <span aria-hidden="true">↗</span></a>
-          <p class="download-disclaimer">APK release ditandatangani untuk pemasangan Android • Bukan aplikasi rasmi MyAnimeList.</p>
+      <section class="features-section section wrap" id="features" aria-labelledby="features-title">
+        <div class="section-top"><div><span class="section-kicker">✦ EVERYTHING IN ONE PLACE</span><h2 id="features-title">Made for your <em>next obsession.</em></h2></div><p>Daripada progress episod hingga chapter manga, semuanya lebih senang diurus.</p></div>
+        <div class="feature-grid">
+          <article class="feature-card feature-anime">
+            <div class="feature-copy"><div class="card-kicker"><span class="chip-icon">▣</span> ANIME</div><h3>Track Anime<br>Beautifully.</h3><p>Urus status, episod, skor dan lihat maklumat anime dengan paparan yang kemas.</p><div class="tags"><span>Watching</span><span>Episode Progress</span><span>Anime Info</span></div></div>
+            <img src="assets/screenshots/anime-info.webp" alt="Anime information and stats view in KirinMaL" width="674" height="1536" loading="eager" decoding="async">
+          </article>
+          <article class="feature-card feature-manga">
+            <div class="feature-copy"><div class="card-kicker"><span class="chip-icon">▤</span> MANGA</div><h3>Manage Manga<br>Smoothly.</h3><p>Ikut progress bacaan dan simpan semua manga kegemaran di dalam senarai MAL.</p><div class="tags"><span>Reading</span><span>Chapter Progress</span><span>Manga Info</span></div></div>
+            <img src="assets/screenshots/manga-info.webp" alt="Manga information and stats view in KirinMaL" width="674" height="1536" loading="eager" decoding="async">
+          </article>
         </div>
-      </div>
-      <div class="platform-cards" aria-label="Platform akan datang">
-        <article class="platform-card" aria-labelledby="ios-title">
-          <div class="platform-card-header">
-            <div class="platform-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M10 5h4M11 19h2"/></svg></div>
-            <span class="platform-status"><span aria-hidden="true">◷</span> Coming soon</span>
-          </div>
-          <h3 id="ios-title">iOS</h3>
-          <p>Senarai anime dan manga kau, untuk iPhone dan iPad.</p>
-          <span class="platform-footnote">Pautan muat turun akan ditambah selepas release.</span>
-        </article>
-        <article class="platform-card" aria-labelledby="desktop-title">
-          <div class="platform-card-header">
-            <div class="platform-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M10 17v4M14 17v4"/></svg></div>
-            <span class="platform-status"><span aria-hidden="true">◷</span> Coming soon</span>
-          </div>
-          <h3 id="desktop-title">Desktop</h3>
-          <p>Dunia anime dan manga kau, dengan ruang yang lebih luas di komputer.</p>
-          <span class="platform-footnote">Pautan muat turun akan ditambah selepas release.</span>
-        </article>
-      </div>
-    </div>
-  </section>
+      </section>
 
-  <footer class="footer">
-    <div class="container footer-top">
-      <div class="site-brand footer-brand" aria-label="KirinMaL">
-        <img class="site-brand-icon" src="assets/branding/kirinmal-icon.webp?v=6" width="38" height="38" alt="" loading="lazy">
-        <span class="site-brand-name">Kirin<span>MaL</span></span>
-      </div>
-      <div class="footer-links"><a href="https://github.com/lanzmagick/KirinMaL">Source</a><a href="https://github.com/lanzmagick/KirinMaL/releases">Releases</a><a href="https://github.com/axiel7/MoeListKMP">Credits</a></div>
-    </div>
-    <div class="container footer-bottom"><span>Made for anime &amp; manga fans ✦</span><span>Based on <a href="https://github.com/axiel7/MoeListKMP">MoeListKMP</a> · GPL-3.0 · Not affiliated with MyAnimeList.</span></div>
-  </footer>
+      <section class="magic-section section wrap" id="magic" aria-labelledby="magic-title">
+        <div class="magic-card">
+          <span class="magic-glow" aria-hidden="true"></span>
+          <div class="magic-copy"><span class="section-kicker">✦ DISCOVER THE UNEXPECTED</span><h2 id="magic-title">A little <em>Magic.</em><br>A new favorite.</h2><p>Tidak tahu mau tengok atau baca apa? Tekan Magic untuk cari anime atau manga secara rawak. Mana tahu jumpa cerita kegemaran baru!</p><div class="magic-tags"><span>✦ Magic Anime</span><span>✧ Magic Manga</span></div><a href="#gallery" class="text-link">See it in action <span aria-hidden="true">↗</span></a></div>
+          <div class="magic-preview"><div class="magic-float sparkle-one" aria-hidden="true">✦</div><div class="magic-float sparkle-two" aria-hidden="true">✧</div><div class="magic-frame"><img src="assets/screenshots/magic-anime.webp" alt="Magic Anime surprise popup showing a random anime suggestion" width="674" height="1536" loading="eager" decoding="async"></div></div>
+        </div>
+      </section>
+
+      <section class="explore-section section wrap" aria-label="Explore and customization features">
+        <article class="explore-card rank-card"><div class="explore-copy"><span class="section-kicker">✦ EXPLORE</span><h2>Find the stories<br>everyone loves.</h2><p>Terokai anime melalui score, popularity, favorites, dan upcoming releases.</p><div class="tags"><span>Rankings</span><span>Popularity</span><span>Upcoming</span></div></div><img src="assets/screenshots/anime-ranking.webp" alt="Anime popularity rankings in KirinMaL" width="674" height="1536" loading="eager" decoding="async"></article>
+        <article class="explore-card theme-card"><div class="explore-copy"><span class="section-kicker">✦ PERSONALIZE</span><h2>Your style.<br>Your KirinMaL.</h2><p>Pilih light, dark, atau ikut theme sistem — ikut citarasa kau.</p><div class="tags"><span>Dark</span><span>Light</span><span>System</span></div></div><img src="assets/screenshots/settings-theme.webp" alt="KirinMaL settings theme selection popup" width="674" height="1536" loading="eager" decoding="async"></article>
+      </section>
+
+      <section class="gallery-section section wrap" id="gallery" aria-labelledby="gallery-title">
+        <div class="section-top gallery-top"><div><span class="section-kicker">✦ SCREENSHOT GALLERY</span><h2 id="gallery-title">Take a closer <em>look.</em></h2></div><div class="gallery-controls"><button type="button" class="arrow" data-gallery-prev aria-label="Previous screenshots">←</button><button type="button" class="arrow" data-gallery-next aria-label="Next screenshots">→</button></div></div>
+        <p class="gallery-hint">Swipe atau tekan screenshot untuk buka paparan penuh.</p>
+        <div class="gallery-track" id="gallery-track" tabindex="0" aria-label="KirinMaL screenshots">
+          <button class="gallery-slide" type="button" data-title="Home" data-image="assets/screenshots/home.webp"><img src="assets/screenshots/home.webp" alt="Home screenshot" width="674" height="1536" loading="eager" decoding="async"><span>01 <b>Home</b></span></button>
+          <button class="gallery-slide" type="button" data-title="Anime List" data-image="assets/screenshots/anime-list.webp"><img src="assets/screenshots/anime-list.webp" alt="Anime list screenshot" width="674" height="1536" loading="eager" decoding="async"><span>02 <b>Anime List</b></span></button>
+          <button class="gallery-slide" type="button" data-title="Manga List" data-image="assets/screenshots/manga-list.webp"><img src="assets/screenshots/manga-list.webp" alt="Manga list screenshot" width="674" height="1536" loading="eager" decoding="async"><span>03 <b>Manga List</b></span></button>
+          <button class="gallery-slide" type="button" data-title="Anime Info" data-image="assets/screenshots/anime-info.webp"><img src="assets/screenshots/anime-info.webp" alt="Anime details screenshot" width="674" height="1536" loading="eager" decoding="async"><span>04 <b>Anime Info</b></span></button>
+          <button class="gallery-slide" type="button" data-title="Manga Info" data-image="assets/screenshots/manga-info.webp"><img src="assets/screenshots/manga-info.webp" alt="Manga details screenshot" width="674" height="1536" loading="eager" decoding="async"><span>05 <b>Manga Info</b></span></button>
+          <button class="gallery-slide" type="button" data-title="Magic Anime" data-image="assets/screenshots/magic-anime.webp"><img src="assets/screenshots/magic-anime.webp" alt="Magic Anime popup screenshot" width="674" height="1536" loading="eager" decoding="async"><span>06 <b>Magic Anime</b></span></button>
+          <button class="gallery-slide" type="button" data-title="Anime Rankings" data-image="assets/screenshots/anime-ranking.webp"><img src="assets/screenshots/anime-ranking.webp" alt="Anime ranking screenshot" width="674" height="1536" loading="eager" decoding="async"><span>07 <b>Anime Rankings</b></span></button>
+          <button class="gallery-slide" type="button" data-title="Theme Settings" data-image="assets/screenshots/settings-theme.webp"><img src="assets/screenshots/settings-theme.webp" alt="Theme settings screenshot" width="674" height="1536" loading="eager" decoding="async"><span>08 <b>Theme Settings</b></span></button>
+        </div>
+      </section>
+
+      <section class="download-section section wrap" id="download" aria-labelledby="download-title"><div class="download-card"><div class="download-orb" aria-hidden="true">✦</div><div class="download-copy"><span class="section-kicker">✦ ANDROID · AVAILABLE NOW</span><h2 id="download-title">Your next favorite<br><em>story awaits.</em></h2><p>Download KirinMaL untuk Android terus daripada GitHub Releases. iOS dan Desktop masih dalam perancangan.</p><div class="download-actions"><a class="btn btn-primary" href="https://github.com/lanzmagick/KirinMaL/releases/latest" target="_blank" rel="noopener noreferrer">↓ Latest APK Release</a><a class="btn btn-ghost" href="https://github.com/lanzmagick/KirinMaL/releases" target="_blank" rel="noopener noreferrer">All Versions ↗</a></div></div><div class="availability"><span class="avail-active">✓ Android Available</span><span>○ iOS Coming Soon</span><span>○ Desktop Coming Soon</span></div></div></section>
+    </main>
+    <footer class="site-footer"><div class="wrap footer-inner"><div><a href="#top" class="brand"><span class="brand-mark" aria-hidden="true">✦</span><span>Kirin<span class="brand-accent">MaL</span></span></a><p>Every story. One universe.</p></div><div class="footer-links"><a href="https://github.com/lanzmagick/KirinMaL" target="_blank" rel="noopener noreferrer">Source</a><a href="https://github.com/lanzmagick/KirinMaL/releases" target="_blank" rel="noopener noreferrer">Releases</a><a href="https://github.com/axiel7/MoeListKMP" target="_blank" rel="noopener noreferrer">MoeListKMP Credits</a></div></div></footer>
+  </div>
+  <dialog class="screenshot-dialog" id="screenshot-dialog" aria-labelledby="dialog-title"><div class="dialog-header"><strong id="dialog-title">Screenshot</strong><button type="button" class="dialog-close" aria-label="Close screenshot">✕</button></div><img class="dialog-img" alt="Selected KirinMaL screenshot" src="assets/screenshots/home.webp" width="674" height="1536"></dialog>
 </body>
 </html>
