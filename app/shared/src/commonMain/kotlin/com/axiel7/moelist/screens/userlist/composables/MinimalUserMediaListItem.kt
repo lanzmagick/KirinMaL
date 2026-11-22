@@ -127,7 +127,8 @@ fun MinimalUserMediaListItem(
                                 contentDescription = stringResource(UiRes.string.volumes),
                                 modifier = Modifier
                                     .padding(start = 4.dp)
-                                    .size(16.dp)
+                                    .size(16.dp),
+                                tint = progressColor ?: LocalContentColor.current
                             )
                         }
                     }
