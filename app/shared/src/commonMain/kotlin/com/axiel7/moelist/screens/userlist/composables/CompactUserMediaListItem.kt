@@ -17,6 +17,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -42,7 +43,9 @@ import com.axiel7.moelist.ui.base.model.ListStatus
 import com.axiel7.moelist.ui.composables.defaultPlaceholder
 import com.axiel7.moelist.ui.composables.media.MEDIA_POSTER_COMPACT_HEIGHT
 import com.axiel7.moelist.ui.composables.media.MEDIA_POSTER_SMALL_WIDTH
+import com.axiel7.moelist.ui.composables.media.LocalRgbProgressEnabled
 import com.axiel7.moelist.ui.composables.media.MediaPoster
+import com.axiel7.moelist.ui.composables.media.kirinProgressStageColor
 import com.axiel7.moelist.ui.composables.secondaryClick
 import com.axiel7.moelist.ui.generated.resources.UiRes
 import com.axiel7.moelist.ui.generated.resources.airing
@@ -68,6 +71,13 @@ fun CompactUserMediaListItem(
     onLongClick: () -> Unit,
     onClickPlus: () -> Unit,
 ) {
+    val totalProgress = item.totalProgress()
+    val userProgress = item.userProgress()
+    val progressColor = kirinProgressStageColor(
+        progress = userProgress ?: 0,
+        total = totalProgress,
+        enabled = LocalRgbProgressEnabled.current
+    )
     val broadcast = remember { (item.node as? AnimeNode)?.broadcast }
     val isAiring = remember { item.isAiring }
     Card(
@@ -155,10 +165,9 @@ fun CompactUserMediaListItem(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "${item.userProgress() ?: 0}/${
-                                item.totalProgress().toStringPositiveValueOrUnknown()
-                            }",
+                            text = "${userProgress ?: 0}/${totalProgress.toStringPositiveValueOrUnknown()}",
                             style = MaterialTheme.typography.bodyLarge,
+                            color = progressColor ?: MaterialTheme.colorScheme.onSurface,
                         )
                         if ((item as? UserMangaList)?.listStatus?.isUsingVolumeProgress() == true) {
                             Icon(
