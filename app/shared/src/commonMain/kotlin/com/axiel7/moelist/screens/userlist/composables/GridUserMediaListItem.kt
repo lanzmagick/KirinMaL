@@ -18,6 +18,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -42,7 +43,9 @@ import com.axiel7.moelist.data.utils.UNKNOWN_CHAR
 import com.axiel7.moelist.ui.composables.defaultPlaceholder
 import com.axiel7.moelist.ui.composables.media.MEDIA_POSTER_MEDIUM_HEIGHT
 import com.axiel7.moelist.ui.composables.media.MEDIA_POSTER_MEDIUM_WIDTH
+import com.axiel7.moelist.ui.composables.media.LocalRgbProgressEnabled
 import com.axiel7.moelist.ui.composables.media.MediaPoster
+import com.axiel7.moelist.ui.composables.media.kirinProgressStageColor
 import com.axiel7.moelist.ui.composables.secondaryClick
 import com.axiel7.moelist.ui.generated.resources.UiRes
 import com.axiel7.moelist.ui.generated.resources.airing
@@ -62,6 +65,13 @@ fun GridUserMediaListItem(
     onClick: () -> Unit,
     onLongClick: () -> Unit,
 ) {
+    val totalProgress = item.totalProgress()
+    val userProgress = item.userProgress()
+    val progressColor = kirinProgressStageColor(
+        progress = userProgress ?: 0,
+        total = totalProgress,
+        enabled = LocalRgbProgressEnabled.current
+    )
     val broadcast = remember { (item.node as? AnimeNode)?.broadcast }
     val isAiring = remember { item.isAiring }
     Card(
@@ -156,10 +166,9 @@ fun GridUserMediaListItem(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "${item.userProgress() ?: 0}/${
-                        item.totalProgress().toStringPositiveValueOrUnknown()
-                    }",
+                    text = "${userProgress ?: 0}/${totalProgress.toStringPositiveValueOrUnknown()}",
                     style = MaterialTheme.typography.bodyMedium,
+                    color = progressColor ?: MaterialTheme.colorScheme.onSurface,
                     lineHeight = 12.sp
                 )
                 if ((item as? UserMangaList)?.listStatus?.isUsingVolumeProgress() == true) {
