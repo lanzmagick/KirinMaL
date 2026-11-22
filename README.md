@@ -38,7 +38,7 @@
 <details>
 <summary><strong>Release notes &amp; update compatibility</strong></summary>
 
-Saved sessions finish loading before the login UI appears. Anime/Manga search bars retain their sort-menu space during the exit animation, and Manga search starts in the correct media type. Session, dropdown/tab, Magic/settings/recommendation tests, both Android builds, and release-signature/manifest audits passed. See [v1.0.13 release notes](docs/releases/v1.0.13.md).
+Saved sessions finish loading before the login UI appears. Anime/Manga search bars retain their sort-menu space during the exit animation, and Manga search starts in the correct media type. Session, dropdown/tab, Magic/settings/recommendation tests, both Android builds, and release-signature/manifest audits passed. See [v1.0.13 release notes](release-notes/1.0.13.md).
 
 The v1.0.13 (420) APK uses the same release signing certificate as v1.0.12 and supports updating that installation. The three-line sort icon stays beside search, while the A–Z filter, original Random button and Magic remain on the list toolbar. It retains the RGB FAB/status borders, Magic popup effects, three saved Magic switches and genre badges on Anime/Manga Info. iOS and Desktop downloads remain **Coming soon**. See [build status](docs/UNRELEASED.md).
 
@@ -50,6 +50,8 @@ The Android application ID is `com.lanzmagick.kirinmal`, separate from MoeList a
 <summary><strong>Build &amp; signing (Android)</strong></summary>
 
 ## Build (Android)
+
+Release versioning has one source of truth: `buildSrc/src/main/kotlin/Version.kt` (`AppVersion.NAME` and `AppVersion.CODE`). Put each release's updates in `release-notes/<version>.md`, using `release-notes/_TEMPLATE.md`. The signed release workflow checks for the matching note before publishing, and `./gradlew prepareRelease` increments the version and creates the next notes draft.
 
 Requires **JDK 21** and the Android SDK. Create `private.properties` at the repository root:
 
