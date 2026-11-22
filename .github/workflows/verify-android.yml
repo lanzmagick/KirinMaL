@@ -9,10 +9,11 @@ on:
       - 'app/**'
       - 'core/**'
       - 'gradle/**'
+      - 'buildSrc/**'
+      - 'release-notes/**'
       - 'build.gradle.kts'
       - 'settings.gradle.kts'
       - 'gradle.properties'
-      - 'version.properties'
       - 'tools/publish_release.sh'
   workflow_dispatch:
 
