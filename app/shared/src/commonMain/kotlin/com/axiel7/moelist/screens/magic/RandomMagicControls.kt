@@ -59,7 +59,6 @@ fun RandomMagicControls(
     showRandomButton: Boolean = true,
 ) {
     var presentation by remember(context) { mutableStateOf<Presentation?>(null) }
-    // Home uses the main Magic switch; Anime/Manga lists require Magic and Show on lists to both be enabled.
     val showMagic = if (homeStyle) magicPreferences.enabled else magicPreferences.visibleOnLists
     @Composable
     fun PickerButton(label: String, icon: DrawableResource, onClick: () -> Unit) {
@@ -67,7 +66,6 @@ fun RandomMagicControls(
             Icon(painterResource(icon), contentDescription = null, modifier = Modifier.size(20.dp))
         })
     }
-    // Home presents Magic as a feature card, while list screens keep compact Random/Magic chips.
     if (homeStyle) {
         if (showMagic) MagicHomeCard(
             text = stringResource(if (context.mediaType == MediaType.ANIME)
@@ -79,6 +77,8 @@ fun RandomMagicControls(
             onClick = { presentation = Presentation.MAGIC },
         )
     } else {
+        // Anime and Manga list toolbars use compact chips instead of the Home shortcut card.
+        // The list's Magic chip is controlled by the separate Show on lists preference.
         FlowRow(
             modifier = modifier,
             horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
@@ -90,8 +90,8 @@ fun RandomMagicControls(
                     stringResource(UiRes.string.random),
                     UiRes.drawable.ic_round_casino_24,
                     onClick = {
-                        // On user lists, use the existing repository-based Random action when supplied.
-                        // Other callers fall back to this composable's direct one-result picker flow.
+                        // The list toolbar supplies this callback so Random keeps its existing list-specific selection behavior.
+                        // Without a list callback, use the composable's direct one-result picker flow.
                         if (onDefaultRandom != null) onDefaultRandom()
                         else presentation = Presentation.DIRECT
                     },
@@ -106,7 +106,7 @@ fun RandomMagicControls(
     }
     // No dialog or picker ViewModel is needed until the user chooses one of the controls.
     val mode = presentation ?: return
-    // If list visibility is switched off while Magic is open, dismiss it instead of leaving a hidden dialog active.
+    // Dismiss the picker if the visibility setting that owns the current Magic control is switched off while it is open.
     if (mode == Presentation.MAGIC && !showMagic) {
         LaunchedEffect(Unit) {
             if (presentation == Presentation.MAGIC) presentation = null
