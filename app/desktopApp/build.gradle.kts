@@ -1,5 +1,5 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import java.util.Properties
+import buildlogic.AppVersion
 
 plugins {
     alias(libs.plugins.kotlinJvm)
@@ -8,11 +8,7 @@ plugins {
     alias(libs.plugins.conveyor)
 }
 
-val versionProps = Properties().also {
-    it.load(project.rootProject.file("version.properties").reader())
-}
-
-version = versionProps.getProperty("name")
+version = AppVersion.NAME
 
 kotlin {
     jvmToolchain {
@@ -43,7 +39,7 @@ compose.desktop {
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.AppImage)
             packageName = "kirinmal"
-            packageVersion = versionProps.getProperty("name")
+            packageVersion = AppVersion.NAME
             description = "KirinMaL - an unofficial multiplatform MyAnimeList client"
             copyright = "© 2026 axiel7"
 
