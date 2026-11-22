@@ -57,6 +57,11 @@ class DefaultPreferencesRepository(
         dataStore.setValue(HIDE_SCORES_KEY, value)
     }
 
+    val rgbProgressEnabled = dataStore.getValue(RGB_PROGRESS_ENABLED_KEY, true)
+    suspend fun setRgbProgressEnabled(value: Boolean) {
+        dataStore.setValue(RGB_PROGRESS_ENABLED_KEY, value)
+    }
+
     val lang = dataStore.getValue(LANG_KEY, AppLanguage.FOLLOW_SYSTEM.value)
         .map { AppLanguage.valueOf(isoTag = it) ?: AppLanguage.FOLLOW_SYSTEM }
     suspend fun setLang(value: AppLanguage) {
@@ -302,6 +307,7 @@ class DefaultPreferencesRepository(
 
         private val NSFW_KEY = booleanPreferencesKey("nsfw")
         private val HIDE_SCORES_KEY = booleanPreferencesKey("hide_scores")
+        private val RGB_PROGRESS_ENABLED_KEY = booleanPreferencesKey("rgb_progress_enabled")
         private val LANG_KEY = stringPreferencesKey("lang")
         private val THEME_KEY = stringPreferencesKey("theme")
         private val USE_CUSTOM_APP_COLOR_KEY = booleanPreferencesKey("use_custom_app_color")
