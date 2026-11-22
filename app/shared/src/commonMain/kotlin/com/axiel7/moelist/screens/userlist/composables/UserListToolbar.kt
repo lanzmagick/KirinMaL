@@ -26,6 +26,7 @@ fun UserListToolbar(
     modifier: Modifier = Modifier,
     showSort: Boolean = true,
 ) {
+    // Load the saved visibility/effect preferences used by the Magic control on both list types.
     val magicPreferences by magicPreferencesState()
     Row(
         modifier = modifier.horizontalScroll(rememberScrollState()),
@@ -34,6 +35,7 @@ fun UserListToolbar(
     ) {
         if (showSort) SortChip(uiState, event)
         TitleInitialFilterChip(uiState, event)
+        // Pass the active list context so Anime and Manga use their own status and initial-letter filter.
         RandomMagicControls(
             context = MagicPickerContext(
                 mediaType = uiState.mediaType,
