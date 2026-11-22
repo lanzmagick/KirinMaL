@@ -22,6 +22,7 @@ interface SettingsEvent : UiEvent {
     fun setPaletteStyle(value: PaletteStyle)
     fun setShowNsfw(value: Boolean)
     fun setHideScores(value: Boolean)
+    fun setRgbProgressEnabled(value: Boolean)
     fun setUseGeneralListStyle(value: Boolean)
     fun setGeneralListStyle(value: ListStyle)
     fun setItemsPerRow(value: ItemsPerRow)
