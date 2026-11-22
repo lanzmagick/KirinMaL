@@ -35,13 +35,17 @@ class MagicPickerViewModel(
     private var request: Job? = null
 
     fun pick(refresh: Boolean = false, animate: Boolean = true) {
+        // A newer pick replaces any in-flight request so an older result cannot overwrite the latest choice.
         request?.cancel()
         state.update { it.copy(isLoading = true, selection = null, error = null) }
         request = viewModelScope.launch {
             try {
+                // The pool depends on the preferred title and NSFW setting, so either change invalidates its cache.
                 val titleLanguage = preferences.titleLang.first()
                 val cacheKey = preferences.nsfw.first() to titleLanguage
+                // Reuse the loaded pool for Again; refresh it only on request or when relevant preferences change.
                 if (refresh || cachedKey != cacheKey) {
+                    // Apply the list's selected initial-letter filter using the user's preferred title language.
                     val pool = loadPool().filter {
                         it.id > 0 && it.title.isNotBlank() &&
                                 context.titleInitial.matches(it.title(titleLanguage))
@@ -50,6 +54,7 @@ class MagicPickerViewModel(
                     bag.replace(pool)
                     cachedKey = cacheKey
                 }
+                // ShuffleBag cycles through the pool without repeating an entry until the current cycle is used up.
                 val selection = bag.next()
                 if (animate) delay(650) // Let the mystery-box reveal animation read clearly.
                 state.update {
@@ -70,6 +75,7 @@ class MagicPickerViewModel(
     }
 
     fun close() {
+        // Stop pending network work when the dialog is dismissed or a selected entry is opened.
         request?.cancel()
         state.update { it.copy(isLoading = false, selection = null, error = null) }
     }
@@ -77,6 +83,7 @@ class MagicPickerViewModel(
     private suspend fun loadPool(): List<BaseMediaNode> {
         val status = context.listStatus
         if (status == null) {
+            // A null status means discovery mode (for example, the Home picker), not a filtered user list.
             // Discovery samples valid MAL rankings, never guessed numeric IDs.
             val responses = if (context.mediaType == MediaType.ANIME) {
                 listOf(
@@ -93,13 +100,16 @@ class MagicPickerViewModel(
                     mangaRepository.getMangaRanking(RankingType.SCORE, 100),
                 )
             }
+            // Combine popularity and score rankings, then let the shared filter/shuffle logic choose a result.
             val entries = responses.flatMap { it.data.orEmpty() }.map { it.node }
             check(entries.isNotEmpty() || responses.all { it.data != null })
             return entries
         }
+        // List mode loads every page for the active Anime or Manga status before picking from it.
         val entries = mutableListOf<BaseMediaNode>()
         val visited = mutableSetOf<String>()
         var page: String? = null
+        // Follow MAL's next-page cursor until the selected list status is fully loaded.
         do {
             val response = if (context.mediaType == MediaType.ANIME) {
                 animeRepository.getUserAnimeList(status.toDto(), MediaSort.UPDATED, page)
@@ -110,6 +120,7 @@ class MagicPickerViewModel(
             val data = response.data ?: error("MAL list unavailable")
             entries.addAll(data.map { it.node })
             page = response.paging?.next
+            // Protect against a malformed API response that points back to an already visited page.
             page?.let { check(visited.add(it)) { "MAL repeated a pagination cursor" } }
         } while (page != null)
         return entries
