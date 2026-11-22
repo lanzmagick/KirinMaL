@@ -77,6 +77,12 @@ class SettingsViewModel(
         }
     }
 
+    override fun setRgbProgressEnabled(value: Boolean) {
+        viewModelScope.launch {
+            defaultPreferencesRepository.setRgbProgressEnabled(value)
+        }
+    }
+
     override fun setUseGeneralListStyle(value: Boolean) {
         viewModelScope.launch {
             defaultPreferencesRepository.setUseGeneralListStyle(value)
@@ -201,6 +207,12 @@ class SettingsViewModel(
         defaultPreferencesRepository.hideScores
             .onEach { value ->
                 mutableUiState.update { it.copy(hideScores = value) }
+            }
+            .launchIn(viewModelScope)
+
+        defaultPreferencesRepository.rgbProgressEnabled
+            .onEach { value ->
+                mutableUiState.update { it.copy(rgbProgressEnabled = value) }
             }
             .launchIn(viewModelScope)
 
