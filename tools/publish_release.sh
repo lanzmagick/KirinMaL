@@ -80,17 +80,25 @@ notes="$tmp/release-notes.md"
   git log -n 5 --format='- %h %s (%cs)' || true
 } > "$notes"
 
-# Keep curated notes for stable versions, not just the latest five commits.
-if [ "$tag" != "development" ] && [ -f "docs/releases/$tag.md" ]; then
-  cp "docs/releases/$tag.md" "$notes"
+# Prefer curated notes from release-notes/<version>.md; retain the legacy docs path
+# as a compatibility fallback for older release tags.
+if [ "$tag" != "development" ]; then
+  version="${tag#v}"
+  curated_notes="release-notes/$version.md"
+  legacy_notes="docs/releases/$tag.md"
+  if [ -s "$curated_notes" ]; then
+    cp "$curated_notes" "$notes"
+  elif [ -s "$legacy_notes" ]; then
+    cp "$legacy_notes" "$notes"
+  else
+    echo "::error::Missing curated release notes: expected $curated_notes" >&2
+    exit 1
+  fi
 fi
 
-set -- "$tmp"/*
-# The release notes are for GitHub, not downloadable assets.
-for file in "$@"; do
-  if [ "$file" = "$notes" ]; then
-    continue
-  fi
+# Create a stable draft first; only publish after APK upload is complete.
+for file in "$tmp"/*; do
+  [ "$file" = "$notes" ] && continue
   gh release view "$tag" --repo "$repo" >/dev/null 2>&1 && break
   title="KirinMaL $tag"
   if [ "$tag" = "development" ]; then
