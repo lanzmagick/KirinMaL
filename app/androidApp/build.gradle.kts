@@ -1,5 +1,5 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import java.util.Properties
+import buildlogic.AppVersion
 
 plugins {
    alias(libs.plugins.androidApplication)
@@ -28,10 +28,6 @@ dependencies {
     coreLibraryDesugaring(libs.desugar.jdk.libs)
 }
 
-val versionProps = Properties().also {
-    it.load(project.rootProject.file("version.properties").reader())
-}
-
 // Secrets are provided only by GitHub Actions at release time. Never commit
 // the keystore or its passwords to this public repository.
 val releaseStoreFile = System.getenv("KEYSTORE_FILE")?.takeIf { it.isNotBlank() }
@@ -51,8 +47,8 @@ android {
         applicationId = "com.lanzmagick.kirinmal"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = versionProps.getProperty("code").toInt()
-        versionName = versionProps.getProperty("name")
+        versionCode = AppVersion.CODE
+        versionName = AppVersion.NAME
         addManifestPlaceholders(
             mapOf("oidcRedirectScheme" to "kirinmal")
         )
@@ -119,5 +115,5 @@ android {
 }
 
 base {
-    archivesName = "KirinMaL-${versionProps.getProperty("name")}"
+    archivesName = "KirinMaL-${AppVersion.NAME}"
 }
