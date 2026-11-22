@@ -21,7 +21,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -31,7 +31,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -48,7 +47,10 @@ import com.axiel7.moelist.ui.base.model.ListStatus
 import com.axiel7.moelist.ui.composables.defaultPlaceholder
 import com.axiel7.moelist.ui.composables.media.MEDIA_POSTER_SMALL_HEIGHT
 import com.axiel7.moelist.ui.composables.media.MEDIA_POSTER_SMALL_WIDTH
+import com.axiel7.moelist.ui.composables.media.LocalRgbProgressEnabled
 import com.axiel7.moelist.ui.composables.media.MediaPoster
+import com.axiel7.moelist.ui.composables.media.MediaProgressIndicatorBar
+import com.axiel7.moelist.ui.composables.media.kirinProgressStageColor
 import com.axiel7.moelist.ui.composables.secondaryClick
 import com.axiel7.moelist.ui.generated.resources.UiRes
 import com.axiel7.moelist.ui.generated.resources.airing
@@ -76,6 +78,11 @@ fun StandardUserMediaListItem(
 ) {
     val totalProgress = remember { item.totalProgress() }
     val userProgress = item.userProgress()
+    val progressColor = kirinProgressStageColor(
+        progress = userProgress ?: 0,
+        total = totalProgress,
+        enabled = LocalRgbProgressEnabled.current
+    )
     val broadcast = remember { (item.node as? AnimeNode)?.broadcast }
     val isAiring = remember { item.isAiring }
     Card(
@@ -167,7 +174,8 @@ fun StandardUserMediaListItem(
                         ) {
                             Text(
                                 text = "${userProgress ?: 0}/${totalProgress.toStringPositiveValueOrUnknown()}",
-                                style = MaterialTheme.typography.bodyLarge
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = progressColor ?: MaterialTheme.colorScheme.onSurface
                             )
                             if ((item as? UserMangaList)?.listStatus?.isUsingVolumeProgress() == true) {
                                 Icon(
@@ -175,7 +183,8 @@ fun StandardUserMediaListItem(
                                     contentDescription = stringResource(UiRes.string.volumes),
                                     modifier = Modifier
                                         .padding(start = 4.dp)
-                                        .size(16.dp)
+                                        .size(16.dp),
+                                    tint = progressColor ?: LocalContentColor.current
                                 )
                             }
                         }
@@ -211,12 +220,15 @@ fun StandardUserMediaListItem(
                         }
                     }//:Row
 
-                    LinearProgressIndicator(
-                        progress = { item.calculateProgressBarValue() },
+                    MediaProgressIndicatorBar(
+                        progress = userProgress ?: 0,
+                        total = totalProgress,
+                        format = item.node.mediaFormat,
+                        isVolumeTracking = (item as? UserMangaList)
+                            ?.listStatus?.isUsingVolumeProgress() == true,
                         modifier = Modifier.fillMaxWidth(),
-                        color = MaterialTheme.colorScheme.primary,
-                        trackColor = MaterialTheme.colorScheme.surfaceColorAtElevation(94.dp),
-                        strokeCap = StrokeCap.Round
+                        indicatorColor = MaterialTheme.colorScheme.primary,
+                        trackColor = MaterialTheme.colorScheme.surfaceColorAtElevation(94.dp)
                     )
                 }//:Column
             }//:Column
