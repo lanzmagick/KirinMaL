@@ -359,6 +359,12 @@ class UserMediaListViewModel(
             }
             .launchIn(viewModelScope)
 
+        defaultPreferencesRepository.rgbProgressEnabled
+            .onEach { value ->
+                mutableUiState.update { it.copy(rgbProgressEnabled = value) }
+            }
+            .launchIn(viewModelScope)
+
 
         defaultPreferencesRepository.randomListEntryEnabled
             .onEach { value ->
