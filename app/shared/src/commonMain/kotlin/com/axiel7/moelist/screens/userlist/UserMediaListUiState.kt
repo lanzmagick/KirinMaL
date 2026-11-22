@@ -31,6 +31,7 @@ data class UserMediaListUiState(
     val openSetScoreDialog: Boolean = false,
     val selectedItem: BaseUserMediaList<*>? = null,
     val showRandomButton: Boolean = false,
+    val rgbProgressEnabled: Boolean = true,
     val randomId: Int? = null,
     val isLoadingRandom: Boolean = false,
     val preferredTitle: TitleLanguage = TitleLanguage.ROMAJI,
