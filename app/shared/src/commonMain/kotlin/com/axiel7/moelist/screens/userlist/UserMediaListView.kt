@@ -29,6 +29,7 @@ import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -60,6 +61,7 @@ import com.axiel7.moelist.ui.composables.OnBottomReached
 import com.axiel7.moelist.ui.composables.PlatformVerticalScrollbar
 import com.axiel7.moelist.ui.composables.collapsable
 import com.axiel7.moelist.ui.composables.media.MEDIA_POSTER_MEDIUM_WIDTH
+import com.axiel7.moelist.ui.composables.media.LocalRgbProgressEnabled
 import com.axiel7.moelist.ui.generated.resources.UiRes
 import com.axiel7.moelist.ui.generated.resources.retry
 import com.axiel7.moelist.ui.generated.resources.title_initial_empty
@@ -181,6 +183,9 @@ fun UserMediaListView(
         )
     }
 
+    CompositionLocalProvider(
+        LocalRgbProgressEnabled provides uiState.rgbProgressEnabled
+    ) {
     PullToRefreshBox(
         isRefreshing = uiState.isLoading,
         onRefresh = { event?.refreshList() },
@@ -470,4 +475,5 @@ fun UserMediaListView(
             )
         }
     }//:Box
+    }
 }
