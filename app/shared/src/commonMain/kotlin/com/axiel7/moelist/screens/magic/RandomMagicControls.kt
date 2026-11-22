@@ -44,6 +44,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
+// DIRECT preserves the one-tap Random flow; MAGIC opens the picker dialog with reveal and retry controls.
 private enum class Presentation { DIRECT, MAGIC }
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -58,6 +59,7 @@ fun RandomMagicControls(
     showRandomButton: Boolean = true,
 ) {
     var presentation by remember(context) { mutableStateOf<Presentation?>(null) }
+    // Home uses the main Magic switch; Anime/Manga lists use the separate Show on lists preference.
     val showMagic = if (homeStyle) magicPreferences.enabled else magicPreferences.visibleOnLists
     @Composable
     fun PickerButton(label: String, icon: DrawableResource, onClick: () -> Unit) {
@@ -65,6 +67,7 @@ fun RandomMagicControls(
             Icon(painterResource(icon), contentDescription = null, modifier = Modifier.size(20.dp))
         })
     }
+    // Home presents Magic as a feature card, while list screens keep compact Random/Magic chips.
     if (homeStyle) {
         if (showMagic) MagicHomeCard(
             text = stringResource(if (context.mediaType == MediaType.ANIME)
@@ -87,6 +90,8 @@ fun RandomMagicControls(
                     stringResource(UiRes.string.random),
                     UiRes.drawable.ic_round_casino_24,
                     onClick = {
+                        // On user lists, use the existing repository-based Random action when supplied.
+                        // Other callers fall back to this composable's direct one-result picker flow.
                         if (onDefaultRandom != null) onDefaultRandom()
                         else presentation = Presentation.DIRECT
                     },
@@ -99,13 +104,16 @@ fun RandomMagicControls(
             )
         }
     }
+    // No dialog or picker ViewModel is needed until the user chooses one of the controls.
     val mode = presentation ?: return
+    // If list visibility is switched off while Magic is open, dismiss it instead of leaving a hidden dialog active.
     if (mode == Presentation.MAGIC && !showMagic) {
         LaunchedEffect(Unit) {
             if (presentation == Presentation.MAGIC) presentation = null
         }
         return
     }
+    // Keep picker state and shuffle history separate for each media type, list status and initial-letter filter.
     val viewModel: MagicPickerViewModel = koinViewModel(
         key = "magic-${context.mediaType}-${context.listStatus}-${context.titleInitial}",
     ) { parametersOf(context) }
@@ -115,16 +123,19 @@ fun RandomMagicControls(
         viewModel.close()
     }
     DisposableEffect(viewModel) { onDispose { viewModel.close() } }
+    // Start a fresh pool when opening either flow; only Magic uses the optional reveal delay/effects.
     LaunchedEffect(mode) {
         viewModel.pick(refresh = true,
             animate = mode == Presentation.MAGIC && magicPreferences.effectsEnabled)
     }
+    // Random opens the selected entry immediately; Magic waits for the user to choose Open or Again.
     LaunchedEffect(mode, state.selection) {
         if (mode == Presentation.DIRECT) state.selection?.let { selection ->
             close()
             onOpen(selection)
         }
     }
+    // Magic keeps the result in its dialog; the direct Random path uses a loading/error dialog instead.
     if (mode == Presentation.MAGIC) {
         MagicPickerDialog(
             type = context.mediaType,
