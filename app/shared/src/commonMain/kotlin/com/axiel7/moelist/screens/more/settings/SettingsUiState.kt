@@ -23,6 +23,7 @@ data class SettingsUiState(
     val paletteStyle: PaletteStyle = PaletteStyle.Expressive,
     val showNsfw: Boolean = true,
     val hideScores: Boolean = false,
+    val rgbProgressEnabled: Boolean = true,
     val useGeneralListStyle: Boolean = true,
     val generalListStyle: ListStyle = ListStyle.STANDARD,
     val itemsPerRow: ItemsPerRow = ItemsPerRow.DEFAULT,
