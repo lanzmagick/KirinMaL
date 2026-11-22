@@ -6,7 +6,6 @@ on:
     paths:
       - 'buildSrc/src/main/kotlin/Version.kt'
       - 'tools/audit_android_release.sh'
-      - 'tools/publish_release.sh'
   workflow_dispatch:
 
 permissions:
