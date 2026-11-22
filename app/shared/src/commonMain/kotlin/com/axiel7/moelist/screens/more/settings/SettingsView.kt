@@ -86,6 +86,8 @@ import com.axiel7.moelist.ui.generated.resources.tablet_mode
 import com.axiel7.moelist.ui.generated.resources.theme
 import com.axiel7.moelist.ui.generated.resources.title_language
 import com.axiel7.moelist.ui.generated.resources.use_separated_list_styles
+import com.axiel7.moelist.ui.generated.resources.rgb_progress
+import com.axiel7.moelist.ui.generated.resources.rgb_progress_desc
 import com.axiel7.moelist.ui.theme.MoeListTheme
 import com.axiel7.moelist.ui.utils.ColorUtils.colorFromHex
 import com.github.skydoves.colorpicker.compose.BrightnessSlider
@@ -154,6 +156,14 @@ private fun SettingsViewContent(
                 value = uiState.paletteStyle,
                 icon = UiRes.drawable.format_paint_24,
                 onValueChange = { event?.setPaletteStyle(it) }
+            )
+
+            SwitchPreferenceView(
+                title = stringResource(UiRes.string.rgb_progress),
+                subtitle = stringResource(UiRes.string.rgb_progress_desc),
+                value = uiState.rgbProgressEnabled,
+                icon = UiRes.drawable.colors_24,
+                onValueChange = { event?.setRgbProgressEnabled(it) }
             )
 
             SwitchPreferenceView(
