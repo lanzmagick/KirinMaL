@@ -4,8 +4,9 @@ on:
   push:
     branches: [main]
     paths:
-      - 'version.properties'
+      - 'buildSrc/src/main/kotlin/Version.kt'
       - 'tools/audit_android_release.sh'
+      - 'tools/publish_release.sh'
   workflow_dispatch:
 
 permissions:
@@ -96,6 +97,20 @@ jobs:
           esac
           echo "Custom MyAnimeList Client ID configured for this Android release."
 
+      - name: Validate version and matching release notes
+        shell: bash
+        run: |
+          set -euo pipefail
+          VERSION="$(sed -nE 's/^[[:space:]]*const val NAME = "([^"]+)".*/\1/p' buildSrc/src/main/kotlin/Version.kt | head -n 1)"
+          CODE="$(sed -nE 's/^[[:space:]]*const val CODE = ([0-9]+).*/\1/p' buildSrc/src/main/kotlin/Version.kt | head -n 1)"
+          test -n "$VERSION" || { echo "::error::AppVersion.NAME is missing"; exit 1; }
+          test -n "$CODE" || { echo "::error::AppVersion.CODE is missing"; exit 1; }
+          NOTES="release-notes/$VERSION.md"
+          test -s "$NOTES" || { echo "::error::Create $NOTES from release-notes/_TEMPLATE.md before publishing"; exit 1; }
+          echo "RELEASE_VERSION=$VERSION" >> "$GITHUB_ENV"
+          echo "RELEASE_CODE=$CODE" >> "$GITHUB_ENV"
+          echo "Validated KirinMaL v$VERSION (version code $CODE) and $NOTES."
+
       - name: Verify KirinMaL Android app identity
         shell: bash
         run: |
@@ -149,9 +164,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          version="$(awk -F= '/^name[[:space:]]*=/ {gsub(/[[:space:]]/, "", $2); print $2; exit}' version.properties)"
-          test -n "$version"
-          bash tools/publish_release.sh "v$version" android-release app/androidApp/build/outputs/apk/release/*.apk
+          test -n "$RELEASE_VERSION"
+          bash tools/publish_release.sh "v$RELEASE_VERSION" android-release app/androidApp/build/outputs/apk/release/*.apk
           # Remove the old debug release only after a signed stable APK exists.
           if gh release view development --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
             gh release delete development --cleanup-tag --yes --repo "$GITHUB_REPOSITORY"
