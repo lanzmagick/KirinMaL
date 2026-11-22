@@ -4,8 +4,8 @@ package buildlogic
 object AppVersion {
     const val MAJOR = 1
     const val MINOR = 0
-    const val PATCH = 15
+    const val PATCH = 16
     const val SUFFIX = ""
-    const val NAME = "1.0.15"
-    const val CODE = 422
+    const val NAME = "1.0.16"
+    const val CODE = 423
 }
