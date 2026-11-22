@@ -97,11 +97,13 @@ fun RandomMagicControls(
                     },
                 )
             }
-            if (showMagic) PickerButton(
-                stringResource(UiRes.string.magic),
-                UiRes.drawable.ic_magic_sparkles_24,
-                onClick = { presentation = Presentation.MAGIC },
-            )
+            // Magic is intentionally commented out on Anime and Manga list toolbars.
+            // Home retains its separate Magic shortcut card in the homeStyle branch above.
+            // if (showMagic) PickerButton(
+            //     stringResource(UiRes.string.magic),
+            //     UiRes.drawable.ic_magic_sparkles_24,
+            //     onClick = { presentation = Presentation.MAGIC },
+            // )
         }
     }
     // No dialog or picker ViewModel is needed until the user chooses one of the controls.
