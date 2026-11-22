@@ -83,7 +83,6 @@ class MagicPickerViewModel(
     private suspend fun loadPool(): List<BaseMediaNode> {
         val status = context.listStatus
         if (status == null) {
-            // A null status means discovery mode (for example, the Home picker), not a filtered user list.
             // Discovery samples valid MAL rankings, never guessed numeric IDs.
             val responses = if (context.mediaType == MediaType.ANIME) {
                 listOf(
@@ -100,7 +99,6 @@ class MagicPickerViewModel(
                     mangaRepository.getMangaRanking(RankingType.SCORE, 100),
                 )
             }
-            // Combine popularity and score rankings, then let the shared filter/shuffle logic choose a result.
             val entries = responses.flatMap { it.data.orEmpty() }.map { it.node }
             check(entries.isNotEmpty() || responses.all { it.data != null })
             return entries
