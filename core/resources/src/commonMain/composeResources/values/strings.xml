@@ -435,4 +435,6 @@
     <string name="custom_app_color">Custom app color</string>
     <string name="color">Color</string>
     <string name="on_my_list">On my list</string>
+    <string name="rgb_progress">RGB progress colors</string>
+    <string name="rgb_progress_desc">Color progress by completion stage in your anime and manga lists.</string>
 </resources>
