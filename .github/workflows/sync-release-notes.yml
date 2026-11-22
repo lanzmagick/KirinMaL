@@ -4,7 +4,8 @@ on:
   push:
     branches: [main]
     paths:
-      - 'docs/releases/v1.0.0.md'
+      - 'buildSrc/src/main/kotlin/Version.kt'
+      - 'release-notes/**'
       - '.github/workflows/sync-release-notes.yml'
   workflow_dispatch:
 
@@ -12,21 +13,29 @@ permissions:
   contents: write
 
 concurrency:
-  group: kirinmal-release-notes-v1.0.0
+  group: kirinmal-release-notes-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
   update:
-    name: Update v1.0.0 GitHub Release description
+    name: Update matching GitHub Release description
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Update published first-release notes (no APK rebuild)
+      - name: Synchronize curated release notes (no APK rebuild)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
         run: |
           set -euo pipefail
-          gh release view v1.0.0 --repo "$GITHUB_REPOSITORY" >/dev/null
-          gh release edit v1.0.0 \
-            --repo "$GITHUB_REPOSITORY" \
-            --notes-file docs/releases/v1.0.0.md
+          VERSION="$(sed -nE 's/^[[:space:]]*const val NAME = "([^"]+)".*/\1/p' buildSrc/src/main/kotlin/Version.kt | head -n 1)"
+          test -n "$VERSION" || { echo "::error::AppVersion.NAME is missing"; exit 1; }
+          NOTES="release-notes/$VERSION.md"
+          test -s "$NOTES" || { echo "::error::Missing release notes: $NOTES"; exit 1; }
+          TAG="v$VERSION"
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release edit "$TAG" --repo "$GITHUB_REPOSITORY" --notes-file "$NOTES"
+            echo "Synchronized $NOTES to $TAG."
+          else
+            echo "No published release for $TAG yet; notes are ready for the signed release workflow."
+          fi
