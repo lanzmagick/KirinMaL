@@ -59,7 +59,7 @@ fun RandomMagicControls(
     showRandomButton: Boolean = true,
 ) {
     var presentation by remember(context) { mutableStateOf<Presentation?>(null) }
-    // Home uses the main Magic switch; Anime/Manga lists use the separate Show on lists preference.
+    // Home uses the main Magic switch; Anime/Manga lists require Magic and Show on lists to both be enabled.
     val showMagic = if (homeStyle) magicPreferences.enabled else magicPreferences.visibleOnLists
     @Composable
     fun PickerButton(label: String, icon: DrawableResource, onClick: () -> Unit) {
