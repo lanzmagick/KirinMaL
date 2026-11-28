@@ -48,7 +48,7 @@ jobs:
           set -euo pipefail
           for name in SIGNING_BASE64 SIGNING_STORE_PASSWORD SIGNING_KEY_ALIAS SIGNING_KEY_PASSWORD; do
             if [[ -z "${!name:-}" ]]; then
-              echo "::error::Missing signing secret: $name. Add all four values from your private signing ZIP in Settings > Secrets and variables > Actions."
+              echo "::error::Missing signing secret: $name. Run tools/KirinMaL-Keystore.cmd locally, copy the opened signing-secrets-KirinMaL.txt into KEYSTORE_FILE, and add KEYSTORE_PASSWORD, KEY_ALIAS and KEY_PASSWORD in Settings > Secrets and variables > Actions."
               exit 1
             fi
           done
