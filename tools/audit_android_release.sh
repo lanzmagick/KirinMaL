@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Audit actual signed APKs before publishing. Do not upload private signing material.
+# A change to this audit file can trigger a same-version rebuild after signing-key rotation.
 set -euo pipefail
 if [ "$#" -lt 1 ]; then echo "Usage: bash tools/audit_android_release.sh FILE.apk [...]" >&2; exit 2; fi
 test -n "$ANDROID_HOME" || { echo "::error::ANDROID_HOME is missing"; exit 1; }
