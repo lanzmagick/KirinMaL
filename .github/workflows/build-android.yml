@@ -37,46 +37,43 @@ jobs:
           chmod +x ./gradlew
           python3 -m pip install --disable-pip-version-check pillow
           python3 tools/generate_brand_assets.py
-      - name: Restore private signing keystore
+      - name: Restore and validate persistent signing key (two secrets)
         env:
-          SIGNING_BASE64: ${{ secrets.KEYSTORE_FILE }}
-          SIGNING_STORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-          SIGNING_KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-          SIGNING_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          ANDROID_SIGNING_KEYSTORE_BASE64: ${{ secrets.ANDROID_SIGNING_KEYSTORE_BASE64 }}
+          ANDROID_SIGNING_PASSWORD: ${{ secrets.ANDROID_SIGNING_PASSWORD }}
         shell: bash
         run: |
           set -euo pipefail
-          for name in SIGNING_BASE64 SIGNING_STORE_PASSWORD SIGNING_KEY_ALIAS SIGNING_KEY_PASSWORD; do
-            if [[ -z "${!name:-}" ]]; then
-              echo "::error::Missing signing secret: $name. Run tools/KirinMaL-Keystore.cmd locally, copy the opened signing-secrets-KirinMaL.txt into KEYSTORE_FILE, and add KEYSTORE_PASSWORD, KEY_ALIAS and KEY_PASSWORD in Settings > Secrets and variables > Actions."
-              exit 1
-            fi
-          done
-          umask 077
-          printf '%s' "$SIGNING_BASE64" | base64 --decode > "$RUNNER_TEMP/KirinMaL-release.jks"
-          test -s "$RUNNER_TEMP/KirinMaL-release.jks"
-          echo "KEYSTORE_FILE=$RUNNER_TEMP/KirinMaL-release.jks" >> "$GITHUB_ENV"
-      - name: Validate signing keystore and private key
-        env:
-          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          # Reading the alias alone does not verify the private-key password.
-          # Importing into an ephemeral PKCS12 file checks all four secrets.
-          if ! keytool -importkeystore -noprompt \
-            -srckeystore "$KEYSTORE_FILE" -srcstoretype JKS \
-            -srcstorepass:env KEYSTORE_PASSWORD -srckeypass:env KEY_PASSWORD \
-            -srcalias "$KEY_ALIAS" -destkeystore "$RUNNER_TEMP/signing-check.p12" \
-            -deststoretype PKCS12 -deststorepass:env KEYSTORE_PASSWORD \
-            > "$RUNNER_TEMP/signing-check.log" 2>&1; then
-            echo "::error::Keystore could not unlock the private key. Update the KEY_PASSWORD secret with the exact KEY_PASSWORD value in GitHub-Secrets-4-Kunci.txt from your private ZIP; check KEYSTORE_PASSWORD and KEY_ALIAS too."
+          if [[ -z "${ANDROID_SIGNING_KEYSTORE_BASE64:-}" || -z "${ANDROID_SIGNING_PASSWORD:-}" ]]; then
+            echo "::error::Add the two signing secrets: ANDROID_SIGNING_KEYSTORE_BASE64 and ANDROID_SIGNING_PASSWORD."
             exit 1
           fi
-          rm -f "$RUNNER_TEMP/signing-check.p12" "$RUNNER_TEMP/signing-check.log"
-          echo "Private signing key successfully verified."
+
+          KEYSTORE_PATH="$RUNNER_TEMP/KirinMaL-release.jks"
+          umask 077
+          printf '%s' "$ANDROID_SIGNING_KEYSTORE_BASE64" | base64 --decode > "$KEYSTORE_PATH"
+          test -s "$KEYSTORE_PATH"
+
+          # Verify the store password, the kirinmal alias, and that the same password unlocks the private key.
+          if ! keytool -importkeystore -noprompt \
+            -srckeystore "$KEYSTORE_PATH" -srcstoretype JKS \
+            -srcstorepass:env ANDROID_SIGNING_PASSWORD \
+            -srckeypass:env ANDROID_SIGNING_PASSWORD \
+            -srcalias kirinmal \
+            -destkeystore "$RUNNER_TEMP/KirinMaL-signing-check.p12" \
+            -deststoretype PKCS12 -deststorepass:env ANDROID_SIGNING_PASSWORD \
+            > "$RUNNER_TEMP/KirinMaL-signing-check.log" 2>&1; then
+            echo "::error::Signing key could not be opened. Check the password and that the keystore alias is kirinmal."
+            exit 1
+          fi
+          rm -f "$RUNNER_TEMP/KirinMaL-signing-check.p12" "$RUNNER_TEMP/KirinMaL-signing-check.log"
+
+          # Gradle uses these local environment variables; they are not GitHub Secrets.
+          echo "KEYSTORE_FILE=$KEYSTORE_PATH" >> "$GITHUB_ENV"
+          echo "KEYSTORE_PASSWORD=$ANDROID_SIGNING_PASSWORD" >> "$GITHUB_ENV"
+          echo "KEY_PASSWORD=$ANDROID_SIGNING_PASSWORD" >> "$GITHUB_ENV"
+          echo "KEY_ALIAS=kirinmal" >> "$GITHUB_ENV"
+          echo "KirinMaL signing key verified."
 
       - name: Require the owner's MyAnimeList Client ID
         env:
@@ -133,9 +130,6 @@ jobs:
       - name: Build signed production APKs
         env:
           MAL_CLIENT_ID: ${{ secrets.MAL_CLIENT_ID }}
-          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: ./gradlew :app:androidApp:assembleRelease --no-daemon --no-configuration-cache --stacktrace
       - name: Verify every APK has an Android release signature
         shell: bash

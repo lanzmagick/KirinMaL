@@ -69,9 +69,8 @@ echo Created:
 echo %KEYSTORE%
 echo %BASE64%
 echo.
-echo Notepad will open the TXT. Copy all text into GitHub Actions Secret KEYSTORE_FILE.
-echo Also set KEYSTORE_PASSWORD and KEY_PASSWORD to the password you entered.
-echo Set KEY_ALIAS to: kirinmal
+echo Notepad will open the TXT. Copy all text into GitHub Secret ANDROID_SIGNING_KEYSTORE_BASE64.
+echo Set ANDROID_SIGNING_PASSWORD to the same password you entered.
 start "" notepad.exe "%BASE64%"
 exit /b 0
 
